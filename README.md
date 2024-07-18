@@ -5,7 +5,7 @@ This course is an adapted version of the [speciation genomics course](https://sp
 Day 1:
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/01_BiodiversityGenomics_introduction_JIM.pdf) introducing biodiversity genomics and sequencing technologies
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/03_Summary_reads-vcf.pdf) summarising the steps from getting raw Illumina reads, filtering, aligning them to a reference and calling variants and genotypes
-- Slides introducing the structure of Illumina reads and fastq files
+- [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/04_Raw_sequences_quality_control.pdf) introducing the structure of Illumina reads and fastq files
 - Slides on how to login to the Amazon server
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/Connecting_to_the_Amazon_server.pdf) on logging on to the Amazon server by Carlo Pecoraro from [Physalia Courses](https://www.physalia-courses.org)
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc
