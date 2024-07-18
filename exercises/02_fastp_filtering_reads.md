@@ -54,7 +54,7 @@ To filter reads by its percentage of unqualified bases, two options should be pr
 * -q : Quality threshold per base required. Default: 15, which means that a Phred quality score of at least 15 is required
 * -u : Percent of bases allowed to be below the quality threshold to keep the read (0~100). Default 40 means 40% bases can fail the quality threshold. If more bases fail, the read is removed.
 
-### Hands-on: Run Fastp on the following data and interpret the results.
+### Hands-on: Run fastp on the following data and interpret the results.
 
 ```shell
 RAD1.fastq.gz and RAD2.fastq.gz
