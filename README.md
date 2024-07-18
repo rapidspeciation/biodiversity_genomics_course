@@ -7,4 +7,4 @@ Day 1:
 - Slides introducing the structure of Illumina reads and fastq files
 - Slides on how to login to the Amazon server
 - Exercise on exploring Illumina reads
-- Exercise on filtering Illumina reads with fastp
+- Exercise on filtering Illumina reads with fastp which uses these [input files](input_files/Day1_fastp)
