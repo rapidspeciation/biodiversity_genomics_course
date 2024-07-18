@@ -4,4 +4,6 @@ This course is an adapted version of the [speciation genomics course](https://sp
 Day 1:
 - Slides introducing biodiversity genomics and sequencing technologies
 - Slides introducing the structure of Illumina reads and fastq files
-- 
+- Slides on how to login to the Amazon server
+- Excercise on exploring Illumina reads
+- Excercise on filtering Illumina reads with fastp
