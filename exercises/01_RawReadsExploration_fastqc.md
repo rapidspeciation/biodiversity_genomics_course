@@ -1,9 +1,3 @@
----
-title: "Raw read exploration"
-layout: archive
-permalink: /readsExploration/
----
-
 ### fastq format
 
 Let's have a look at the first sequence from our raw read files which are stored in the [fastq format](https://en.wikipedia.org/wiki/FASTQ_format). As we saw in the [lecture](https://github.com/speciationgenomics/presentations/blob/master/Genome_assembly.pdf), each DNA sequence is composed of four lines. Therefore, we need to visualize the first four lines to have a look at the information stored for the first sequence.
