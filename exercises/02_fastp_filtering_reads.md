@@ -1,6 +1,5 @@
 
-permalink: /fastp/
----
+### fastp tool
 
 Sometimes Illumina adapter sequences are still present in some reads because adapters can form adapter dimers and then one of them gets sequenced or if a DNA fragment is shorter than the read length, the sequencer continues to "read-through" into the adapter at the end of the DNA fragment. In the latter case the forward and the reverse read will contain adapter sequences, which is called a "palindrome". While a full adapter sequence can be identified relatively easily, reliably identifying a short partial adapter sequence is inherently difficult. However, if there is a short partial adapter present at the end of the forward read and the beginning of the reverse read, that is a good sign for a "palindrome" sequence.
 
