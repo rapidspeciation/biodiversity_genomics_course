@@ -1,6 +1,12 @@
+---
+title: "Raw read exploration"
+layout: archive
+permalink: /readsExploration/
+---
+
 ### fastq format
 
-Let's have a look at the first sequence from our raw read files which are stored in the [fastq format](https://en.wikipedia.org/wiki/FASTQ_format). As we saw in the lecture, each DNA sequence is composed of four lines. Therefore, we need to visualize the first four lines to have a look at the information stored for the first sequence.
+Let's have a look at the first sequence from our raw read files which are stored in the [fastq format](https://en.wikipedia.org/wiki/FASTQ_format). As we saw in the [lecture](https://github.com/speciationgenomics/presentations/blob/master/Genome_assembly.pdf), each DNA sequence is composed of four lines. Therefore, we need to visualize the first four lines to have a look at the information stored for the first sequence.
 
 First we set the name of the fastq file that we will work with as the variable `FILE`. Then, we copy that file to our directory. Finally, we will examine the first 4 lines. However, we cannot just directly write `head -4 $FILE` like we might with a normal text file because the fastq file is actually compressed. It is thus a binary file which cannot just be read. Luckily, there are many commands that can directly read binary files. Instead of `cat`, we use `zcat`, instead of `grep`, we use `zgrep`. If we want to use any other command, we need to read the file with `zcat` and then pipe the output into our command of choice such as `head` or `tail`.
 
@@ -12,7 +18,7 @@ cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
 FILE="wgs1.R1.fastq.gz"
-cp /home/data/wgs_raw/$FILE ./
+cp ~/Share/wgs_raw/$FILE ./
 
 # Let's have a look at the first read:
 zcat $FILE | head -4
@@ -60,17 +66,20 @@ We should now also run fastqc on the file or reverse reads. As we do not need co
 
 ```shell
 # Reverse reads
-FILE=wgs1.R2.fastq.gz
-fastqc -o ./ /home/data/fastq/$FILE
+FILE="wgs1.R2.fastq.gz"
+cp ~/Share/wgs_raw/$FILE ./
+fastqc $FILE
 
 
 ```
 
-Now, we need to download the html files to the local computer for visualization. To download files, we will use the command `scp` on your local machine, so in a terminal that is not connected to the Amazon server. This command will download all html files in the folder fastqc on the Amazon server to the directory you are currently located "./".
+Now, we need to download the html files to the local computer for visualization. To download files, we will use the command `scp` on your local machine, so in a terminal that is not connected to the Amazon server. This command will download all html files in the folder fastqc on the Amazon server to the directory you are currently located "./". 
+
+Please note that you must change c1.pem and user1 to your username, and use the IP of the day.
 
 ```shell
-scp -i c1.pem user1@<IP address>:/home/user1/fastqc/*html ./
-
+scp -i c1.pem user1@<IP address>:~/fastqc/wgs1.R1_fastqc.html ./
+scp -i c1.pem user1@<IP address>:~/fastqc/wgs1.R2_fastqc.html ./
 ```
 
 Here some [slides](https://github.com/speciationgenomics/presentations/blob/master/fastqc_interpretation.pdf) on interpreting fastqc html output.
@@ -82,9 +91,9 @@ is there a warning for the per-base sequence content graphs?
 is there a fail for the per sequence GC content graphs?
 
 ```shell
-# Remember to copy first the data and specify FILE as the name of the file containing the reads:
+# Remember to copy first the data (RAD1 and RAD2) and specify FILE as the name of the file containing the reads:
 FILE="RAD1.fastq.gz"
-cp /home/data/RAD_raw/$FILE ./
+cp ~/Share/RAD_raw/$FILE ./
 ```
 
 ### Challenging exercises for the bash wizards and those with extra time left
