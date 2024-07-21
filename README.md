@@ -13,4 +13,4 @@ Day 1:
 Day 2:
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/02_fastp_filtering_reads.md) on filtering Illumina reads with fastp which uses these [input files](input_files/Day1_fastp)
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
-- [Excercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/03_Mapping_to_a_reference_genome.md) to align Illumina paired-end reads to a reference genome with bwa-mem2
+- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/03_Mapping_to_a_reference_genome.md) to align Illumina paired-end reads to a reference genome with bwa-mem2
