@@ -68,8 +68,8 @@ Let's go ahead and align our data, we will break down what we did shortly after.
 
 ```shell
 bwa-mem2 mem -t 4 $REF \
-~/Share/wgs_raw/wgs1.R1.fastq.gz \
-~/Share/wgs_raw/wgs1.R2.fastq.gz > wgs1.sam
+~/Share/filteredReads/wgs.R1.trimmed.fastq.gz \
+~/Share/filteredReads/ wgs.R2.trimmed.fastq.gz > wgs1.sam
 ```
 Since we are only using a shortened fastq file, with 100K reads in it, this should just take a couple of minutes. In the meantime, we can breakdown what we actually did here.
 
