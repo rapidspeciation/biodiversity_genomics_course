@@ -8,4 +8,5 @@ Day 1:
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/03_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/Connecting_to_the_Amazon_server.pdf) on logging on to the Amazon server by Carlo Pecoraro from [Physalia Courses](https://www.physalia-courses.org)
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc
+- [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/02_fastp_filtering_reads.md) on filtering Illumina reads with fastp which uses these [input files](input_files/Day1_fastp)
