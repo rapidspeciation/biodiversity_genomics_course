@@ -133,8 +133,8 @@ With that done, it is very simple to create a bar plot showing the percentage of
 
 ``` r
 # make plot
-a <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")
-a + ylab("Percentage variance explained") + theme_light()
+ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity") +
+  ylab("Percentage variance explained") + theme_light()
 ```
 
 Cumulatively, they explain 100% of the variance but PC1, PC2 and possible PC3 together explain about 54% of the variance. We could calculate this with the `cumsum` function, like so:
