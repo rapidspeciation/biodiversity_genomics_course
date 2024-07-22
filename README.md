@@ -19,5 +19,6 @@ Day 2:
 Day 3:
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/04_variant_calling.md) on variant and genotype calling with bcftools.
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/05_filtering_variants.md) on filtering vcf files.
+- [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/08_Ithomiini_introduction_PCA.pdf) introducing ithomiini butterflies and PCA
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/06_pca.md) on PCA.
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/07_iqtree.md) on making phylogenies with iqtree.
