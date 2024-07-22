@@ -117,7 +117,7 @@ names(pca)[1] <- "ind"
 names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
 
 # add the species information
-pca <- as.tibble(merge(pca, info, by="ind"))
+pca <- as_tibble(merge(pca, info, by="ind"))
 ```
 
 #### Plotting the data
@@ -148,11 +148,10 @@ Next we move on to actually plotting our PCA. Given the work we did earlier to g
 
 ``` r
 # plot pca
-b <- ggplot(pca, aes(PC1, PC2, col = species)) + geom_point(size = 3) +
+ggplot(pca, aes(PC1, PC2, col = species)) + geom_point(size = 3) +
      coord_equal() + theme_light() +
      xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
      ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
-b
 ```
 
 Note that this R code block also includes arguments to display the percentage of variance explained on each axis. Here we only plot PC1 and PC2. Given that PC3 also shows a high percentage of variance explained, it could be worth it to also plot PC1 against PC3.
