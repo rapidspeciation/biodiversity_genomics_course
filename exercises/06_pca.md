@@ -79,9 +79,9 @@ PCA output:
 Let's now download the relevant files to our local computers to plot the PCA in R on your own computer.
 In a new terminal, write (changing <ip> by the current IP number)
 ```shell
-scp -i c1 user1@<ip>:~/plink/Mechanitis.eigenvec ./
-scp -i c1 user1@<ip>:~/plink/Mechanitis.eigenval ./
-scp -i c1 user1@<ip>:~/Share/Mechanitis.info ./
+scp -i c1.pem user1@54.201.115.50:~/plink/Mechanitis.eigenvec ./
+scp -i c1.pem user1@54.201.115.50:~/plink/Mechanitis.eigenval ./
+scp -i c1.pem user1@54.201.115.50:~/Share/Mechanitis.info ./
 
 ```
 
