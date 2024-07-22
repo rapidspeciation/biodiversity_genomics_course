@@ -1,8 +1,4 @@
----
-title: "Variant calling"
-layout: archive
-permalink: /variant_calling/
----
+### Variant calling
 
 If everything has worked correctly up to this point, we now have a set of sequence reads that are aligned to our reference genome and stored as bam files. What we want to do now is to call variants from these alignments.
 
