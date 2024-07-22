@@ -20,16 +20,12 @@ mkdir plink
 # move into it
 cd plink
 ```
-We will also simplify our code using some environmental variables. Primarily we set one for our filtered VCF.
 
-```shell
-VCF=~/Share/Mechanitis/Mechanitis.vcf.gz
-```
-This will make it very easy for `plink` to read in our data. Next we run the linkage pruning. Run the command and we will breakdown what all the arguments mean.
+First, we run the linkage pruning. Run the command and we will breakdown what all the arguments mean.
 
 ```shell
 # perform linkage pruning - i.e. identify prune sites
-plink --vcf $VCF --double-id --allow-extra-chr \
+plink --vcf ~/Share/Mechanitis/Mechanitis.vcf.gz --double-id --allow-extra-chr \
 --set-missing-var-ids @:# \
 --indep-pairwise 50 10 0.2 --out Mechanitis
 ```
@@ -76,7 +72,7 @@ PCA output:
 
 ### Plotting the PCA output
 
-Let's now download the relevant files to our local computers to plot the PCA in R.
+Let's now download the relevant files to our local computers to plot the PCA in R on your own computer.
 In a new terminal, write (changing <ip> by the current IP number)
 ```shell
 scp -i c1 user1@<ip>:~/plink/Mechanitis.eigenvec ./

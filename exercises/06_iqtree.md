@@ -10,7 +10,7 @@ cd iqtree
 In order to infer a phylogenetic tree from our vcf file, we first need to convert the vcf file into a phylip file (or another alignment format like nexus). For that we can use a tool I wrote:
 
 ```shell
-python3 vcf2phylip.py -i ~/Share/Mechanitis/Mechanitis_subset.vcf.gz -o Mechanitis.phylip
+python3 vcf2phylip.py -i ~/Share/Mechanitis/Mechanitis.vcf.gz -o Mechanitis.phylip
 ```
 
 Now let's run iqtree in its simplest form:
@@ -29,26 +29,18 @@ Now you can plot the phylogeny in R or if you prefer, e.g. in [Figtree](http://t
 
 Here an example R script to plot the phylogeny.
 
-```R
-#install.packages("BiocManager")
-#BiocManager::install("ggtree")
+```r
+#install.packages("BiocManager") # if you do not have ggtree or phytools, run this line by removing the #
+#BiocManager::install("ggtree") # if you do not have ggtree, run this line by removing the #
+#BiocManager::install("phytools") # if you do not have phytools, run this line by removing the #
+
+# load the ggtree library
 library(ggtree)
 
-#variable
-
-TREE_FILE="Mechanitis.phylip.treefile"
-
 #get the tree
-tree <- read.tree(TREE_FILE)
-ggtree(tree)
+tree <- read.tree("Mechanitis.treefile")
 
-tree$tip.label
-
-ggtree(phytools::reroot(tree, node.number = 30, position = 0.005),
-       layout='rectangular') +
-  geom_tiplab() +
-  geom_nodelab() +
-  geom_text2(aes(subset=!isTip,label = node), hjust = 0.6, vjust = 1.5, colour = "blue") +
-  xlim(c(0,0.03))
-
+# Plot the phylogeny with ggtree (note that as iqtree gives an unrooted phylogeny, we root it first with phytools::reroot)
+ggtree(phytools::reroot(tree, node.number = 30, position = 0.005),layout='rectangular') +
+       geom_tiplab()
 ```
