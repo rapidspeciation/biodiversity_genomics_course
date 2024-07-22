@@ -18,3 +18,5 @@ Day 2:
 
 Day 3:
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/04_variant_calling.md) on variant and genotype calling with bcftools.
+- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/05_pca.md) on PCA.
+- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/06_iqtree.md) on making phylogenies with iqtree.
