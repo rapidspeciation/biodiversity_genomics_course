@@ -24,8 +24,12 @@ cd plink
 First, we run the linkage pruning. Run the command and we will breakdown what all the arguments mean.
 
 ```shell
+
+# To avoid having lots of copies of this vcf file, you can directly specify the full path to the file without copying it to your folder
+VCF=~/Share/Mechanitis/Mechanitis.vcf.gz
+
 # perform linkage pruning - i.e. identify prune sites
-plink --vcf ~/Share/Mechanitis/Mechanitis.vcf.gz --double-id --allow-extra-chr \
+plink --vcf $VCF --double-id --allow-extra-chr \
 --set-missing-var-ids @:# \
 --indep-pairwise 50 10 0.2 --out Mechanitis
 ```
