@@ -17,4 +17,4 @@ Day 2:
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/07_Variant_and_genotype_calling.pdf) about variant and genotype calling
 
 Day 3:
-- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/04_variant_calling.md) on variant and genotype caling with bcftools.
+- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/04_variant_calling.md) on variant and genotype calling with bcftools.
