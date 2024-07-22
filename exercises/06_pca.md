@@ -79,8 +79,9 @@ PCA output:
 Let's now download the relevant files to our local computers to plot the PCA in R on your own computer.
 In a new terminal, write (changing the user number to your user number and the IP by the correct IP number)
 ```shell
-scp -i c30.pem user30@54.201.115.50:~/plink/Mechanitis.eigenvec ./
-scp -i c30.pem user30@54.201.115.50:~/plink/Mechanitis.eigenval ./
+scp -i c1.pem user1@54.201.115.50:~/plink/Mechanitis.eigenvec ./
+scp -i c1.pem user1@54.201.115.50:~/plink/Mechanitis.eigenval ./
+scp -i c1.pem user1@54.201.115.50:~/Share/Mechanitis/Mechanitis.info ./
 
 ```
 
@@ -97,8 +98,9 @@ Then we will use a combination of `readr` and the standard `scan` function to re
 
 ``` r
 # read in data
-pca <- read_table2("Mechanitis.eigenvec", col_names = FALSE)
+pca <- read_table2("./Mechanitis.eigenvec", col_names = FALSE)
 eigenval <- scan("Mechanitis.eigenval")
+info <- read_table2("Mechanitis.info")
 ```
 
 #### Cleaning up the data
@@ -114,11 +116,8 @@ pca <- pca[,-1]
 names(pca)[1] <- "ind"
 names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
 
-# extract species information from the individual names
-species<-pca$ind
-
 # add the species information
-pca <- as.tibble(pca, species))
+pca <- as.tibble(merge(pca, info, by="ind"))
 ```
 
 #### Plotting the data
