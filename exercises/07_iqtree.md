@@ -10,7 +10,14 @@ cd iqtree
 In order to infer a phylogenetic tree from our vcf file, we first need to convert the vcf file into a phylip file (or another alignment format like nexus). For that we can use a tool I wrote:
 
 ```shell
-python3 vcf2phylip.py -i ~/Share/Mechanitis/Mechanitis.vcf.gz -o Mechanitis.phylip
+# Copy the script to your folder
+cp ~/Share/Mechanitis/vcf2phylip.py ./
+
+# Specify the vcf file if you have not still saved it from the PCA exercise
+VCF=~/Share/Mechanitis/Mechanitis.vcf.gz
+
+# convert the vcf file to phylip file
+python3 vcf2phylip.py -i $VCF -o Mechanitis.phylip
 ```
 
 Now let's run iqtree in its simplest form:
