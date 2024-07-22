@@ -36,11 +36,8 @@ Here an example R script to plot the phylogeny.
 library(ggtree)
 
 #variable
-
-TREE_FILE="Mechanitis.phylip.treefile"
-
 #get the tree
-tree <- read.tree(TREE_FILE)
+tree <- read.tree("Mechanitis.treefile")
 ggtree(tree)
 
 tree$tip.label
