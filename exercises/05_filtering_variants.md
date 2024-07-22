@@ -212,7 +212,7 @@ Then next we will set our chosen filters like so:
 MISS=0.9
 QUAL=30
 MIN_DEPTH=10
-MAX_DEPTH=50
+MAX_DEPTH=30
 ```
 Finally we run the following `vcftools` command on the data to produce a filtered vcf. We will investigate the options as the filtering is running.
 
