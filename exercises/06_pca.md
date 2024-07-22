@@ -97,9 +97,8 @@ Then we will use a combination of `readr` and the standard `scan` function to re
 
 ``` r
 # read in data
-pca <- read_table2("./Mechanitis.eigenvec", col_names = FALSE)
-eigenval <- scan("./Mechanitis.eigenval")
-info <- read_table2("./Mechanitis.info")
+pca <- read_table2("Mechanitis.eigenvec", col_names = FALSE)
+eigenval <- scan("Mechanitis.eigenval")
 ```
 
 #### Cleaning up the data
@@ -115,8 +114,11 @@ pca <- pca[,-1]
 names(pca)[1] <- "ind"
 names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
 
+# extract species information from the individual names
+species<-pca$ind
+
 # add the species information
-pca <- as.tibble(merge(pca, info, by="ind"))
+pca <- as.tibble(pca, species))
 ```
 
 #### Plotting the data
