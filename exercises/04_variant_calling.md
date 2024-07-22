@@ -19,13 +19,7 @@ cd ~/reference/
 samtools faidx GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
-This will create a fasta index, denoted by the `.fai` suffix. Let's take a closer look at that index.
-
-```shell
-head GCA_917862395.2_iHelSar1.2_genomic.fna
-```
-
-You don't need to worry about this in great deal but for clarity, the columns are: chromosome name, chromosome length, offset of the first base, fasta line length, fasta line length + 1.
+This will create a fasta index, denoted by the `.fai` suffix.
 
 ### Calling variants
 
@@ -82,6 +76,9 @@ If the command is still running (it takes some time), detach your screen using `
 At this point, our "toy" dataset breaks down because we don't have enough reads or coverage to call a decent set of variants. So from now on, we are going to use a vcf we prepared on your behalf using the full set of reads. To get the full dataset into your directory, use the following commands:
 
 ```shell
+#Create a folder called vcf_Real
+mkdir vcf_real
+cd  vcf_real
 # copy the sara_sapho file from the share directory
 cp ~/Share/vcf/sara_sapho.vcf.gz ./
 ```
@@ -123,7 +120,7 @@ Let's see what variants are present at the start of the first chromosome/scaffol
 bcftools view -H -r scaffold_105_ctg1:1-300 sara_sapho.vcf.gz
 ```
 
-Here the `-r` flag specfies the region of the genome to examine. We can achieve the same effect by specifying the base pair coordinates
+Here the `-r` flag specifies the region of the genome to examine. We can achieve the same effect by specifying the base pair coordinates
 
 Now you're probably wondering what exactly all this data actually means. Let's explore in a bit more detail.
 
@@ -194,7 +191,7 @@ bcftools view -H sara_sapho.vcf.gz | head -1 | cut -f 20
 This will return:
 
 ```shell
-0/0:26
+0/0:26,3,3:29:0:.:.:0,0,996,0,996,996
 ```
 First we have the genotype (0/0). Here `0` always denotes the reference, `1` the alternate base so we can see this individual is homozygous for the `ref` base. 26 reads supporting the reference allele
 
