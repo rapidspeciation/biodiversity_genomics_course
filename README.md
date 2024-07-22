@@ -15,3 +15,6 @@ Day 2:
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/03_Mapping_to_a_reference_genome.md) to align Illumina paired-end reads to a reference genome with bwa-mem2
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/07_Variant_and_genotype_calling.pdf) about variant and genotype calling
+
+Day 3:
+- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/04_variant_calling.md) on variant and genotype caling with bcftools.
