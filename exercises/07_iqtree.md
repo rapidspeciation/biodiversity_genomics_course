@@ -38,15 +38,12 @@ library(ggtree)
 #variable
 #get the tree
 tree <- read.tree("Mechanitis.treefile")
-ggtree(tree)
 
-tree$tip.label
-
+# Root and plot the phylogeny
 ggtree(phytools::reroot(tree, node.number = 30, position = 0.005),
        layout='rectangular') +
   geom_tiplab() +
-  geom_nodelab() +
-  geom_text2(aes(subset=!isTip,label = node), hjust = 0.6, vjust = 1.5, colour = "blue") +
   xlim(c(0,0.03))
 
 ```
+iqtree gives us an unrooted phylogeny, which means that we do not know which group is an outgroup to the others. The code above thus specifies that the root is to be placed on the node number 30, which roots the tree making Mechanitis messenoides the outgroup. Alternatively, we could also list all Mechanitis messenoides individuals as part of the outgroup.  
