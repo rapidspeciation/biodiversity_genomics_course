@@ -24,11 +24,14 @@ cd genome_scans
 
 # Convert the vcf file to geno.gz which is the format that Simons script requires
 parseVCF.py -i ~/Share/Mechanitis/Mechanitis.vcf.gz | bgzip > Mechanitis.geno.gz
+
+# Get the file with individual and species information
+cp ~/Share/Mechanitis/Mechanitis.info ./
 ```
 
 First, we will calculate pi for each species and Fst and dxy for each pair of species all in one go.
 ```shell
-popgenWindows.py -g subset.geno.gz -o Mechanitis.Fst.Dxy.pi.csv.gz \
+popgenWindows.py -g Mechanitis.geno.gz -o Mechanitis.Fst.Dxy.pi.csv.gz \
    -f phased -w 20000 -m 10000 -s 20000 \
    -p polymnia -p lysimnia -p nesaea -p messenoides \
    --popsFile Mechanitis.info
@@ -43,20 +46,21 @@ ABBABABAwindows.py -w 20000 -m 10 -s 20000 -g Mechanitis.geno.gz \
    -o Mechanitis_fd.csv.gz \
    -f phased --minData 0.5 --writeFailedWindow \
    -P1 polymnia -P2 nesaea -P3 lysimnia -O messenoides \
-   --popsFile pop.info
+   --popsFile Mechanitis.info
 ```
 
 To speed up the calculation of these statistics, the script can be run on multiple threads by specifying -T <thread number>.
 
 For this script we need to specify that at least 50% of the individuals of each population need to have data for a site to be considered (-\-minData 0.5) and we reduce m to 10 as it only considers polymorphic sites.
 
-To plot the results, we need will use the full dataset and read it into R. You can download all files found in the genome_scan folder. So in a separate terminal, type:
+To plot the results, we need will use the files I prepared for the complete chr9 and read it into R. You can download all files found in the Share/genome_scan_results folder. So in a separate terminal, type:
 
 ```shell
-scp -i c1.pem user1@<IP>:~/genome_scans/* ./
+scp -i c1.pem user1@<IP>:~/Share/genome_scan_results/* ./
 
 # Unzip the file
 gunzip Mechanitis_fd.csv.gz
+gunzip Mechanitis.Fst.Dxy.pi.csv.gz
 ```
 
 Then we can start plotting:
@@ -84,6 +88,7 @@ fd<-ggplot(fd,aes(mid,fd))+geom_point()
 # Note, if we had more than one chromosome, we would use a package that allows us to plot the chromosomes next to each other, like the manhattan R package.
 
 # Let's compare the stats on chr9 next to each other
+require(gridExtra)
 grid.arrange(fst, dxy, fd, nrow=3)
 
 
