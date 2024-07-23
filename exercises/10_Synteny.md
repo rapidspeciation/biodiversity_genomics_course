@@ -150,7 +150,7 @@ mkdir intermediate plots
 Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory. 
 ```shell
 #copy the script from the Share folder
-cp  ~/Share/Syntenyplotter_paf_wrapper.R ./
+cp  ~/Share/synteny/Syntenyplotter_paf_wrapper.R ./
 ```
 
 This script formates the output from minimap2 to fit the input of SyntenyplotteR, prints the two intermediate files in the folder `intermediate`, then plots and saves the figure in the `plots` directory. You can run this script on the commandline.
@@ -243,7 +243,8 @@ cd orthofinder
 orthofinder -h
 ```
 
-We do not need to get the files from busco, we have already concatenated them but these are the commands used to concatenate them.
+Do not run the next section, we already have the files prepared in the `Share/synteny`folder. But I am adding the commands here that we used to create these files, so you can see how it was done. 
+
 ```shell
 #make a list of the busco runs that we want to include
 ls ../busco/ |grep "fa" > list_fasta.txt
