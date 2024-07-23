@@ -24,7 +24,7 @@ Day 3:
 - [Exercise](exercises/07_iqtree.md) on making phylogenies with iqtree.
 
 Day 4:
-- Slides on identifying introgression with D statistics
+- [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on identifying introgression with D statistics
 - [Exercise](exercises/08_Dstatistics.md) on Dstatistics to infer introgression using Dsuite
 - Slides on genome scans
-- Exercise on genome scans
+- [Exercise](exercises/09_genome_scans.md) on genome scans
