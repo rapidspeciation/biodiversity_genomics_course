@@ -163,10 +163,16 @@ It requies three arguments:
 The order of the arguments is important in this case.
 
 ```
+#copy the whole syntenyplotter folder to your local computer
+scp -r -i user1.pem  user1@35.161.175.22:~/synteny/syntenyplotter/ ./
+#go into the syntenyplotter folder
+cd syntenyplotter/
+#check 
+ls
 #run the script
 Rscript Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
-Your alignment plot should now be in your `plots` directory. Copy the file to your local computer and take a look. Describe what you see. Can you answer some of the questions we asked in the beginning?
+Your alignment plot should now be in your `plots` directory. Describe what you see. Can you answer some of the questions we asked in the beginning?
 
 If you want you can add the variables directly in the script (hardcode). The hardcoding could be useful if running your own genomes with a different formatting of the sequence (chromosome) names, the script is taylored for chromosome names in the format string_number or just a number. 
 
