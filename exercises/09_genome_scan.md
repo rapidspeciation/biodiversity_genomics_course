@@ -85,11 +85,9 @@ fst<-ggplot(windowStats,aes(mid,Fst_polymnia_lysimnia))+geom_point()
 dxy<-ggplot(windowStats,aes(mid,Dxy_polymnia_lysimnia))+geom_point()
 fd<-ggplot(fd,aes(mid,fd))+geom_point()
 
-# Note, if we had more than one chromosome, we would use a package that allows us to plot the chromosomes next to each other, like the manhattan R package.
-
 # Let's compare the stats on chr9 next to each other
 require(gridExtra)
 grid.arrange(fst, dxy, fd, nrow=3)
-
-
 ```
+
+Note, if we had more than one chromosome, we would use a package that allows us to plot the chromosomes next to each other, like the manhattan function of the [qqman R package](https://cran.r-project.org/web/packages/qqman/vignettes/qqman.html).
