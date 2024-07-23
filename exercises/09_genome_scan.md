@@ -70,7 +70,7 @@ rm(list = ls())
 
 # Prepare input files:
 # Read in the file with sliding window estimates of FST, pi and dxy
-windowStats<-read.csv("Mechanitis_fd.csv",header=T)
+windowStats<-read.csv("Mechanitis.Fst.Dxy.pi.csv.gz",header=T)
 
 # Read in the fd estimates of 20 kb windows for NyerMak into NyerPyt (P1=PundPyt, P2=NyerPyt, P3=NyerMak, outgroup=Kivu cichlid)
 fd<-read.csv("Mechanitis_fd.csv",header=T,na.strings = "NaN")
