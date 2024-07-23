@@ -25,6 +25,6 @@ Day 3:
 
 Day 4:
 - Slides on identifying introgression with D statistics
-- Exercise on Dstatistics to infer introgression
+- [Exercise](exercises/08_Dsuite.md) on Dstatistics to infer introgression using Dsuite
 - Slides on genome scans
 - Exercise on genome scans
