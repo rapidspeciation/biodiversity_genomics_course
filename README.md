@@ -27,4 +27,4 @@ Day 4:
 - [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on identifying introgression with D statistics
 - [Exercise](exercises/08_Dstatistics.md) on Dstatistics to infer introgression using Dsuite
 - Slides on genome scans
-- [Exercise](exercises/09_genome_scans.md) on genome scans
+- [Exercise](exercises/09_genome_scan.md) on genome scans
