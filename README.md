@@ -26,5 +26,5 @@ Day 3:
 Day 4:
 - [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on identifying introgression with D statistics
 - [Exercise](exercises/08_Dstatistics.md) on Dstatistics to infer introgression using Dsuite
-- [Slides](slide_presentations/10_genome_scans.pdf) on genome scans
+- [Slides](slide_presentations/10_Genome_scans.pdf) on genome scans
 - [Exercise](exercises/09_genome_scan.md) on genome scans
