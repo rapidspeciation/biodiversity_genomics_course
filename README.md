@@ -7,11 +7,11 @@ Day 1:
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/02_Summary_reads-vcf.pdf) summarising the steps from getting raw Illumina reads, filtering, aligning them to a reference and calling variants and genotypes
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/03_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/Connecting_to_the_Amazon_server.pdf) on logging on to the Amazon server by Carlo Pecoraro from [Physalia Courses](https://www.physalia-courses.org)
-- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/Day1_fastp)
+- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
 
 Day 2:
-- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/02_fastp_filtering_reads.md) on filtering Illumina reads with fastp which uses these [input files](input_files/Day1_fastp)
+- [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/02_fastp_filtering_reads.md) on filtering Illumina reads with fastp which uses these [input files](input_files/raw_reads)
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
 - [Exercise](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/exercises/03_Mapping_to_a_reference_genome.md) to align Illumina paired-end reads to a reference genome with bwa-mem2
 - [Slides](https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/07_Variant_and_genotype_calling.pdf) about variant and genotype calling
