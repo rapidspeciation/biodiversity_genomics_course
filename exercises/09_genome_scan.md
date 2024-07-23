@@ -81,7 +81,7 @@ head(fd)
 # Let's plot FST, dxy and fd between the two younger species
 require(ggplot2)
 fst<-ggplot(windowStats,aes(mid,Fst_polymnia_lysimnia))+geom_point()
-dxy<-ggplot(windowStats,aes(mid,Dxy_polymnia_lysimnia))+geom_point()
+dxy<-ggplot(windowStats,aes(mid,dxy_polymnia_lysimnia))+geom_point()
 fd<-ggplot(fd,aes(mid,fd))+geom_point()
 
 # Let's compare the stats on chr9 next to each other
