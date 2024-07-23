@@ -66,7 +66,6 @@ gunzip Mechanitis.Fst.Dxy.pi.csv.gz
 Then we can start plotting:
 
 ```r
-rm(list = ls())
 
 # Prepare input files:
 # Read in the file with sliding window estimates of FST, pi and dxy
