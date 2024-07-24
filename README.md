@@ -55,7 +55,7 @@ Day 5:
 - Sequence Alignment Map Format Specification [SAM BAM group](Papers/Sequence_Alignment_Map_Format_Specification.pdf)
 
 ### Reviews on phylogenomics
-- Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS.pdf)
+- Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc_F.etal.2005_PHYLOGENOMICS.pdf)
 - Phylogenetic tree building in the genomic age [Kapli, et al., 2020](Papers/Kapli_phylogenomics_in_genomic_era.pdf)
 - Genetic Terminology [Elston, et al 2012](Paper/Elston_2012_Genetic_Terminology.pdf)
 
