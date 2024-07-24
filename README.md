@@ -46,13 +46,13 @@ Day 5:
 - Genomic evidence reveals three W-autosome fusions in Heliconius butterflies [Rueda et al. 2024](Papers/Rueda_et_al-24-PlosGenetics.pdf)
 
 ### Papers or Manuals for some of the tools mentioned in this course:
-- Arima-HiC Mapping Pipeline [] (Papers/Arima_Mapping_UserGuide_A160156_v02.pdf)
-- Tutorial on ASTRAL [Mirarab, et al] (Papers/Species_tree_Astral-tutorial.pdf)
+- Arima-HiC Mapping Pipeline(Papers/Arima_Mapping_UserGuide_A160156_v02.pdf)
+- Tutorial on ASTRAL [Mirarab, et al](Papers/Species_tree_Astral-tutorial.pdf)
 - DensiTree Manual: Making sense of sets of trees [Bouckaert, et_al 2014](Papers/DensiTree_Manual.v2.2.pdf)
 - Local PCA Shows How the Effect of Population Structure Differs Along the Genome [Li, et al., 2019](Papers/Li, 2019. Local PCA Shows How the Effect of Population-lostruct.pdf)
 - The Sequence Alignment/Map format and SAMtools [Li, et al., 2019](Papers/Li, H. 2009. The Sequence Alignment_Map format and SAMtools.pdf)
 - Dsuite - Fast D-statistics and related admixture evidence from VCF files [Malinsky, et al., 2020](Papers/Malinsky, 2020_Dsuite.pdf)
-- Sequence Alignment/Map Format Specification [] (Papers/Sequence_Alignment/Map_Format_Specification.pdf)
+- Sequence Alignment/Map Format Specification(Papers/Sequence_Alignment/Map_Format_Specification.pdf)
 
 ### Reviews on phylogenomics
 - Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS.pdf)
