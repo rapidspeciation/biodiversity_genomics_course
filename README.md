@@ -81,7 +81,7 @@ Day 5:
 
 ### Population genomic diversity and divergence statistics
 - Patterns of Z chromosome divergence among Heliconius species highlight the importance of historical demography [Van Belleghem, et al., 2017](Van_Belleghem_2018_Patterns_of_z_chromosome.pdf)
-- Complex modular architecture around a simple toolkit of wing pattern genes [Van Belleghem, 2018](VanBelleghem_2017_Complex_modular_architecture around_simple_toolkit_of_wing_pattern_genes.pdf)
+- Complex modular architecture around a simple toolkit of wing pattern genes [Van Belleghem, 2018](VanBelleghem_2017_Complex_modular_architecture_around_simple_toolkit_of_wing_pattern_genes.pdf)
 
 
 
