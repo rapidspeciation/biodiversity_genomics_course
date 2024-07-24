@@ -38,9 +38,9 @@ Day 5:
 ## Publications we recommend:
 
 ### Reviews on biodiversity genomics:
-- [How genomics can help biodiversity conservation, Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
-- [Genomics and the origin of species, Seehausen et al. 2015](Papers/Seehausen_et_al-15-NatRevGenet.pdf)
+- How genomics can help biodiversity conservation [Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
+- Genomics and the origin of species [Seehausen et al. 2015](Papers/Seehausen_et_al-15-NatRevGenet.pdf)
 
 ### Publications related to the examples in the course:
-- [Genomics of Neotropical biodiversity indicators: two butterfly radiations with rampant chromosomal rearrangements and hybridisation, van der Heijden et al. 2024](Papers/vanDerHeijden_et_al-2025-Biorxiv.pdf)
-- [Genomic evidence reveals three W-autosome fusions in Heliconius butterflies, Rueda et al. 2024](Papers/Rueda_et_al-24-PlosGenetics.pdf)
+- Genomics of Neotropical biodiversity indicators: two butterfly radiations with rampant chromosomal rearrangements and hybridisation [van der Heijden et al. 2024](Papers/vanDerHeijden_et_al-2025-Biorxiv.pdf)
+- Genomic evidence reveals three W-autosome fusions in Heliconius butterflies [Rueda et al. 2024](Papers/Rueda_et_al-24-PlosGenetics.pdf)
