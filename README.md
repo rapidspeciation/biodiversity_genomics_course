@@ -34,6 +34,7 @@ Day 5:
 - [Exercise](exercises/Synteny.md) on macrosynteny
 - Slides on phylogenomics with BUSCO genes
 - [Exercise](exercises/11_gene_trees.md) on phylogenomics with BUSCO genes
+- [Slides](slide_presentations/13_Course_Summary.pdf) summarising the course and giving some suggestions for further learning
 
 
 ##
