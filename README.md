@@ -73,8 +73,10 @@ Day 5:
 - Introduction to the Unix Command Line [Dowling, et al., 2019](Papers/Introduction_unix_command-may2019.pdf)
 - Unix and Perl Primer for Biologists [Bradnam, et al 2016](Unix_Perl.pdf)
 
-### Reviews or examples on Chromosome rearrangements
+### Reviews or examples on chromosome evolution
 -Chromosomal rearrangements and speciation. [Rieseberg, et al., 2021](Papers/Rieseberg,etal.,_2001_Chromosomal_rearrangement_and_speciation.pdf)
+-Chromosome evolution [Ingo Schubert, 2019](Papers/Chromosome_evolution.pdf)
+
 
 ### Review on next-generation sequencies technologies
 - Next-Generation Sequencing Technology: Current Trends and Advancements [Satam, et al., 2023](Papers/Satam_et_al_2024_Next_generation_sequencing.pdf)
