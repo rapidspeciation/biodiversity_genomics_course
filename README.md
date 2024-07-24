@@ -39,6 +39,10 @@ Day 5:
 ##
 ## Publications we recommend:
 
+### Introduction to Unix
+- Introduction to the Unix Command Line [Dowling, et al., 2019](Papers/Introduction_unix_command-may2019.pdf)
+- Unix and Perl Primer for Biologists [Bradnam, et al 2016](Unix_Perl.pdf)
+
 ### Reviews on biodiversity genomics:
 - How genomics can help biodiversity conservation [Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
 - Genomics and the origin of species [Seehausen et al. 2015](Papers/Seehausen_et_al-15-NatRevGenet.pdf)
@@ -72,14 +76,10 @@ Day 5:
 - Evaluating the Use of ABBA–BABA Statistics to Locate Introgressed Loci [Martin, et al., 2015](Papers/Martin_etal_2015_Evaluating_Use_ABBA–BABA_Statistics.pdf)
 - The genetic consequences of hybridization [Moran, et al., 2021](Papers/The_genomic_consequences_of_hybridization.pdf)
 
-### Introduction to Unix
-- Introduction to the Unix Command Line [Dowling, et al., 2019](Papers/Introduction_unix_command-may2019.pdf)
-- Unix and Perl Primer for Biologists [Bradnam, et al 2016](Unix_Perl.pdf)
-
 ### Reviews or examples on chromosome evolution
--Chromosomal rearrangements and speciation. [Rieseberg, et al., 2021](Papers/Rieseberg,etal.,_2001_Chromosomal_rearrangement_and_speciation.pdf)
--Chromosome evolution [Ingo Schubert, 2019](Papers/Chromosome_evolution.pdf)
--The Impact of Chromosomal Rearrangements in Speciation: From Micro- to Macroevolution [Lucek, et al., 2023](Papers/The_Impact_of_Chromosomal_Rearrangements_Speciation.pdf)
+- Chromosomal rearrangements and speciation. [Rieseberg, et al., 2021](Papers/Rieseberg,etal.,_2001_Chromosomal_rearrangement_and_speciation.pdf)
+- Chromosome evolution [Ingo Schubert, 2019](Papers/Chromosome_evolution.pdf)
+- The Impact of Chromosomal Rearrangements in Speciation: From Micro- to Macroevolution [Lucek, et al., 2023](Papers/The_Impact_of_Chromosomal_Rearrangements_Speciation.pdf)
 
 ### Review on next-generation sequencies technologies
 - Next-Generation Sequencing Technology: Current Trends and Advancements [Satam, et al., 2023](Papers/Satam_et_al_2024_Next_generation_sequencing.pdf)
