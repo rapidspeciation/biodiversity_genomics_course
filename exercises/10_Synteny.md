@@ -150,6 +150,7 @@ Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
 ```shell
 #copy the script from the Share folder
 cp  ~/Share/synteny/Syntenyplotter_paf_wrapper.R ./
+cp ../minimap/output/MecMaza_MecMess.paf ./
 ```
 
 This script formates the output from minimap2 to fit the input of SyntenyplotteR, prints the two intermediate files in the folder `intermediate`, then plots and saves the figure in the `plots` directory. You can run this script on the commandline.
@@ -162,8 +163,8 @@ It requies three arguments:
 The order of the arguments is important in this case.
 
 ```
-#copy the whole syntenyplotter folder to your local computer
-scp -r -i user1.pem  user1@35.161.175.22:~/synteny/syntenyplotter/ ./
+#copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder)
+scp -r -i user1.pem  c1@54.191.38.90:~/synteny/syntenyplotter/ ./
 #go into the syntenyplotter folder
 cd syntenyplotter/
 #check
