@@ -44,3 +44,14 @@ Day 5:
 ### Publications related to the examples in the course:
 - Genomics of Neotropical biodiversity indicators: two butterfly radiations with rampant chromosomal rearrangements and hybridisation [van der Heijden et al. 2024](Papers/vanDerHeijden_et_al-2025-Biorxiv.pdf)
 - Genomic evidence reveals three W-autosome fusions in Heliconius butterflies [Rueda et al. 2024](Papers/Rueda_et_al-24-PlosGenetics.pdf)
+
+### Manuals for some of the tools mentioned in this course:
+- Arima-HiC Mapping Pipeline (Papers/Arima_Mapping_UserGuide_A160156_v02.pdf)
+- Tutorial on ASTRAL [Mirarab, et al] (Papers/Species_tree_Astral-tutorial.pdf)
+- DensiTree Manual: Making sense of sets of trees [Bouckaert, et_al 2014](Paper/DensiTree_Manual.v2.2.pdf)
+
+### Reviews on phylogenomics
+- Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS)
+
+### Reviews on speciation
+- What does Drosophila genetics tell us about speciation? [Mallet, J., 2006](Paper/Mallet,J_2006_speciation.pdf)
