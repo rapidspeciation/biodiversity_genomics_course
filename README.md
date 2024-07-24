@@ -49,9 +49,9 @@ Day 5:
 - Arima-HiC Mapping Pipeline(Papers/Arima_Mapping_UserGuide_A160156_v02.pdf)
 - Tutorial on ASTRAL [Mirarab, et al](Papers/Species_tree_Astral-tutorial.pdf)
 - DensiTree Manual: Making sense of sets of trees [Bouckaert, et_al 2014](Papers/DensiTree_Manual.v2.2.pdf)
-- Local PCA Shows How the Effect of Population Structure Differs Along the Genome [Li, et al., 2019](Papers/Li, 2019. Local PCA Shows How the Effect of Population-lostruct.pdf)
-- The Sequence Alignment/Map format and SAMtools [Li, et al., 2019](Papers/Li, H. 2009. The Sequence Alignment_Map format and SAMtools.pdf)
-- Dsuite - Fast D-statistics and related admixture evidence from VCF files [Malinsky, et al., 2020](Papers/Malinsky, 2020_Dsuite.pdf)
+- Local PCA Shows How the Effect of Population Structure Differs Along the Genome [Li, et al., 2019](Papers/Li_2019_Local_PCA_Shows_How_the_Effect_of_Population_lostruct.pdf)
+- The Sequence Alignment/Map format and SAMtools [Li, et al., 2019](Papers/Li_H_2009_The_Sequence_Alignment_Map_format_and_SAMtools.pdf)
+- Dsuite - Fast D-statistics and related admixture evidence from VCF files [Malinsky, et al., 2020](Papers/Malinsky_2020_Dsuite.pdf)
 - Sequence Alignment/Map Format Specification(Papers/Sequence_Alignment/Map_Format_Specification.pdf)
 
 ### Reviews on phylogenomics
