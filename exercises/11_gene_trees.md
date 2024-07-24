@@ -7,10 +7,10 @@ title: IQ-tree
 ## Intro
 Whole-genome information can be used to reconstruct evolutionary history and divergence times of genes and species, variable genealogy and branch length variation along the genome, presence of horisontal transfer, infer gene family evolution and gene function, ancestral sequence reconstruction, inference of selection, to name some. Whole genome alignment for tree reconstruction in computationally expensive, so depending on the final target for the analysis specific regions of markers in the genome can be used.
 
-Here we will use BUSCO to find single copy orthologs in our genomes that has not been annotated yet. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes which have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. 
+Here we will use BUSCO to find single copy orthologs in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. 
 OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence sequence alignment.
 
-To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (*Melinaea*, *Mechanitis* and *Napeogenes*) and we are using the monarch (*Danaus plexippus*) as outgroup.
+To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (*Melinaea*, *Mechanitis* and *Napeogenes*) and we are using the monarch (*Danaus plexippus*) as outgroup. Information on how to run BUSCO is in exercise 10_synteny.
 
 ## 1 - Orthologs
 
@@ -78,7 +78,7 @@ less list_sco.txt
 
 for GENE in $(cat list_sco.txt);do mafft --auto input/${GENE} > output/${GENE%.*}.msa.fa;done
 
-#unfortunately mafft do not work so you can get the files from the Share folder
+#if mafft do not run you can get the files from the Share folder
 cp ~/Share/gene_trees/mafft/output/* output/
 ```
 
@@ -89,7 +89,9 @@ cd ../
 mkdir trimal
 mkdir output log
 ls ../mafft/output/ > list_trimal_input.txt
-for FILE in $(cat list_trimal_input.txt);do ../../../ubuntu/src/conda/bin/trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt;done
+for FILE in $(cat list_trimal_input.txt)
+ do ../../../ubuntu/src/conda/bin/trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
+done
 
 #check removal
 grep -A2 "Residues" log/*txt
@@ -162,6 +164,7 @@ Now we have the separate alignments for each locus in a folder, so we can perfor
 ```shell
 #we can specify a variable for out input directory
 INPUT=input/
+
 # infer a concatenation-based species tree with 1000 ultrafast bootstrap
 iqtree -p $INPUT --prefix output/concat -B 1000 
 
