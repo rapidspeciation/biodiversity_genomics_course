@@ -7,7 +7,7 @@ title: IQ-tree
 ## Intro
 Whole-genome information can be used to reconstruct evolutionary history and divergence times of genes and species, variable genealogy and branch length variation along the genome, presence of horisontal transfer, infer gene family evolution and gene function, ancestral sequence reconstruction, inference of selection, to name some. Whole genome alignment for tree reconstruction in computationally expensive, so depending on the final target for the analysis specific regions of markers in the genome can be used.
 
-Here we will use BUSCO to find single copy orthologs in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. 
+Here we will use BUSCO to find single copy orthologs in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event.
 OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence sequence alignment.
 
 To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (*Melinaea*, *Mechanitis* and *Napeogenes*) and we are using the monarch (*Danaus plexippus*) as outgroup. Information on how to run BUSCO is in exercise 10_synteny.
@@ -25,14 +25,14 @@ cd gene_trees
 cp ~/Share/gene_trees/input_orthofinder/*.fa ./
 
 ls
-#take a look at one of the files 
+#take a look at one of the files
 less ilMecMaza1.1.primary.fa
 
 #run orthofinder, this time in we are using nucleotides so we must include option -d
 orthofinder -f ./ -d
 ```
 As earlier OrthoFinder will produce a large directory with many interesting files. Are there any species that have less genes assigned to orthogroups?
-Why do you think this is? How many shared single copy genes do we have? 
+Why do you think this is? How many shared single copy genes do we have?
 We will not use all in the following section, we will use a subset of 10 genes.
 
 ## 2 - Alignment
@@ -54,9 +54,11 @@ cd mafft
 mkdir input output
 ```
 ```shell
-#copy ten of the genes from orthofinder single copy sequences to our input (here all that starts with OG000004), before copying check how many: 
+#copy ten of the genes from orthofinder single copy sequences to our input (here all that starts with OG000004), before copying check how many:
 
 ls orthofinder/OrthoFinder/Results_Jul25/Single_Copy_Orthologue_Sequences/OG000004*
+
+# Note, the exact folder name "Results_Jul25" will be different if you run it on another day
 #if ok then copy
 cp orthofinder/OrthoFinder/Results_Jul25/Single_Copy_Orthologue_Sequences/OG000004* input/
 
@@ -90,7 +92,7 @@ mkdir trimal
 mkdir output log
 ls ../mafft/output/ > list_trimal_input.txt
 for FILE in $(cat list_trimal_input.txt)
- do ../../../ubuntu/src/conda/bin/trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
+ do ../../../ubuntu/src/conda/bin/trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -sgt -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
 done
 
 #check removal
@@ -138,7 +140,7 @@ Assess branch support using bootstrapping. Bootstrapping uses resampling with re
 We can specify the best model from the last run. We also have to specify a new prefix otherwise iqtree will raise an error to avoid overwriting files.
 
 ```shell
-iqtree -s  input/OG0000041.msa.renamed.fa -m HKY+F+G4 -B 1000 -prefix output/OG0000041_bs1000
+iqtree -s  ../trimal/output/OG0000041.msa.renamed.fa -m HKY+F+G4 -B 1000 --prefix output/OG0000041_bs1000
 ```
 Check the bootstrap support values in the output/OG0000041_bs1000.iqtree.
 
@@ -166,7 +168,7 @@ Now we have the separate alignments for each locus in a folder, so we can perfor
 INPUT=input/
 
 # infer a concatenation-based species tree with 1000 ultrafast bootstrap
-iqtree -p $INPUT --prefix output/concat -B 1000 
+iqtree -p $INPUT --prefix output/concat -B 1000
 
 # infer the locus/gene trees
 iqtree -S $INPUT --prefix output/loci
@@ -200,18 +202,18 @@ tree <- read.tree("output/concord.cf.tree")
 
 #create the plot
 concat_tree <-
-ggtree(tree, ladderize = T) + 
-	geom_tiplab() + 
+ggtree(tree, ladderize = T) +
+	geom_tiplab() +
 	geom_treescale()
 
 #take a look
 concat_tree
 
 #we can add some improvement
-concat_tree <- 
-ggtree(tree, ladderize = T) + 
-  geom_tiplab(align = T) + 
-  geom_treescale() + 
+concat_tree <-
+ggtree(tree, ladderize = T) +
+  geom_tiplab(align = T) +
+  geom_treescale() +
   xlim(c(0,0.4)) +		#adjust the limits of the x axis so that we can see the tiplabels
   geom_nodelab(hjust = 1.1, vjust = -0.6) + #plots the node information (bootstrap and concordance factor)
   geom_text2(aes(label = round(branch.length, 4)), hjust = 0.6, vjust = 1.5, colour = "blue") #add the branch length
@@ -227,21 +229,21 @@ ggsave(plot=concat_tree, filename = "concat_tree.png",
 
 IQ-tree like many ML-tree builders renders an unrooted tree. We have an outgroup so we can root the tree on the outgroup.
 ```r
-#check tiplabel or nodelabel index 
+#check tiplabel or nodelabel index
 tree$tip.label
 
 #reroot with phytools with outgroup
-ggtree(phytools::reroot(tree,  node.number = 1), ladderize = T) + 
-  geom_tiplab(align = T) + 
+ggtree(phytools::reroot(tree,  node.number = 1), ladderize = T) +
+  geom_tiplab(align = T) +
   geom_nodelab() +
 scale_x_continuous(limits = c(0,0.4))+
   geom_text2(aes(label = round(branch.length, 4)), hjust = 0.6, vjust = 1.5, colour = "blue")
 
-#specify the position of the root, 
+#specify the position of the root,
 #node this position is arbitrary, we do not have the information unless we an another outgroup
-concat_tree_rerooted <- 
-ggtree(phytools::reroot(tree,  node.number = 1, position = 0.1), ladderize = T) + 
-  geom_tiplab(align = T) + 
+concat_tree_rerooted <-
+ggtree(phytools::reroot(tree,  node.number = 1, position = 0.1), ladderize = T) +
+  geom_tiplab(align = T) +
   geom_nodelab() +
   scale_x_continuous(limits = c(0,0.4))+
   geom_text2(aes(label = round(branch.length, 4)), hjust = 0.6, vjust = 1.5, colour = "blue")
@@ -278,7 +280,7 @@ ggdensitree(layout = "slanted", trees, branch.length="none", color="blue", alpha
 
 
 #save the tree if you want
-trees_slanted <- 
+trees_slanted <-
 ggdensitree(layout = "slanted", trees, branch.length="none", color="blue", alpha = 0.3) +
   geom_tiplab() +
   geom_treescale()
@@ -292,10 +294,10 @@ We can also plot the concatenated tree on top of the multi-tree plot.
 
 ```r
 ##change the concatenated tree to cladogram by setting branch.length "none" and layout "slanted"
-concat_tree <- 
-  ggtree(tree, ladderize = T, layout = "slanted", branch.length = "none") + 
-  geom_tiplab(align = T) + 
-  geom_treescale() + 
+concat_tree <-
+  ggtree(tree, ladderize = T, layout = "slanted", branch.length = "none") +
+  geom_tiplab(align = T) +
+  geom_treescale() +
   #xlim(c(0,0.4)) +
   geom_nodelab(hjust = 1.1, vjust = -0.6) +
   geom_text2(aes(label = round(branch.length, 4)), hjust = 0.6, vjust = 1.5, colour = "blue")
@@ -316,10 +318,5 @@ trees_slanted +
   geom_text2(data = d2, aes(label = round(branch.length, 4)), hjust = 0.6, vjust = 1.5, colour = "orange4")
 
 ```
-Does the concatenated tree give a good representation of the gene trees? 
+Does the concatenated tree give a good representation of the gene trees?
 For many applications it is more informative to reconstruct a tree for each loci to represent the evolutionary history of that particular loci. The discrepancy between gene trees both in branch length and topology gives valuable information on the evolutionary processes acting across the genome, while a concatenated tree is at best an approximate summary.
-
-
-
-
-

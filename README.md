@@ -1,6 +1,6 @@
-# Welcome to the Biodiversity Genomics course, held for the first time at IKIAM, in Tena, Ecuador!
-## held for the first time at IKIAM, in Tena, Ecuador in July 2024
-This course taught by Karin Näsvall, Nicol Rueda and Joana Meier is an adapted version of the [speciation genomics course](https://speciationgenomics.github.io/) by Mark Ravinet and Joana Meier. Here you will find all relevant course materials for the biodiversity genomics course, including all files we used during the course in case you want to redo anything at home.
+# Welcome to the Biodiversity Genomics course
+## held for the first time at [Ikiam](https://www.ikiam.edu.ec), in Tena, Ecuador in July 2024
+This course taught by Karin Näsvall, Nicol Rueda and Joana Meier from the [Wellcome Sanger Institute](https://www.sanger.ac.uk/group/meier-group/) is an adapted version of the [speciation genomics course](https://speciationgenomics.github.io/) by Mark Ravinet and Joana Meier. Here you will find all relevant course materials for the biodiversity genomics course, including all files we used during the course in case you want to redo anything at home.
 
 Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
@@ -34,6 +34,7 @@ Day 5:
 - [Exercise](exercises/Synteny.md) on macrosynteny
 - Slides on phylogenomics with BUSCO genes
 - [Exercise](exercises/11_gene_trees.md) on phylogenomics with BUSCO genes
+- [Slides](slide_presentations/13_Course_Summary.pdf) summarising the course and giving some suggestions for further learning
 
 
 ##
@@ -93,6 +94,3 @@ Day 5:
 ### Population genomic diversity and divergence statistics
 - Patterns of Z chromosome divergence among Heliconius species highlight the importance of historical demography [Van Belleghem, et al., 2017](Van_Belleghem_2018_Patterns_of_z_chromosome.pdf)
 - Complex modular architecture around a simple toolkit of wing pattern genes [Van Belleghem, 2018](VanBelleghem_2017_Complex_modular_architecture_around_simple_toolkit_of_wing_pattern_genes.pdf)
-
-
-
