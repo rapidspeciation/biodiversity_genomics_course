@@ -10,7 +10,7 @@ Whole-genome information can be used to reconstruct evolutionary history and div
 Here we will use BUSCO to find single copy orthologs in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. 
 OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence sequence alignment.
 
-To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (*Melinaea*, *Mechanitis* and *Napeogenes*) and we are using the monarch (*Danaus plexippus*) as outgroup.
+To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (*Melinaea*, *Mechanitis* and *Napeogenes*) and we are using the monarch (*Danaus plexippus*) as outgroup. Information on how to run BUSCO is in exercise 10_synteny.
 
 ## 1 - Orthologs
 
