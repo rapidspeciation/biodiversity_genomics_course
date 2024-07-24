@@ -164,6 +164,7 @@ Now we have the separate alignments for each locus in a folder, so we can perfor
 ```shell
 #we can specify a variable for out input directory
 INPUT=input/
+
 # infer a concatenation-based species tree with 1000 ultrafast bootstrap
 iqtree -p $INPUT --prefix output/concat -B 1000 
 
