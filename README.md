@@ -1,4 +1,4 @@
-# Welcome to the Biodiversity Genomics course, held for the first time at IKIAM, in Tena, Ecuador!
+# Welcome to the Biodiversity Genomics course, held for the first time at [Ikiam](https://www.ikiam.edu.ec), in Tena, Ecuador!
 ## held for the first time at IKIAM, in Tena, Ecuador in July 2024
 This course taught by Karin Näsvall, Nicol Rueda and Joana Meier is an adapted version of the [speciation genomics course](https://speciationgenomics.github.io/) by Mark Ravinet and Joana Meier. Here you will find all relevant course materials for the biodiversity genomics course, including all files we used during the course in case you want to redo anything at home.
 
