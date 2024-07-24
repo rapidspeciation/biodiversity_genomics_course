@@ -31,7 +31,7 @@ Day 4:
 - [Exercise](exercises/Synteny.md) on macrosynteny
 
 
-Publications we recommend to read:
+## Publications we recommend to read:
 
-Review on conservation Genomics:
+### Review on conservation Genomics:
 - [Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
