@@ -52,7 +52,7 @@ Day 5:
 - Local PCA Shows How the Effect of Population Structure Differs Along the Genome [Li, et al., 2019](Papers/Li_2019_Local_PCA_Shows_How_the_Effect_of_Population_lostruct.pdf)
 - The Sequence Alignment/Map format and SAMtools [Li, et al., 2019](Papers/Li_H_2009_The_Sequence_Alignment_Map_format_and_SAMtools.pdf)
 - Dsuite - Fast D-statistics and related admixture evidence from VCF files [Malinsky, et al., 2020](Papers/Malinsky_2020_Dsuite.pdf)
-- Sequence Alignment Map Format Specification (Papers/Sequence_Alignment_Map_Format_Specification.pdf)
+- Sequence Alignment Map Format Specification [SAM BAM group](Papers/Sequence_Alignment_Map_Format_Specification.pdf)
 
 ### Reviews on phylogenomics
 - Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS.pdf)
