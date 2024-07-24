@@ -165,11 +165,11 @@ The order of the arguments is important in this case.
 ```
 #copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder)
 scp -r -i user1.pem  c1@54.191.38.90:~/synteny/syntenyplotter/ ./
-#go into the syntenyplotter folder
+#go into the syntenyplotter folder on your local computer
 cd syntenyplotter/
 #check
 ls
-#run the script
+#run the script on your local computer (not on the cluster)
 Rscript Syntenyplotter_paf_wrapper.R MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
 Your alignment plot should now be in your `plots` directory. Describe what you see. Can you answer some of the questions we asked in the beginning?
