@@ -57,7 +57,7 @@ Day 5:
 ### Reviews on phylogenomics
 - Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS.pdf)
 - Phylogenetic tree building in the genomic age [Kapli, et al., 2020](Papers/Kapli_phylogenomics_in_genomic_era.pdf)
-- Genetic Terminology [Elston, et al 2012](Paper/Elston, 2012. Genetic Terminology.pdf)
+- Genetic Terminology [Elston, et al 2012](Paper/Elston_2012_Genetic_Terminology.pdf)
 
 ### Reviews on speciation
 - What does Drosophila genetics tell us about speciation? [Mallet, J., 2006](Papers/Mallet,J_2006_speciation.pdf)
