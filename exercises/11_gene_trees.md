@@ -78,7 +78,7 @@ less list_sco.txt
 
 for GENE in $(cat list_sco.txt);do mafft --auto input/${GENE} > output/${GENE%.*}.msa.fa;done
 
-#unfortunately mafft do not work so you can get the files from the Share folder
+#if mafft do not run you can get the files from the Share folder
 cp ~/Share/gene_trees/mafft/output/* output/
 ```
 
