@@ -89,7 +89,9 @@ cd ../
 mkdir trimal
 mkdir output log
 ls ../mafft/output/ > list_trimal_input.txt
-for FILE in $(cat list_trimal_input.txt);do ../../../ubuntu/src/conda/bin/trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt;done
+for FILE in $(cat list_trimal_input.txt)
+ do ../../../ubuntu/src/conda/bin/trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
+done
 
 #check removal
 grep -A2 "Residues" log/*txt
@@ -162,6 +164,7 @@ Now we have the separate alignments for each locus in a folder, so we can perfor
 ```shell
 #we can specify a variable for out input directory
 INPUT=input/
+
 # infer a concatenation-based species tree with 1000 ultrafast bootstrap
 iqtree -p $INPUT --prefix output/concat -B 1000 
 
