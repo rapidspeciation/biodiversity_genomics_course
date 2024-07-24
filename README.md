@@ -34,6 +34,7 @@ Day 5:
 - [Exercise](exercises/Synteny.md) on macrosynteny
 
 
+##
 ## Publications we recommend:
 
 ### Reviews on biodiversity genomics:
