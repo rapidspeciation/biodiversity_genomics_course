@@ -65,6 +65,7 @@ Day 5:
 ### Reviews on speciation
 - What does Drosophila genetics tell us about speciation? [Mallet, J., 2006](Papers/Mallet,J_2006_speciation.pdf)
 - Defining the speciation continuum. [Stankowski, et al., 2021](Papers/Stankowski_etal,2021_Defining_the_speactiation_continuum.pdf)
+- Genomics and the origin of species [Ole Seehausen, et al., 2014](Genomics_and_the_origin_of_species.pdf)
 
 ### Reviews or Examples about introgression
 - Phylogenomic approaches to detecting and characterizing introgression [Hibbins, et al., 2022](Papers/Hibbins_M._2021._Phylogenomic_approaches_to_detecting_and_characterizing)
@@ -78,7 +79,7 @@ Day 5:
 ### Reviews or examples on chromosome evolution
 -Chromosomal rearrangements and speciation. [Rieseberg, et al., 2021](Papers/Rieseberg,etal.,_2001_Chromosomal_rearrangement_and_speciation.pdf)
 -Chromosome evolution [Ingo Schubert, 2019](Papers/Chromosome_evolution.pdf)
-
+-The Impact of Chromosomal Rearrangements in Speciation: From Micro- to Macroevolution [Lucek, et al., 2023](Papers/The_Impact_of_Chromosomal_Rearrangements_Speciation.pdf)
 
 ### Review on next-generation sequencies technologies
 - Next-Generation Sequencing Technology: Current Trends and Advancements [Satam, et al., 2023](Papers/Satam_et_al_2024_Next_generation_sequencing.pdf)
