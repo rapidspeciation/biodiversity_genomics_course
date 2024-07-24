@@ -34,7 +34,7 @@ Day 5:
 - [Exercise](exercises/Synteny.md) on macrosynteny
 
 
-## Publications we recommend to read:
+## Publications we recommend:
 
 ### Reviews on biodiversity genomics:
 - [How genomics can help biodiversity conservation, Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
