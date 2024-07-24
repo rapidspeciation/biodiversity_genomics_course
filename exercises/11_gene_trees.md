@@ -140,7 +140,7 @@ iqtree -s  input/OG0000041.msa.renamed.fa -m HKY+F+G4 -B 1000 -prefix output/OG0
 ```
 Check the bootstrap support values in the output/OG0000041_bs1000.iqtree.
 
-## 5 - Multiple gene trees
+## 4 - Multiple gene trees
 
 We will now take a look at the trees from different gene alignments or loci, do they have the same topology and branch length?
 First we need to change the fasta header in all alignments so that is contains only the taxa name, same in all alignments. For this we can use `sed` and remove everything after underscore on each line in the file.
