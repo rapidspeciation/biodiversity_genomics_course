@@ -79,5 +79,10 @@ Day 5:
 ### Review on next-generation sequencies technologies
 - Next-Generation Sequencing Technology: Current Trends and Advancements [Satam, et al., 2023](Papers/Satam_et_al_2024_Next_generation_sequencing.pdf)
 
+### Population genomic diversity and divergence statistics
+- Patterns of Z chromosome divergence among Heliconius species highlight the importance of historical demography [Van Belleghem, et al., 2017](Van_Belleghem_2018 Patterns_of_z_chromosome.pdf)
+- Complex modular architecture around a simple toolkit of wing pattern genes [Van Belleghem, 2018](VanBelleghem_2017_Complex modular architecture around a simple toolkit of wing pattern genes.pdf)
+- 
+
 
 
