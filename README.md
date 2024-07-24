@@ -28,4 +28,10 @@ Day 4:
 - [Exercise](exercises/08_Dstatistics.md) on Dstatistics to infer introgression using Dsuite
 - [Slides](slide_presentations/10_Genome_scans.pdf) on genome scans
 - [Exercise](exercises/09_genome_scan.md) on genome scans
-- [Exercise](exercises/Synteny.md) on macrosynteny 
+- [Exercise](exercises/Synteny.md) on macrosynteny
+
+
+Publications we recommend to read:
+
+Review on conservation Genomics:
+- [Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
