@@ -165,7 +165,9 @@ The order of the arguments is important in this case.
 ```
 #copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder)
 scp -r -i user1.pem  c1@54.191.38.90:~/synteny/syntenyplotter/ ./
-#go into the syntenyplotter folder on your local computer
+
+#In the RStudio terminal:
+# go into the syntenyplotter folder
 cd syntenyplotter/
 #check
 ls
