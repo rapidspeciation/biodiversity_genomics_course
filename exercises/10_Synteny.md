@@ -117,8 +117,7 @@ minimap2 -t 2 ../genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ../geno
 
 ```
 
-This may take 10-20 min. Settings -t 8 and Max mem 14592 MB on the cluster with 9 min, default threads and max 2 cores mem 7866 MB 15 min
-During the wait you can take a look at Step 3 visualisation, or get a coffee.
+This takes 10-20 minutes on a large cluster, but here it might take much longer and Minimap2 is memory demanding. With the settings -t 2 it took 15 min on our cluster with maximum memory usage of approximately 10 GB. During the wait you can take a look at Step 3 visualisation, or get a coffee.
 
 If the script is not finished or memory demands are to high we have prepared results in the `Share` folder. Copy the result file `MecMaza_MecMess.paf` to you output directory and look at the output:
 ```shell
@@ -228,15 +227,15 @@ less ~/Share/synteny/busco_out_summary/short_summary.txt
 ```
 Is the quality of the assembly good enough to use for synteny analysis?
 
-The result of interest for our purposes are the full_table.tsv with the genomic position of the best hits of the genes in the database.
+One result of interest for our purposes are the full_table.tsv with the genomic position of the best hits of the genes in the database.
 
 ```
 head ~/Share/synteny/busco_out_summary/full_table.tsv
 ```
-BUSCO also output the nucleotide and protein sequences of the potential genes. We will use the single_copy_busco_sequences in the next step.
+BUSCO also output the nucleotide and protein sequences of the potential single copy genes. We will use the single_copy_busco_sequences in the next step.
 
 ### 5 - OrthoFinder
-We will use the single copy sequences from BUSCO to get the orthogroups from [orthofinder](https://github.com/davidemms/OrthoFinder ). OrthoFInder uses different programs for detecting sequence similarities and cluster genes together in orthogroups or gene families.It is using phylogenetic information to distinguish between orthologs and paralogs.
+We will use the single copy sequences from BUSCO to get the orthogroups from [orthofinder](https://github.com/davidemms/OrthoFinder ). OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs.
 
 Input for orthofinder are multi-fasta files, one for each taxa that we will concatenate from the single copy sequences from the busco output.
 ```

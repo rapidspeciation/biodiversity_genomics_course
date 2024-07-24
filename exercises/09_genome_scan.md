@@ -66,11 +66,10 @@ gunzip Mechanitis.Fst.Dxy.pi.csv.gz
 Then we can start plotting:
 
 ```r
-rm(list = ls())
 
 # Prepare input files:
 # Read in the file with sliding window estimates of FST, pi and dxy
-windowStats<-read.csv("Mechanitis_fd.csv",header=T)
+windowStats<-read.csv("Mechanitis.Fst.Dxy.pi.csv",header=T)
 
 # Read in the fd estimates of 20 kb windows for NyerMak into NyerPyt (P1=PundPyt, P2=NyerPyt, P3=NyerMak, outgroup=Kivu cichlid)
 fd<-read.csv("Mechanitis_fd.csv",header=T,na.strings = "NaN")
@@ -82,7 +81,7 @@ head(fd)
 # Let's plot FST, dxy and fd between the two younger species
 require(ggplot2)
 fst<-ggplot(windowStats,aes(mid,Fst_polymnia_lysimnia))+geom_point()
-dxy<-ggplot(windowStats,aes(mid,Dxy_polymnia_lysimnia))+geom_point()
+dxy<-ggplot(windowStats,aes(mid,dxy_polymnia_lysimnia))+geom_point()
 fd<-ggplot(fd,aes(mid,fd))+geom_point()
 
 # Let's compare the stats on chr9 next to each other
