@@ -46,35 +46,35 @@ Day 5:
 - Genomic evidence reveals three W-autosome fusions in Heliconius butterflies [Rueda et al. 2024](Papers/Rueda_et_al-24-PlosGenetics.pdf)
 
 ### Papers or Manuals for some of the tools mentioned in this course:
-- Arima-HiC Mapping Pipeline (Papers/Arima_Mapping_UserGuide_A160156_v02.pdf)
+- Arima-HiC Mapping Pipeline [] (Papers/Arima_Mapping_UserGuide_A160156_v02.pdf)
 - Tutorial on ASTRAL [Mirarab, et al] (Papers/Species_tree_Astral-tutorial.pdf)
-- DensiTree Manual: Making sense of sets of trees [Bouckaert, et_al 2014](Paper/DensiTree_Manual.v2.2.pdf)
+- DensiTree Manual: Making sense of sets of trees [Bouckaert, et_al 2014](Papers/DensiTree_Manual.v2.2.pdf)
 - Local PCA Shows How the Effect of Population Structure Differs Along the Genome [Li, et al., 2019](Papers/Li, 2019. Local PCA Shows How the Effect of Population-lostruct.pdf)
 - The Sequence Alignment/Map format and SAMtools [Li, et al., 2019](Papers/Li, H. 2009. The Sequence Alignment_Map format and SAMtools.pdf)
 - Dsuite - Fast D-statistics and related admixture evidence from VCF files [Malinsky, et al., 2020](Papers/Malinsky, 2020_Dsuite.pdf)
-- Sequence Alignment/Map Format Specification (Papers/Sequence_Alignment/Map_Format_Specification.pdf)
+- Sequence Alignment/Map Format Specification [] (Papers/Sequence_Alignment/Map_Format_Specification.pdf)
 
 ### Reviews on phylogenomics
-- Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS)
+- Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS.pdf)
 - Phylogenetic tree building in the genomic age [Kapli, et al., 2020](Papers/Kapli_phylogenomics_in_genomic_era.pdf)
-- Genetic Terminology [Elston, et al 2012](Paper/Elston, 2012. Genetic Terminology.pdf)
+- Genetic Terminology [Elston, et al 2012](Paper/Elston_2012_Genetic_Terminology.pdf)
 
 ### Reviews on speciation
 - What does Drosophila genetics tell us about speciation? [Mallet, J., 2006](Papers/Mallet,J_2006_speciation.pdf)
 - Defining the speciation continuum. [Stankowski, et al., 2021](Papers/Stankowski_etal,2021_Defining_the_speactiation_continuum.pdf)
 
 ### Reviews or Examples about introgression
-- Phylogenomic approaches to detecting and characterizing introgression [Hibbins, et al., 2022](Papers/Hibbins, M. 2021. Phylogenomic approaches to detecting and characterizing.pdf)
+- Phylogenomic approaches to detecting and characterizing introgression [Hibbins, et al., 2022](Papers/Hibbins_M._2021._Phylogenomic_approaches_to_detecting_and_characterizing)
 - Evaluating the Use of ABBA–BABA Statistics to Locate Introgressed Loci [Martin, et al., 2015](Papers/Martin_etal_2015_Evaluating_Use_ABBA–BABA_Statistics.pdf)
 
 ### Introduction to Unix
-- Introduction to the Unix Command Line [Dowling, et al., 2019](Papers/Introduction unix command-may2019.pdf)
+- Introduction to the Unix Command Line [Dowling, et al., 2019](Papers/Introduction_unix_command-may2019.pdf)
 
 ### Reviews or examples on Chromosome rearrangements
 -Chromosomal rearrangements and speciation. [Rieseberg, et al., 2021](Papers/Rieseberg,etal.,_2001_Chromosomal_rearrangement_and_speciation.pdf)
 
 ### Review on next-generation sequencies technologies
-- Next-Generation Sequencing Technology: Current Trends and Advancements [Satam, et al., 2023](Papers/Satam_et al_2024_Next_generation_sequencing.pdf)
+- Next-Generation Sequencing Technology: Current Trends and Advancements [Satam, et al., 2023](Papers/Satam_et_al_2024_Next_generation_sequencing.pdf)
 
 
 
