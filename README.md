@@ -67,7 +67,7 @@ Day 5:
 ### Reviews or Examples about introgression
 - Phylogenomic approaches to detecting and characterizing introgression [Hibbins, et al., 2022](Papers/Hibbins_M._2021._Phylogenomic_approaches_to_detecting_and_characterizing)
 - Evaluating the Use of ABBA–BABA Statistics to Locate Introgressed Loci [Martin, et al., 2015](Papers/Martin_etal_2015_Evaluating_Use_ABBA–BABA_Statistics.pdf)
-- The genetic consequences of hybridization [Moran, et al., 2021](Papers/The genomic_consequences_of_hybridization.pdf)
+- The genetic consequences of hybridization [Moran, et al., 2021](Papers/The_genomic_consequences_of_hybridization.pdf)
 
 ### Introduction to Unix
 - Introduction to the Unix Command Line [Dowling, et al., 2019](Papers/Introduction_unix_command-may2019.pdf)
