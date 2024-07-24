@@ -65,9 +65,9 @@ mafft --auto input/OG0000041.fa > output/OG0000041.msa.fa
 ```
 Take a look
 ```
-less output/OG0000036.fa
+less output/OG0000041.msa.fa
 ```
-We should now have an aligned sequence. There are now inserted dashes in the sequence file as representation of gaps between the alignments. The alignments can be visualised in softwares like Bioedit, MEGA or AliView, and edited if needed.
+We should now have an aligned sequence. There are now inserted dashes (-) in the sequence file as representation of gaps between the alignments. The alignments can be visualised in softwares like Bioedit, MEGA or AliView, and edited if needed.
 
 Run mafft for all ten files in a for-loop
 ```
