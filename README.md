@@ -32,26 +32,27 @@ Day 4:
 Day 5:
 - Slides on comparative genomics
 - [Exercise](exercises/Synteny.md) on macrosynteny
+- [Exercise](exercises/11_gene_trees.md) on using BUSCO genes for phylogenomics
 
 
 ##
 ## Publications we recommend:
 
 ### Reviews on biodiversity genomics:
-- How genomics can help biodiversity conservation [Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
-- Genomics and the origin of species [Seehausen et al. 2015](Papers/Seehausen_et_al-15-NatRevGenet.pdf)
+- How genomics can help biodiversity conservation [Theissinger et al., 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
+- Genomics and the origin of species [Seehausen et al., 2015](Papers/Seehausen_et_al-15-NatRevGenet.pdf)
 
 ### Publications related to the examples in the course:
 - Genomics of Neotropical biodiversity indicators: two butterfly radiations with rampant chromosomal rearrangements and hybridisation [van der Heijden et al. 2024](Papers/vanDerHeijden_et_al-2025-Biorxiv.pdf)
-- Genomic evidence reveals three W-autosome fusions in Heliconius butterflies [Rueda et al. 2024](Papers/Rueda_et_al-24-PlosGenetics.pdf)
+- Genomic evidence reveals three W-autosome fusions in Heliconius butterflies [Rueda et al., 2024](Papers/Rueda_et_al-24-PlosGenetics.pdf)
 
 ### Manuals for some of the additional tools mentioned in this course:
 - Arima-HiC Mapping [Pipeline](Papers/Arima_Mapping_UserGuide_A160156_v02.pdf)
-- Tutorial on ASTRAL [Mirarab, et al](Papers/Species_tree_Astral-tutorial.pdf)
-- DensiTree Manual: Making sense of sets of trees [Bouckaert, et_al 2014](Paper/DensiTree_Manual.v2.2.pdf)
+- Tutorial on ASTRAL [Mirarab et al](Papers/Species_tree_Astral-tutorial.pdf)
+- DensiTree Manual: Making sense of sets of trees [Bouckaert et al., 2014](Paper/DensiTree_Manual.v2.2.pdf)
 
 ### Reviews on phylogenomics
-- Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS)
+- Phylogenomics and the reconstruction of the tree of life [Delsuc et al., 2005](Papers/Delsuc, F.etal.2005_PHYLOGENOMICS)
 
 ### Reviews on speciation
-- What does Drosophila genetics tell us about speciation? [Mallet, J., 2006](Paper/Mallet,J_2006_speciation.pdf)
+- What does Drosophila genetics tell us about speciation? [Mallet, 2006](Paper/Mallet,J_2006_speciation.pdf)
