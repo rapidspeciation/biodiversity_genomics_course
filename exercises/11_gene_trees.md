@@ -140,7 +140,7 @@ Assess branch support using bootstrapping. Bootstrapping uses resampling with re
 We can specify the best model from the last run. We also have to specify a new prefix otherwise iqtree will raise an error to avoid overwriting files.
 
 ```shell
-iqtree -s  ../trimal/output/OG0000041.msa.renamed.fa -m HKY+F+G4 -B 1000 --prefix output/OG0000041_bs1000
+iqtree -s  ../trimal/output/OG0000041.msa_trimmed.fa -m HKY+F+G4 -B 1000 --prefix output/OG0000041_bs1000
 ```
 Check the bootstrap support values in the output/OG0000041_bs1000.iqtree.
 
