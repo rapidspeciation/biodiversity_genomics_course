@@ -50,11 +50,11 @@ The genomes can be accessed on ncbi, Mechanitis mazaeus and Mechanitis messenoid
 wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/959/347/395/GCA_959347395.1_ilMecMaza1.1/GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz
 
 #Check that the file looks ok
-zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz |head
+zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz | head
 
 #check how many chromosomes and scaffolds there are by grepping the fasta header, which always starts with a >
 #very important to use quotes around the >
-zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz |grep ">"
+zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz | grep ">"
 
 ```
 Now do the same for *M. messenoides*. Do you think there are any rearrangements between these genomes?
@@ -67,10 +67,10 @@ GENOME=GCA_959347395.1_ilMecMaza1.1_genomic.fna
 TAXA_NAME=ilMecMaza1
 
 #make a tab separated key-value file with the old seq name and the new seq name
-zcat ${GENOME}.gz |grep ">" | awk -v taxa_name=$TAXA_NAME '{print $0"\t"taxa_name"_"$7 }' |tr -d ">" > ../list_chr_names_$TAXA_NAME.txt
+zcat ${GENOME}.gz | grep ">" | awk -v taxa_name=$TAXA_NAME '{print $0"\t"taxa_name"_"$7}' | tr -d ">" > ../list_chr_names_$TAXA_NAME.txt
 
 #run seqkit
-zcat ${GENOME}.gz |seqkit replace -p "(.+)" -r '{kv}' -k ../list_chr_names_$TAXA_NAME.txt - > ${GENOME%.*}_renamed.fa
+zcat ${GENOME}.gz | seqkit replace -p "(.+)" -r '{kv}' -k ../list_chr_names_$TAXA_NAME.txt - > ${GENOME%.*}_renamed.fa
 
 #check the fasta headers, remember the qoutes ">"!
 grep ">" ${GENOME%.*}_renamed.fa
@@ -78,7 +78,7 @@ grep ">" ${GENOME%.*}_renamed.fa
 Options in `seqkit`
 `-p` pattern
 `-r` replacement
-`'{kv}'` key - value 
+`'{kv}'` key - value
 
 
 Do the same for *M. messenoides*.
@@ -98,9 +98,9 @@ pwd
 #if not go there
 cd ~/synteny/
 #make a directory for minimap
-mkdir minimap 
+mkdir minimap
 cd minimap
-#make directories for the output and for log-files 
+#make directories for the output and for log-files
 mkdir output log
 ```
 
@@ -125,7 +125,7 @@ cp ~/Share/synteny/MecMaza_MecMess.paf output/
 head output/MecMaza_MecMess.paf
 
 ```
-This file have a lot of columns. The important ones for us right now are the query and ref sequence names and length for each alignment, start and end of alignment, strand, gaps, total aligned bases, mapping quality. To interpret the output this site is informative: [paf](https://github.com/lh3/miniasm/blob/master/PAF.md). 
+This file have a lot of columns. The important ones for us right now are the query and ref sequence names and length for each alignment, start and end of alignment, strand, gaps, total aligned bases, mapping quality. To interpret the output this site is informative: [paf](https://github.com/lh3/miniasm/blob/master/PAF.md).
 It is hard to directly interpret the output from the table so we need additional tools for exploring the results.
 
 ### 3 - Visualise in R SyntenyPlotteR
@@ -146,7 +146,7 @@ cd syntenyplotter
 mkdir intermediate plots
 
 ```
-Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory. 
+Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
 ```shell
 #copy the script from the Share folder
 cp  ~/Share/synteny/Syntenyplotter_paf_wrapper.R ./
@@ -166,14 +166,14 @@ The order of the arguments is important in this case.
 scp -r -i user1.pem  user1@35.161.175.22:~/synteny/syntenyplotter/ ./
 #go into the syntenyplotter folder
 cd syntenyplotter/
-#check 
+#check
 ls
 #run the script
 Rscript Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
 Your alignment plot should now be in your `plots` directory. Describe what you see. Can you answer some of the questions we asked in the beginning?
 
-If you want you can add the variables directly in the script (hardcode). The hardcoding could be useful if running your own genomes with a different formatting of the sequence (chromosome) names, the script is taylored for chromosome names in the format string_number or just a number. 
+If you want you can add the variables directly in the script (hardcode). The hardcoding could be useful if running your own genomes with a different formatting of the sequence (chromosome) names, the script is taylored for chromosome names in the format string_number or just a number.
 
 **Extra**: Sometimes you need to refine to plot to increase the visibilty of the rearrangements to facilitate interpretation. For example, I want the Z-chromosome to be displayed last in both taxa. Try and change the order of the chromosomes in the plot.
 
@@ -248,7 +248,7 @@ cd orthofinder
 orthofinder -h
 ```
 
-Do not run the next section, we already have the files prepared in the `Share/synteny`folder. But I am adding the commands here that we used to create these files, so you can see how it was done. 
+Do not run the next section, we already have the files prepared in the `Share/synteny`folder. But I am adding the commands here that we used to create these files, so you can see how it was done.
 
 ```shell
 #make a list of the busco runs that we want to include
@@ -265,7 +265,7 @@ done
 #check that we have the files
 ls
 ```
-This is what we will do: 
+This is what we will do:
 ```
 #we will copy the sequences from the Share folder
 cp ~/Share/synteny/busco/busco_sco_cat/*fa ./
@@ -338,7 +338,7 @@ cp ../genomes/*.fai ./
 #copy the link file
 cp ../orthofinder/single_copy_orthogroups.tsv ./
 #check that we have our files
-ls 
+ls
 
 #make a directory for the plot
 mkdir plots
@@ -391,7 +391,7 @@ sco.df <- read.csv(CHAIN_FILE, sep = "\t", header = F)
 sco.df
 
 #convert to long format and split columns
-sco_long.df <- 
+sco_long.df <-
     tidyr::pivot_longer(sco.df, cols = c(V2:V5)) %>%
     separate(value, into = c("marker", "position", "strand"), sep = "\\|") %>%
     separate(position, into = c("taxa_id", "chr", "start_end"), sep = "_") %>%
@@ -400,30 +400,30 @@ sco_long.df <-
 ```
 Now we need to prepare the input for circos.
 
-```r 
+```r
 sco_long.df$seq_id <- paste(sco_long.df$taxa_id, sco_long.df$chr, sep = "_" )
 
 
-chr_length.df <- rbind(read.table(REF_FAI)[,1:2], 
+chr_length.df <- rbind(read.table(REF_FAI)[,1:2],
                        read.table(QUERY_FAI)[,1:2])
 colnames(chr_length.df) <- c("seq_id", "chr_length")
 
 
 #select taxa and filter
-map_seq <- 
+map_seq <-
   sco_long.df %>%
   filter(taxa_id %in% c(TAXA_1, TAXA_2))
 map_seq <- as.data.frame(map_seq)
 
 #remove na
-map_seq <- 
+map_seq <-
   map_seq %>%
   na.omit()
 
 #keep only genes present in both
 map_seq <- subset(map_seq, marker %in% Reduce(intersect, split(map_seq$marker, map_seq$taxa_id)))
 
-#order file after ref so markers are in the same order in the chain files 
+#order file after ref so markers are in the same order in the chain files
 map_seq <-
   map_seq %>%
   mutate(taxa_id, taxa_id=as.factor(taxa_id)) %>%
@@ -481,13 +481,13 @@ Finally time for the actual plotting
 ```r
 #run circos
 #make the image
-pdf(paste("plots/circos", taxa_1, taxa_2, Sys.Date(),".pdf", sep = "")) 
-#png(paste("plots/circos", taxa_1, taxa_2, Sys.Date(),".png", sep = "")) 
+pdf(paste("plots/circos", taxa_1, taxa_2, Sys.Date(),".pdf", sep = ""))
+#png(paste("plots/circos", taxa_1, taxa_2, Sys.Date(),".png", sep = ""))
 
 circos.clear()
 circos.par(cell.padding = c(0.02, 0, 0.02, 0))
-circos.initialize(factors=unique(map_seq$seq_id), 
-xlim=matrix(c(rep(0, length(unique(map_seq$seq_id))), unique(map_seq$chr_length)), 
+circos.initialize(factors=unique(map_seq$seq_id),
+xlim=matrix(c(rep(0, length(unique(map_seq$seq_id))), unique(map_seq$chr_length)),
             ncol=2))
 
 #The xlim matrix defines the start and stop for each genome/chr. Essentially the genome or chr sizes.
@@ -511,5 +511,3 @@ circos.genomicLink(chain_circ_ref[,1:4], chain_circ_query, col=anc_col)
 dev.off()
 ```
 Your alignment plot should now be in your `plots` directory. Take a look, and describe what you see. Can you answer some of the questions we asked in the beginning? Are there any differences compared to the whole genome alignment we did with Minimap2/SyntenyPlotteR?
-
-
