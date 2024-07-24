@@ -32,6 +32,8 @@ Day 4:
 Day 5:
 - Slides on comparative genomics
 - [Exercise](exercises/Synteny.md) on macrosynteny
+- Slides on phylogenomics with BUSCO genes
+- [Exercise](exercises/11_gene_trees.md) on phylogenomics with BUSCO genes
 
 
 ##
