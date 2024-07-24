@@ -56,11 +56,11 @@ mkdir input output
 ```shell
 #copy ten of the genes from orthofinder single copy sequences to our input (here all that starts with OG000004), before copying check how many:
 
-ls orthofinder/OrthoFinder/Results_Jul25/Single_Copy_Orthologue_Sequences/OG000004*
+ls ../OrthoFinder/Results_Jul24/Single_Copy_Orthologue_Sequences/OG000004*
 
-# Note, the exact folder name "Results_Jul25" will be different if you run it on another day
+# Note, the exact folder name "Results_Jul24" will be different if you run it on another day
 #if ok then copy
-cp orthofinder/OrthoFinder/Results_Jul25/Single_Copy_Orthologue_Sequences/OG000004* input/
+cp ../OrthoFinder/Results_Jul24/Single_Copy_Orthologue_Sequences/OG000004* input/
 
 #run mafft on one fasta file to see if it works
 mafft --auto input/OG0000041.fa > output/OG0000041.msa.fa
