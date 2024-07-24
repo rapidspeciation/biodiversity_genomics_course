@@ -28,6 +28,9 @@ Day 4:
 - [Exercise](exercises/08_Dstatistics.md) on Dstatistics to infer introgression using Dsuite
 - [Slides](slide_presentations/10_Genome_scans.pdf) on genome scans
 - [Exercise](exercises/09_genome_scan.md) on genome scans
+
+Day 5:
+- Slides on comparative genomics
 - [Exercise](exercises/Synteny.md) on macrosynteny
 
 
