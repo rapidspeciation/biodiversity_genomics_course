@@ -170,7 +170,7 @@ cd syntenyplotter/
 #check
 ls
 #run the script
-Rscript Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
+Rscript Syntenyplotter_paf_wrapper.R MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
 Your alignment plot should now be in your `plots` directory. Describe what you see. Can you answer some of the questions we asked in the beginning?
 
