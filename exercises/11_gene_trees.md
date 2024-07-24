@@ -20,8 +20,6 @@ cd
 mkdir gene_trees
 cd gene_trees
 
-#mkdir orthofinder
-
 cp ~/Share/gene_trees/input_orthofinder/*.fa ./
 
 ls
