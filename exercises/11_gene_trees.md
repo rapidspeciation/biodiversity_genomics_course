@@ -20,8 +20,6 @@ cd
 mkdir gene_trees
 cd gene_trees
 
-#mkdir orthofinder
-
 cp ~/Share/gene_trees/input_orthofinder/*.fa ./
 
 ls
@@ -56,11 +54,11 @@ mkdir input output
 ```shell
 #copy ten of the genes from orthofinder single copy sequences to our input (here all that starts with OG000004), before copying check how many:
 
-ls orthofinder/OrthoFinder/Results_Jul25/Single_Copy_Orthologue_Sequences/OG000004*
+ls ../OrthoFinder/Results_Jul24/Single_Copy_Orthologue_Sequences/OG000004*
 
-# Note, the exact folder name "Results_Jul25" will be different if you run it on another day
+# Note, the exact folder name "Results_Jul24" will be different if you run it on another day
 #if ok then copy
-cp orthofinder/OrthoFinder/Results_Jul25/Single_Copy_Orthologue_Sequences/OG000004* input/
+cp ../OrthoFinder/Results_Jul24/Single_Copy_Orthologue_Sequences/OG000004* input/
 
 #run mafft on one fasta file to see if it works
 mafft --auto input/OG0000041.fa > output/OG0000041.msa.fa
@@ -92,7 +90,7 @@ mkdir trimal
 mkdir output log
 ls ../mafft/output/ > list_trimal_input.txt
 for FILE in $(cat list_trimal_input.txt)
- do ../../../ubuntu/src/conda/bin/trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -sgt -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
+ do trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -sgt -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
 done
 
 #check removal
@@ -140,7 +138,7 @@ Assess branch support using bootstrapping. Bootstrapping uses resampling with re
 We can specify the best model from the last run. We also have to specify a new prefix otherwise iqtree will raise an error to avoid overwriting files.
 
 ```shell
-iqtree -s  ../trimal/output/OG0000041.msa.renamed.fa -m HKY+F+G4 -B 1000 --prefix output/OG0000041_bs1000
+iqtree -s  ../trimal/output/OG0000041.msa_trimmed.fa -m TN+F+I -B 1000 --prefix output/OG0000041_bs1000
 ```
 Check the bootstrap support values in the output/OG0000041_bs1000.iqtree.
 
@@ -198,7 +196,7 @@ library(dplyr)
 library(ggdensitree)
 
 #read in the species tree, in newick format
-tree <- read.tree("output/concord.cf.tree")
+tree <- read.tree("concord.cf.tree")
 
 #create the plot
 concat_tree <-
