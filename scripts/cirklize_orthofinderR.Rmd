@@ -1,0 +1,181 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+---title: "circos"
+author: "Karin Näsvall"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r circos}
+#plot circos plot from unfiltered output of busco (full_table.tsv) and chr length info from .fai
+
+library(circlize)
+library(dplyr)
+library(tidyr)
+library(gtools)
+
+```
+
+```{bash}
+#filter output from OrthoFinder
+grep -f Orthogroups_SingleCopyOrthologues.txt Orthogroups.tsv > single_copy_markers.tsv
+```
+
+
+```{r variables}
+#ref taxa
+TAXA_1 <- "ilMecMaza1"
+#for plotting
+NAME_REF <- "Mechanitis mazaeus" #for plotting
+#chromosome length file from samtools faidx
+REF_FAI <- "GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa.fai"
+
+#query TAXA
+TAXA_2 <- "ilMecMess1"
+NAME_QUERY <- "Mechanitis messenoides" #for plotting
+QUERY_FAI <- "GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa.fai"
+
+
+CHAIN_FILE <- "single_copy_orthogroups.tsv"
+
+#obs create an output directory named `plots`
+```
+
+```{r data}
+#read in the data
+sco.df <- read.csv(CHAIN_FILE, sep = "\t", header = F)
+
+#check
+sco.df
+
+#convert to long format and split columns
+sco_long.df <- 
+    tidyr::pivot_longer(sco.df, cols = c(V2:V5)) %>%
+    separate(value, into = c("marker", "position", "strand"), sep = "\\|") %>%
+    separate(position, into = c("taxa_id", "chr", "start_end"), sep = "_") %>%
+    separate(start_end, into = c("start", "end"), sep = "-", convert = T) %>%
+    select(-c(V1, name))
+
+
+```
+
+
+```{r taxa_selection_prep}
+sco_long.df$seq_id <- paste(sco_long.df$taxa_id, sco_long.df$chr, sep = "_" )
+
+
+chr_length.df <- rbind(read.table(REF_FAI)[,1:2], 
+                       read.table(QUERY_FAI)[,1:2])
+colnames(chr_length.df) <- c("seq_id", "chr_length")
+
+
+#select taxa and filter
+map_seq <- 
+  sco_long.df %>%
+  filter(taxa_id %in% c(TAXA_1, TAXA_2))
+map_seq <- as.data.frame(map_seq)
+
+#remove na
+map_seq <- 
+  map_seq %>%
+  na.omit()
+
+#keep only genes present in both
+map_seq <- subset(map_seq, marker %in% Reduce(intersect, split(map_seq$marker, map_seq$taxa_id)))
+
+#order file after ref so markers are in the same order in the chain files 
+map_seq <-
+  map_seq %>%
+  mutate(taxa_id, taxa_id=as.factor(taxa_id)) %>%
+  arrange(taxa_id, forcats::fct_inorder(marker))
+
+#create chain files, keep the order so that the lines will end up in right place
+chain_circ_ref <- map_seq[map_seq$taxa_id==TAXA_1, c("seq_id", "start", "end", "marker") ]
+chain_circ_query <- map_seq[map_seq$taxa_id==TAXA_2, c("seq_id", "start", "end", "marker") ]
+
+#order chromosomes and taxa, map_seq table determines order, optional
+#reorder after chr number
+sub_ref <- map_seq[map_seq$taxa_id==TAXA_1,]
+sub_ref <- sub_ref[mixedorder(sub_ref$seq_id),]
+
+#reorder after reverse chr number in query
+sub_query <- map_seq[map_seq$taxa_id==TAXA_2,]
+sub_query <- sub_query[mixedorder(sub_query$seq_id, decreasing = T),]
+
+#merge again with query first to ordered map_seq
+map_seq <- rbind(sub_query, sub_ref)
+
+#add chr length
+map_seq <- left_join(map_seq, chr_length.df)
+```
+
+
+```{r set_colours}
+#set the colour vector after ref chromosomes
+synt_col <- rev(as.vector(c(pals::kelly(),pals::polychrome()))[1:c(length(unique(sub_ref$seq_id)))])
+
+#change grey
+synt_col[13] <- "#2B4E00"
+synt_col[14] <- "#222222"
+
+
+#make df
+synt_col.df <- data.frame(seq_id=c(unique(sub_ref$seq_id)), synt_col=synt_col)
+
+#merge with the ref df
+chain_circ_ref <- left_join(chain_circ_ref, synt_col.df)
+
+#text colour
+col_text <- "black"
+
+#colour of the chr blocks representing the chromosomes
+block_col <- alpha(c(rep("goldenrod1", length(unique(map_seq[map_seq$taxa_id==TAXA_2, "seq_id"]))),
+                   rep("royalblue1", length(unique(map_seq[map_seq$taxa_id==TAXA_1, "seq_id"])))),
+                   alpha = 0.8)
+#link colours
+anc_col <- alpha(chain_circ_ref$synt_col, alpha = 0.2)
+```
+
+
+```{r run_circos}
+#make the image
+pdf(paste("plots/circos", TAXA_1, TAXA_2, Sys.Date(),".pdf", sep = "")) 
+#png(paste("plots/circos", TAXA_1, TAXA_2, Sys.Date(),".png", sep = "")) 
+
+circos.clear()
+circos.par(cell.padding = c(0.02, 0, 0.02, 0))
+circos.initialize(factors=unique(map_seq$seq_id), 
+xlim=matrix(c(rep(0, length(unique(map_seq$seq_id))), unique(map_seq$chr_length)), 
+            ncol=2))
+
+#The xlim matrix defines the start and stop for each genome/chr. Essentially the genome or chr sizes.
+
+circos.track(ylim=c(0, 1), panel.fun=function(x, y) {
+chr=gsub(".*_", "", CELL_META$sector.index)
+xlim=CELL_META$xlim
+ylim=CELL_META$ylim
+circos.text(x=mean(xlim), y=mean(ylim), labels = chr,
+            cex=0.6, col=col_text, facing="bending.inside", niceFacing=TRUE)
+}, bg.col=block_col, bg.border=F, track.height=0.06)
+
+circos.text(sector.index = paste(TAXA_1,(round(length(unique(chain_circ_ref$seq_id))/2,0) -1), sep = "_"),
+            x=0,y=0,adj=c(0.05,-2.4),labels=NAME_REF,facing="bending.inside", font = 3)
+circos.text(sector.index = paste(TAXA_2,(round(length(unique(chain_circ_query$seq_id))/2,0) -2), sep = "_"),
+            x=0,y=0,adj=c(0.3, 3),labels=NAME_QUERY,facing="bending.outside", font = 3)
+
+# rearrangements
+circos.genomicLink(chain_circ_ref[,1:4], chain_circ_query, col=anc_col)
+
+dev.off()
+
+
+```
+
