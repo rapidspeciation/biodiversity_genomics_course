@@ -45,6 +45,11 @@ https://thebgacademy.org
 28 October - 1 November: Online, free conference on biodiversity genomics across all time zones: 
 https://www.biodiversitygenomicsconference.org
 
+### Physalia courses
+[Physalia courses](https://www.physalia-courses.org/) offers lots of great courses on genomics, bioinformatics, and related fields. The [Speciation Genomics](https://speciationgenomics.github.io/) course was a course taught via Physalia.
+
+### Speciation genomics course website
+https://speciationgenomics.github.io/ contains many more tutorials, including topics not covered here, such as demographic modeling, haplotype-based tests for selection, advanced unix and R tutorials, simulating data with SliM, etc.
 
 ##
 ## Publications we recommend:
