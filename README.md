@@ -78,6 +78,9 @@ https://speciationgenomics.github.io/ contains many more tutorials, including to
 - Accurate, scalable and integrative haplotype estimation (SHAPEIT4) [Delaneau, et al., 2019](Papers/Accurate_scalable_and_integrative_haplotype_estimation.pdf)
 - WhatsHap: Weighted Haplotype Assembly for Future-Generation Sequencing Reads [Patterson, et al., 2015](Papers/WhatsHap.pdf)
 - Modern technologies and algorithms for scaffolding assembled genomes [Ghurye, et al., 2019](Papers/Modern_technologies_and_algorithms_for_scaffolding_assembled_genomes.pdf)
+- BUSCO Update: Novel and Streamlined Workflows along with Broader and Deeper Phylogenetic Coverage for Scoring of Eukaryotic, Prokaryotic, and Viral Genomes [Manni, et al., 2021](Papers/BUSCO_Update_Novel_and_Streamlined_Workflows.pdf)
+- OrthoFinder and recap on orthologs and paralogs [github.com/davidemms/OrthoFinder](https://github.com/davidemms/OrthoFinder)
+- IQtree manual [iqtree.org](http://www.iqtree.org/doc/Home)
 
 ### Reviews on phylogenomics
 - Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc_F.etal.2005_PHYLOGENOMICS.pdf)
@@ -85,7 +88,6 @@ https://speciationgenomics.github.io/ contains many more tutorials, including to
 - Genetic Terminology [Elston, et al 2012](Paper/Elston_2012_Genetic_Terminology.pdf)
 - Phylogenomics reveals the evolutionary timing and pattern of butterflies and moths [Kawahara, et al 2019](Papers/kawahara_etal-2019_phylogenomic_reveals_evolutionary_timing_pattern_butterflies_and_moths)
 - A method for genome-wide genealogy estimation for thousands of samples [Speidel, et al., 2019](Papers/A_method_for_genome_wide_genealogy.pdf)
-- BUSCO Update: Novel and Streamlined Workflows along with Broader and Deeper Phylogenetic Coverage for Scoring of Eukaryotic, Prokaryotic, and Viral Genomes [Manni, et al., 2021](Papers/BUSCO_Update_Novel_and_Streamlined_Workflows.pdf)
 
 ### Reviews on speciation
 - What does Drosophila genetics tell us about speciation? [Mallet, J., 2006](Papers/Mallet,J_2006_speciation.pdf)
