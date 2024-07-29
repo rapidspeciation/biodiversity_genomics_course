@@ -36,6 +36,15 @@ Day 5:
 - [Exercise](exercises/11_gene_trees.md) on phylogenomics with BUSCO genes
 - [Slides](slide_presentations/13_Course_Summary.pdf) summarising the course and giving some suggestions for further learning
 
+## Learning more
+### Biodiversity Genomics Academy
+Free to attend, fully online tutorials about genome assembly, curation and annotation, comparative genomics and more. The next session will be in October and all tutorials of last year are available on Youtube/GitPod:
+https://thebgacademy.org
+
+### Biodiversity Genomics Conference
+28 October - 1 November: Online, free conference on biodiversity genomics across all time zones: 
+https://www.biodiversitygenomicsconference.org
+
 
 ##
 ## Publications we recommend:
