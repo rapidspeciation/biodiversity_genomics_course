@@ -30,7 +30,7 @@ Day 4:
 - [Exercise](exercises/09_genome_scan.md) on genome scans
 
 Day 5:
-- Slides on comparative genomics
+- [Slides](slide_presentations/11_Comparative%20genomics.pdf) on comparative genomics
 - [Exercise](exercises/Synteny.md) on macrosynteny
 - [Slides](slide_presentations/12_Phylogenomics.pdf) on phylogenomics with BUSCO genes
 - [Exercise](exercises/11_gene_trees.md) on phylogenomics with BUSCO genes
