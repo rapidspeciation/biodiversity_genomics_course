@@ -1,5 +1,5 @@
 # Welcome to the Biodiversity Genomics course
-## held in Mendoza, Argentina [website]([https://www.ikiam.edu.ec](https://biodiversitygenomicslatam.weebly.com/) in November 2025
+## held in Mendoza, Argentina [website](https://biodiversitygenomicslatam.weebly.com/) in November 2025
 For the course taught at IKIAM University in Tena, Ecuador, see the folder 2024
 
 This course is taught by Karin Näsvall, Nicol Rueda, Fernando Seixas, and Joana Meier from the [Wellcome Sanger Institute](https://www.sanger.ac.uk/group/meier-group/) and by Melisa Olave (CONICET, Argentina).
