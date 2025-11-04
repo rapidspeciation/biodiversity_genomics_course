@@ -100,9 +100,9 @@ If you have UCE (ultra-conserved elements) data, have a look at this [website](h
 ### Reviews on phylogenomics
 - Phylogenomics and the reconstruction of the tree of life [Delsuc, et al., 2005](Papers/Delsuc_F.etal.2005_PHYLOGENOMICS.pdf)
 - Phylogenetic tree building in the genomic age [Kapli, et al., 2020](Papers/Kapli_phylogenomics_in_genomic_era.pdf)
-- Genetic Terminology [Elston, et al 2012](Paper/Elston_2012_Genetic_Terminology.pdf)
-- Phylogenomics reveals the evolutionary timing and pattern of butterflies and moths [Kawahara, et al 2019](Papers/kawahara_etal-2019_phylogenomic_reveals_evolutionary_timing_pattern_butterflies_and_moths)
-- A method for genome-wide genealogy estimation for thousands of samples [Speidel, et al., 2019](Papers/A_method_for_genome_wide_genealogy.pdf)
+- Genetic Terminology [Elston, et al 2012](Papers/Elston_2012_Genetic_Terminology.pdf)
+- Phylogenomics reveals the evolutionary timing and pattern of butterflies and moths [Papers/Kawahara, et al 2019](Papers/kawahara_etal-2019_phylogenomic_reveals_evolutionary_timing_pattern_butterflies_and_moths)
+- A method for genome-wide genealogy estimation for thousands of samples [Papers/Speidel, et al., 2019](Papers/A_method_for_genome_wide_genealogy.pdf)
 
 ### Reviews on speciation
 - What does Drosophila genetics tell us about speciation? [Mallet, J., 2006](Papers/Mallet,J_2006_speciation.pdf)
@@ -123,5 +123,5 @@ If you have UCE (ultra-conserved elements) data, have a look at this [website](h
 - Next-Generation Sequencing Technology: Current Trends and Advancements [Satam, et al., 2023](Papers/Satam_et_al_2024_Next_generation_sequencing.pdf)
 
 ### Population genomic diversity and divergence statistics
-- Patterns of Z chromosome divergence among Heliconius species highlight the importance of historical demography [Van Belleghem, et al., 2017](Van_Belleghem_2018_Patterns_of_z_chromosome.pdf)
-- Complex modular architecture around a simple toolkit of wing pattern genes [Van Belleghem, 2018](VanBelleghem_2017_Complex_modular_architecture_around_simple_toolkit_of_wing_pattern_genes.pdf)
+- Patterns of Z chromosome divergence among Heliconius species highlight the importance of historical demography [Van Belleghem, et al., 2017](Papers/Van_Belleghem_2018_Patterns_of_z_chromosome.pdf)
+- Complex modular architecture around a simple toolkit of wing pattern genes [Van Belleghem, 2018](Papers/VanBelleghem_2017_Complex_modular_architecture_around_simple_toolkit_of_wing_pattern_genes.pdf)
