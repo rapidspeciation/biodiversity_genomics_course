@@ -74,7 +74,7 @@ If you have UCE (ultra-conserved elements) data, have a look at this [website](h
 
 ### Introduction to Unix
 - Introduction to the Unix Command Line [Dowling, et al., 2019](Papers/Introduction_unix_command-may2019.pdf)
-- Unix and Perl Primer for Biologists [Bradnam, et al 2016](Unix_Perl.pdf)
+- Unix and Perl Primer for Biologists [Bradnam, et al 2016](Papers/Unix_Perl.pdf)
 
 ### Reviews on biodiversity genomics:
 - How genomics can help biodiversity conservation [Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
