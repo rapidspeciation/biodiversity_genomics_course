@@ -47,13 +47,6 @@ Advanced materials:
 
 
 ## Learning more
-### Biodiversity Genomics Academy
-Free to attend, fully online tutorials about genome assembly, curation and annotation, comparative genomics and more. The next session will be in October and all tutorials of last year are available on Youtube/GitPod:
-https://thebgacademy.org
-
-### Biodiversity Genomics Conference
-28 October - 1 November: Online, free conference on biodiversity genomics across all time zones:
-https://www.biodiversitygenomicsconference.org
 
 ### Physalia courses
 [Physalia courses](https://www.physalia-courses.org/) offers lots of great courses on genomics, bioinformatics, and related fields. The [Speciation Genomics](https://speciationgenomics.github.io/) course was a course taught via Physalia.
@@ -63,6 +56,10 @@ https://speciationgenomics.github.io/ contains many more tutorials, including to
 
 ### Speciation and population genomics workshop
 [Workshop website](https://evomics.org/workshops/workshop-on-population-and-speciation-genomics/2025-workshop-on-population-and-speciation-genomics-cesky-krumlov/) contains many useful tutorials that are quite advanced, including machine learning and pangenomics.
+
+### Biodiversity Genomics Conference
+28 October - 1 November 2024: Online, free conference on biodiversity genomics across all time zones:
+https://www.biodiversitygenomicsconference.org
 
 ### For RAD or UCE data
 If you have short-read data for only a subset of the genome because you used a reduced-representation technique (e.g. RAD or UCE), most of the tutorial will still be relevant. For RAD or UCE data you do not necessarily need a reference genome, unless you want to run the genome scans for finding regions with high differentiation or introgression.
