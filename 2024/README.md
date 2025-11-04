@@ -57,6 +57,9 @@ https://speciationgenomics.github.io/ contains many more tutorials, including to
 ### Speciation and population genomics workshop
 [Workshop website](https://evomics.org/workshops/workshop-on-population-and-speciation-genomics/2025-workshop-on-population-and-speciation-genomics-cesky-krumlov/) contains many useful tutorials that are quite advanced, including machine learning and pangenomics.
 
+### tidypopgen (R package for population genomics):
+[website](https://evolecolgroup.github.io/tidypopgen/index.html)
+
 ### Biodiversity Genomics Conference
 28 October - 1 November 2024: Online, free conference on biodiversity genomics across all time zones:
 https://www.biodiversitygenomicsconference.org
