@@ -91,7 +91,7 @@ is there a warning for the per-base sequence content graphs?
 is there a fail for the per sequence GC content graphs?
 
 ```shell
-# Remember that you can run `FastQC` on all files with a single command by specifying the path to the directory containing the reads: `/home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/`
+# Remember that you can run `FastQC` on all files with a single command by specifying the path to the directory containing the reads:
 mkdir fastqc_results_RADs
 fastqc -o ./fastqc_results_RADs/ /home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/*.fastq.gz
 
