@@ -74,11 +74,18 @@ mkdir fastqc_results
 fastqc -o ./fastqc_results/ /home/genomics/biodiversity_genomics_course/data/Heliconius/*.fastq.gz
 
 ```
+If you have many individuals, checking each HTML file manually can become very tedious. A better option is to run MultiQC. This program summarizes the results from FastQC (and other tools) into a single, interactive HTML report. To run it, navigate to the folder where the .html files are located and use the following command:
+
+```shell
+cd fastqc_results
+multiqc .
+
+```
 
 To visualize the HTML files, you need to download them from the cluster using the `scp` command on your local machine. For example:
 
 ```shell
-scp username@toko.uncu.edu.ar:/path/to/file/sample_fastqc.html ./
+scp username@toko.uncu.edu.ar:/path/to/file/multiqc_report.html ./
 
 ```
 
