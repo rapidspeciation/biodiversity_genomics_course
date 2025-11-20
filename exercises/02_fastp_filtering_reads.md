@@ -38,7 +38,6 @@ scp -r username@toko.uncu.edu.ar:/home/genomics/biodiversity_genomics_course/dat
 * -l 50: this specifies that if a read is shorter than 50 basepairs after all filters, it should be removed.
 * -h: specifies name for the html file with plots showing the read quality before and after filtering
 
-
 ### PolyG tail trimming
 This feature removes the polyG tails that arise from lack of signal in NextSeq/NovaSeq technologies. It is enabled for Nextseq/Novaseq data by default, and you can specify -g to enable it for any data, or specify -G to disable it.
 
@@ -60,5 +59,4 @@ To filter reads by its percentage of unqualified bases, two options should be pr
 RAD1.fastq.gz and RAD2.fastq.gz
 
 ```
-
 
