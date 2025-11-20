@@ -1,6 +1,6 @@
 ### fastq format
 
-Let's have a look at the first sequence from our raw read files which are stored in the [fastq format](https://en.wikipedia.org/wiki/FASTQ_format). As we saw in the [lecture](https://github.com/speciationgenomics/presentations/blob/master/Genome_assembly.pdf), each DNA sequence is composed of four lines. Therefore, we need to visualize the first four lines to have a look at the information stored for the first sequence.
+Let's have a look at the first sequence from our raw read files which are stored in the [fastq format]([https://en.wikipedia.org/wiki/FASTQ_format). As we saw in the (https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/03_Raw_sequences_and_quality_control.pdf), each DNA sequence is composed of four lines. Therefore, we need to visualize the first four lines to have a look at the information stored for the first sequence.
 
 First we set the name of the fastq file that we will work with as the variable `FILE`. Then, we copy that file to our directory. Finally, we will examine the first 4 lines. However, we cannot just directly write `head -4 $FILE` like we might with a normal text file because the fastq file is actually compressed. It is thus a binary file which cannot just be read. Luckily, there are many commands that can directly read binary files. Instead of `cat`, we use `zcat`, instead of `grep`, we use `zgrep`. If we want to use any other command, we need to read the file with `zcat` and then pipe the output into our command of choice such as `head` or `tail`.
 
@@ -12,7 +12,7 @@ cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
 FILE="wgs1.R1.fastq.gz"
-cp /workspace/biodiversity_genomics/data/Heliconius/$FILE ./
+cp /home/genomics/biodiversity_genomics_course/data/Heliconius/$FILE ./
 
 # Let's have a look at the first read:
 zcat $FILE | head -4
@@ -54,20 +54,35 @@ Let's run `fastqc` on our read subsets:
 fastqc $FILE
 ```
 
-We should now also run fastqc on the file or reverse reads. As we do not need copies of these files in all of your personal directories, we will just write the file names with the paths.
+We should now also run fastqc on the file of reverse reads. As we do not need copies of these files in all of your personal directories, we will just write the file names with the paths.
 
 `fastqc` allows an output directory with the `-o` flag. We will thus just work in our home directories and run `fastqc` giving the file name with its path and specifying the output folder as the current directory (i.e. `-o ./`).
 
 ```shell
 # Reverse reads
-FILE="wgs1.R2.fastq.gz"
-cp /workspace/biodiversity_genomics/data/Heliconius/$FILE ./
-fastqc $FILE
+fastqc -o ./ /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs1_R2.fastq.gz 
 
 
 ```
 
-In GitPod, you can directly visualise the html files by clicking on them. If you need to download the files from GitPod, click on the Download symbol on the top right. If you are not working on GitPod, use the command `scp` on your local machine.
+When working with multiple individuals, it is more efficient to run FastQC on all of them using a single command with a wildcard such as `*.fastq.gz`. This tells FastQC to process all files in the directory that end with `*.fastq.gz`.
+
+To save the results in a specific folder, you can first create the folder in your directory and then specify its path in the FastQC command.
+
+```shell
+# fastqc for all the .fastq.gz files in the folder
+mkdir fastqc_results
+fastqc -o ./fastqc_results/ /home/genomics/biodiversity_genomics_course/data/Heliconius/*.fastq.gz
+
+
+```
+
+To visualize the HTML files, you need to download them from the cluster using the `scp` command on your local machine. For example:
+
+```shell
+scp username@toko.uncu.edu.ar:/path/to/file/sample_fastqc.html ./
+
+```
 
 Here some [slides](https://github.com/speciationgenomics/presentations/blob/master/fastqc_interpretation.pdf) on interpreting fastqc html output.
 
