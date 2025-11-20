@@ -62,7 +62,6 @@ We should now also run fastqc on the file of reverse reads. As we do not need co
 # Reverse reads
 fastqc -o ./ /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs1_R2.fastq.gz 
 
-
 ```
 
 When working with multiple individuals, it is more efficient to run FastQC on all of them using a single command with a wildcard such as `*.fastq.gz`. This tells FastQC to process all files in the directory that end with `*.fastq.gz`.
@@ -73,7 +72,6 @@ To save the results in a specific folder, you can first create the folder in you
 # fastqc for all the .fastq.gz files in the folder
 mkdir fastqc_results
 fastqc -o ./fastqc_results/ /home/genomics/biodiversity_genomics_course/data/Heliconius/*.fastq.gz
-
 
 ```
 
@@ -93,21 +91,21 @@ is there a warning for the per-base sequence content graphs?
 is there a fail for the per sequence GC content graphs?
 
 ```shell
-# Remember to copy first the data (RAD1 and RAD2) and specify FILE as the name of the file containing the reads:
-FILE="RAD1.fastq.gz"
-cp /workspace/biodiversity_genomics/data/Heliconius/$FILE ./
+# Remember that you can run `FastQC` on all files with a single command by specifying the path to the directory containing the reads: `/home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/`
+mkdir fastqc_results_RADs
+fastqc -o ./fastqc_results_RADs/ /home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/*.fastq.gz
+
 ```
 
 ### Challenging exercises for the bash wizards and those with extra time left
 
 In the `RAD2.fastq.gz `there are some reads with very low GC content which likely represent reads of contaminants. Find the 10 reads with the lowest GC content and check what they are by blasting them.
 
-
 Here one very condensed solution: Try to find your own solution first!
 ```shell
 FILE=RAD2
 
-cp /workspace/biodiversity_genomics/data/Heliconius/$FILE.fastq.gz ./
+cp /home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/$FILE.fastq.gz ./
 
 #Add GC content to each read in fastq file to check reads with highest or lowest GC contents:
 zcat ${FILE}.fastq.gz | awk 'NR%4==2' | awk '{split($1,seq,""); gc=0; at=0; n=0; for(base in seq){if(seq[base]=="A"||seq[base]=="T") at++; else if(seq[base]=="G"||seq[base]=="C") gc++; else n++}; print $0,gc/(at+gc+n)*100,n}' > ${FILE}.gc
@@ -129,10 +127,10 @@ As a second exercise, try to generate a new file from the fastqz file containing
 
 ```shell
 # Forward (R1) reads
-zcat /workspace/biodiversity_genomics/data/Heliconius/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R1.subsampled.fastq.gz &
 
 # Reverse (R2) reads
-zcat /workspace/biodiversity_genomics/data/Heliconius/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R2.subsampled.fastq.gz &
 ```
