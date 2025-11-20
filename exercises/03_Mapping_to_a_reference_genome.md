@@ -28,25 +28,25 @@ In order to align reads to the genome, we are going to use `bwa` which is a very
 
 #### Indexing the reference genome
 
-Before we can actually perform an alignment, we need to index the reference genome we just copied to our home directories. This essentially produces an index for rapid searching and aligning. We use the `bwa-mem2 index` tool to achieve this.
+Before we can actually perform an alignment, we need to index the reference genome we just copied to our home directories. This essentially produces an index for rapid searching and aligning. We use the `bwa index` tool to achieve this. You can also use bwa-mem2 which is a faster, modern replacement for bwa mem with the same output and accuracy.
 
 ```shell
-bwa-mem2 index GCA_917862395.2_iHelSar1.2_genomic.fna
+bwa index GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
-The `bwa-mem2 index` tool simply requires the reference fasta file from which to build our genome index. So it is a very simple command.
+The `bwa index` tool simply requires the reference fasta file from which to build our genome index. So it is a very simple command.
 
 If it takes too long, you can copy the file as shown below.
 
 ```shell
-cp ~/Share/reference/GCA_* ./
+cp ~/biodiversity_genomics_course/data/Heliconius/reference/GCA_* ./
 ```
 
 Use `ls` to take a look, but this will have copied in about 5 files all with the `GCA_917862395.2_iHelSar1.2_genomic.fna.` prefix that we will use for a reference alignment.
 
-When `bwa-mem2` aligns reads, it needs access to these files, so they should be in the same directory as the reference genome. Then when we actually run the alignment, we tell `bwa-mem2` where the reference is and it does the rest. To make this easier, we will make a variable pointing to the reference.
+When `bwa` aligns reads, it needs access to these files, so they should be in the same directory as the reference genome. Then when we actually run the alignment, we tell `bwa` where the reference is and it does the rest. To make this easier, we will make a variable pointing to the reference.
 
 ```shell
-REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 #### Performing a paired end alignment
