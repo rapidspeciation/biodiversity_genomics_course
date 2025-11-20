@@ -68,8 +68,8 @@ Let's go ahead and align our data, we will break down what we did shortly after.
 
 ```shell
 bwa mem -t 2 $REF \
-~/Share/filteredReads/wgs.R1.trimmed.fastq.gz \
-~/Share/filteredReads/ wgs.R2.trimmed.fastq.gz > wgs1.sam
+~/biodiversity_genomics_course/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz \
+~/biodiversity_genomics_course/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
 ```
 Since we are only using a shortened fastq file, with 100K reads in it, this should just take a couple of minutes. In the meantime, we can breakdown what we actually did here.
 
@@ -79,9 +79,11 @@ Following these options, we then specify the reference genome, the forward reads
 
 Once your alignment has ended, you will see some alignment statistics written to the screen. We will come back to these later - first, we will learn about what a SAM file actually is.
 
-Since these analyses take quite a bit of time, we will stop the analysis and copy the output file from the Share folder.
+If the analyses take a lot of time, you can stop the analysis and copy the output file from the data folder.
 
-    cp ~/Share/align/wgs1.sam ./
+```shell
+cp ~/biodiversity_genomics_course/data/Heliconius/align/wgs1.sam ./
+```
 
 #### SAM files
 
@@ -106,7 +108,7 @@ samtools view wgs1.sam | head | cut -f 1-4
 Here we have:
 
 * The sequence ID
-* The flag - these have various meanings, 0 = mapped, 4 = unmapped
+* The flag - these have various meanings. For example: 83=paired, properly paired, reverse strand, second in pair
 * Reference name - reference scaffold the read maps to
 * Position - the mapping position/coordinate for the read
 
@@ -118,7 +120,7 @@ Now, lets look at the mapping statistics again:
 samtools flagstat wgs1.sam
 ```
 
-This shows us that a total of 600k reads were read in (forward and reverse), that around 95% mapped successfully, 84% mapped with their mate pair, 1.15% were singletons and the rest did not map.
+This shows us that a total of 113k reads were read in (forward and reverse), that around 96% mapped successfully, 84% mapped with their mate pair, 1.09% were singletons and the rest did not map.
 
 #### BAM files
 
@@ -150,7 +152,7 @@ samtools sort wgs1.bam -o wgs1_sort.bam
 Once this is run, we will have a sorted bam. One point to note here, could we have done this is a more efficient manner? The answer is yes, actually we could have run all of these commands in a single line using pipes like so:
 
 ```shell
-bwa-mem2 mem -t 4 $REF ~/Share/wgs_raw/wgs.R1.fastq.gz ~/Share/wgs_raw/wgs.R2.fastq.gz | samtools view -b | samtools sort -T wgs_sort > ./align/wgs_sort.bam
+bwa mem -t 4 $REF ~/biodiversity_genomics_course/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz ~/biodiversity_genomics_course/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
 ```
 
 However as you may have noticed, we have only performed this on a single individual so far... what if we want to do it on multiple individuals? Do we need to type all this everytime? The answer is no - we could do this much more efficiently.
@@ -173,11 +175,11 @@ The first thing we will do is initiate the script with the line telling the inte
 Next, we will declare an array to ensure that we have all our individuals
 
 ```shell
-INDS=($(for i in ~/Share/wgs_raw/*R1.fastq.gz; do echo $(basename ${i%.R*}); done))
+INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/filteredReads/.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
 ```
 This will create a list of individuals which we can then loop through in order to map each individual. Here we used bash substitution to take each forward read name, remove the directory and leave only the individual name.
 
-If you want to, decleare the array in your command line and then test it (i.e. type `echo ${IND[@]}`). You will see that we have only individual names, which gives us some flexibility to take our individual name and edit it inside our `for` loop (i.e. it makes defining input and output files much easier.
+If you want to, declare the array in your command line and then test it (i.e. type `echo ${IND[@]}`). You will see that we have only individual names, which gives us some flexibility to take our individual name and edit it inside our `for` loop (i.e. it makes defining input and output files much easier.
 
 Next we will add the actual `for` loop to our script. We will use the following:
 
