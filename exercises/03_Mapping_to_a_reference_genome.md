@@ -175,11 +175,11 @@ The first thing we will do is initiate the script with the line telling the inte
 Next, we will declare an array to ensure that we have all our individuals
 
 ```shell
-INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/filteredReads/.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
+INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
 ```
 This will create a list of individuals which we can then loop through in order to map each individual. Here we used bash substitution to take each forward read name, remove the directory and leave only the individual name.
 
-If you want to, declare the array in your command line and then test it (i.e. type `echo ${IND[@]}`). You will see that we have only individual names, which gives us some flexibility to take our individual name and edit it inside our `for` loop (i.e. it makes defining input and output files much easier.
+If you want to, declare the array in your command line and then test it (i.e. type `echo ${INDS[@]}`). You will see that we have only individual names, which gives us some flexibility to take our individual name and edit it inside our `for` loop (i.e. it makes defining input and output files much easier.
 
 Next we will add the actual `for` loop to our script. We will use the following:
 
@@ -187,10 +187,10 @@ Next we will add the actual `for` loop to our script. We will use the following:
 for IND in ${INDS[@]};
 do
 	# declare variables
-	REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-	FORWARD=~/Share/wgs_raw/${IND}.R1.fastq.gz
-	REVERSE=~/Share/wgs_raw/${IND}.R2.fastq.gz
-	OUTPUT=~/align/${IND}_sort.bam
+	REF=~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+	FORWARD=~/biodiversity_genomics_course/data/Heliconius/filteredReads/${IND}.R1.trimmed.fastq.gz
+	REVERSE=~/biodiversity_genomics_course/data/Heliconius/filteredReads/${IND}.R2.trimmed.fastq.gz
+	OUTPUT=~/biodiversity_genomics_course/data/Heliconius/align/${IND}_sort.bam
 
 done
 ```
@@ -202,14 +202,14 @@ After we have tested the loop to make sure it is working properly, all we have t
 for IND in ${INDS[@]};
 do
 	# declare variables
-	REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-	FORWARD=~/Share/wgs_raw/${IND}.R1.fastq.gz
-	REVERSE=~/Share/wgs_raw/${IND}.R2.fastq.gz
-	OUTPUT=~/align/${IND}_sort.bam
+	REF=~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+	FORWARD=~/biodiversity_genomics_course/data/Heliconius/filteredReads/${IND}.R1.trimmed.fastq.gz
+	REVERSE=~/biodiversity_genomics_course/data/Heliconius/filteredReads/${IND}.R2.trimmed.fastq.gz
+	OUTPUT=~/biodiversity_genomics_course/data/Heliconius/align/${IND}_sort.bam
 
 	# then align and sort
 	echo "Aligning $IND with bwa"
-	bwa-mem2 mem -t 4 $REF $FORWARD \
+	bwa mem -t 4 $REF $FORWARD \
 	$REVERSE | samtools view -b | \
 	samtools sort -T ${IND} > $OUTPUT
 
@@ -230,10 +230,10 @@ bash align_sort.sh
 
 You will now see the script running as the sequences align. Press `Ctrl + A + D` in order to leave the screen. Now is a good time to take a break as you wait for the job to complete.
 
-Since these analyses take quite a bit of time, we will stop the analysis and copy the output files from the Share folder to run the next step:
+Since these analyses take quite a bit of time, we will stop the analysis and copy the output files from the biodiversity_genomics_course folder to run the next step:
 
 ```shell
-cp ~/Share/align/*.bam ./
+cp ~/biodiversity_genomics_course/data/Heliconius/align/*.bam ./
 ```
 
 #### Remove duplicates reads
