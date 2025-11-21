@@ -241,13 +241,12 @@ cp ~/biodiversity_genomics_course/data/Heliconius/align/*.bam ./
 Finally, we need to remove duplicate reads from the dataset to avoid PCR duplicates and technical duplicates which inflate our sequencing depth and give us false certainty in the genotype calls. We can use [Picard Tools](https://broadinstitute.github.io/picard/) to do that.
 
 ```shell
-java -Xmx1g -jar /home/scripts/picard.jar \
- MarkDuplicates REMOVE_DUPLICATES=true \
+ picard MarkDuplicates REMOVE_DUPLICATES=true \
  ASSUME_SORTED=true VALIDATION_STRINGENCY=SILENT \
  MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 \
- INPUT={}.bam \
- OUTPUT={}.rmd.bam \
- METRICS_FILE={}.rmd.bam.metrics
+ INPUT=wgs1_sort.bam \
+ OUTPUT=wgs1.sort.rmd.bam \
+ METRICS_FILE=wg1.rmd.bam.metrics
 
 # Now we need to index all bam files again and that's it!
 samtools index *.rmd.bam
