@@ -11,7 +11,6 @@ Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
 - [Slides](slide_presentations/02_Summary_reads-vcf.pdf) summarising the steps from getting raw Illumina reads, filtering, aligning them to a reference and calling variants and genotypes
 - [Slides](slide_presentations/03_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
-- [Slides](exercises/Connecting_to_the_Amazon_server.pdf) on logging on to the Amazon server by Carlo Pecoraro from [Physalia Courses](https://www.physalia-courses.org)
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
 - [Slides](slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
 
