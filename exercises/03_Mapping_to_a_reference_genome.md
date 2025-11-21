@@ -246,7 +246,7 @@ Finally, we need to remove duplicate reads from the dataset to avoid PCR duplica
  MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 \
  INPUT=wgs1_sort.bam \
  OUTPUT=wgs1.sort.rmd.bam \
- METRICS_FILE=wg1.rmd.bam.metrics
+ METRICS_FILE=wgs1.rmd.bam.metrics
 
 # Now we need to index all bam files again and that's it!
 samtools index *.rmd.bam
