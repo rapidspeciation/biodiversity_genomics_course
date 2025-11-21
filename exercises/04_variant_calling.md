@@ -11,8 +11,7 @@ For this tutorial, we will use `bcftools` which is designed by the same team beh
 The first thing we need to do is index our reference genome again. This actually needs to be done with `samtools`. Return to the home directory and perform the following actions
 
 ```shell
-cd ~/reference/
-samtools faidx GCA_917862395.2_iHelSar1.2_genomic.fna
+samtools faidx ~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 This will create a fasta index, denoted by the `.fai` suffix.
