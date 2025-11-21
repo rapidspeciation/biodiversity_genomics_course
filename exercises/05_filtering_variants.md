@@ -35,7 +35,7 @@ mkdir ~/vcftools
 Next we will declare to variables to save us some typing below.
 
 ```shell
-VCF=~/vcf_real/sara_sapho.vcf.gz
+VCF=~/vcf_real/sara_sapho_subset.vcf.gz
 OUT=~/vcftools/sara_sapho
 ```
 #### Calculate mean depth per individual
@@ -72,7 +72,7 @@ vcftools --gzvcf $VCF --missing-site --out $OUT
 With the statistics calculated, take a moment to have a quick look at the output in the `~/vcftools/` directory. We will now need to download our output data onto our local machines in order to work with R.
 
 ```shell
-scp -i c28.pem user28@IP:~/vcftools ./
+scp -i username@toko.uncu.edu.ar:~/vcftools ./
 ```
 
 Examining statistics in R
