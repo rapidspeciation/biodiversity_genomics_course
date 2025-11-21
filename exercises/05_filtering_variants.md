@@ -202,7 +202,7 @@ Considering these two results, you should decide whether to remove individuals t
 Now we have an idea of how to set out thresholds, we will do just that. First of all, we will set some simple variables in order to make our filtering command more straightforward.
 
 ```shell
-VCF_IN=~/vcf_real/sara_sapho.vcf.gz
+VCF_IN=~/vcf_real/sara_sapho_subset.vcf.gz
 VCF_OUT=~/vcf_real/sara_sapho_filtered.vcf.gz
 ```
 Then next we will set our chosen filters like so:
@@ -217,8 +217,6 @@ MAX_DEPTH=30
 Finally we run the following `vcftools` command on the data to produce a filtered vcf. We will investigate the options as the filtering is running.
 
 ```shell
-# move to the vcf directory
-cd vcf_real
 # perform the filtering with vcftools
 vcftools --gzvcf $VCF_IN \
 --remove-indv D5252__Hvenez \
