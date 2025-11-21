@@ -8,10 +8,11 @@ For this tutorial, we will use `bcftools` which is designed by the same team beh
 
 ### Indexing the reference... again
 
-The first thing we need to do is index our reference genome again. This actually needs to be done with `samtools`. Return to the home directory and perform the following actions
+The first thing we need to do is index our reference genome again. This actually needs to be done with `samtools`.
 
 ```shell
-samtools faidx ~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+cd reference
+samtools faidx GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 This will create a fasta index, denoted by the `.fai` suffix.
@@ -29,7 +30,7 @@ First of all, use `screen` to make a screen called variant and move into it.
 Inside the screen, declare a variable for the reference genome.
 
 ```shell
-REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 Next we run the `bcftools mpileup` and `bcftools call` command. We will break it down after.
@@ -37,13 +38,13 @@ Next we run the `bcftools mpileup` and `bcftools call` command. We will break it
 ```shell
 ## We need to have the bam files in our align folder.
 cd align
-cp ~/Share/align/*_sort.rmd.bam ./
+cp ~/biodiversity_genomics_course/data/Heliconius/markdupl/*_sort.rmd.bam ./
 ## Go to home again and create a new folder and call it "vcf"
 mkdir vcf
 cd vcf
 ## We are going to call variants within the vcf folder using bcftools:
 bcftools mpileup -a AD,DP,SP -Ou -f $REF \
-~/align/*_sort.bam | bcftools call -f GQ,GP \
+../markdupl/*.sort.rmd.bam | bcftools call -f GQ,GP \
 -mO z -o ./sara_sapho.vcf.gz
 ```
 While this is running, let's go through the options and get an idea of what we did.
@@ -75,7 +76,7 @@ At this point, our "toy" dataset breaks down because we don't have enough reads 
 mkdir vcf_real
 cd  vcf_real
 # copy the sara_sapho file from the share directory
-cp ~/Share/vcf/sara_sapho.vcf.gz ./
+cp ~/biodiversity_genomics_course/data/Heliconius/vcf/sara_sapho_subset.vcf.gz ./
 ```
 
 Let's take a moment to see how big the file is:
@@ -84,7 +85,7 @@ Let's take a moment to see how big the file is:
 ls -lh *.vcf.gz
 ```
 
-You will see that this VCF is 30M in size, which is quite small but real analyses with many individuals can run to much larger sizes than this (for instance, we regularly work with VCF files containing hundreds of individuals which are >300 G).
+You will see that this VCF is 15M in size, which is quite small but real analyses with many individuals can run to much larger sizes than this (for instance, we regularly work with VCF files containing hundreds of individuals which are >300 G).
 
 #### Exploring vcf files
 
