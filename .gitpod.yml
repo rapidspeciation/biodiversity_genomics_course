@@ -1,0 +1,74 @@
+image: gitpod/workspace-base
+
+tasks:
+- name: installation
+  init: |
+    cd /workspace/
+    wget "https://github.com/conda-forge/miniforge/releases/download/24.3.0-0/Mambaforge-24.3.0-0-Linux-x86_64.sh"
+    bash Mambaforge-24.3.0-0-Linux-x86_64.sh -b -p /workspace/mambaforge && rm Mambaforge-24.3.0-0-Linux-x86_64.sh
+
+    /workspace/mambaforge/bin/mamba init bash
+    source ${HOME}/.bashrc
+    mamba create -n biodiv -c conda-forge r-base r-argparse r-viridis r-minpack.lm -y
+    mamba activate biodiv
+
+    mkdir bin
+
+    # install fastp for filtering reads
+    mamba install -c bioconda fastp -y
+
+    # install plink for LD-pruning, PCA, file conversion and other things
+    cd bin
+    wget "https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20241022.zip"
+    unzip plink_linux_x86_64_20241022.zip; cd ..
+    
+    #  bwa to map reads to the reference
+    cd bin/
+    git clone https://github.com/lh3/bwa.git
+    cd bwa; make; cd ../..
+
+    # install samtools, bcftools and vcftools to handle bam files and vcf files
+    mamba install -c bioconda samtools bcftools bioconda::vcftools -y
+
+    # install admixture and admixtools to study introgression
+    mamba install bioconda::admixture bioconda::admixtools -y
+
+    # install tools for genome comparison
+    mamba install bioconda::minimap2 bioconda::orthofinder bioconda::busco -y
+
+    # install python packages
+    pip3 install numpy pandas sourmash_plugin_betterplot
+    sudo apt install -y libgl1
+
+    # install synteny plotter R package 
+    R -e 'install.packages("syntenyPlotteR", repo = "https://cloud.r-project.org")'
+
+    # get the course data
+    #cd /workspace
+    #git clone https://github.com/WCSCourses/K-mer_Biodiversity_Genomics_2025.git 
+    
+    #mkdir -p data/Scer && wget -P data/Scer https://sk13.cog.sanger.ac.uk/SRR3265401_{1,2}.fastq.gz  # get data from s3 bucket
+    
+    gp sync-done bundle
+    
+# in the working terminal activate the conda environment
+- name: working
+  init: gp sync-await bundle # Wait for previous 'inits' to complete
+  command: |
+      cd /workspace
+      /workspace/mambaforge/bin/mamba init bash
+      source ~/.bashrc 
+      mamba activate biodiv
+      export PATH=/workspace/bin:"$PATH"
+      cd biodiversity_genomics_course/
+      echo ""
+      echo "👋 Welcome to the biodiversity genomics Gitpod workspace!"
+      echo "Please wait until all software is installed and data downloaded"
+      echo "You will see the $ prompt appearing when it is ready."
+      echo ""
+
+vscode:
+  extensions:
+    - anwar.papyrus-pdf
+
+workspaceLocation: "/workspace"

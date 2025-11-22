@@ -90,7 +90,7 @@ mkdir trimal
 mkdir output log
 ls ../mafft/output/ > list_trimal_input.txt
 for FILE in $(cat list_trimal_input.txt)
- do ../../../ubuntu/src/conda/bin/trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -sgt -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
+ do trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -sgt -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
 done
 
 #check removal
@@ -196,7 +196,7 @@ library(dplyr)
 library(ggdensitree)
 
 #read in the species tree, in newick format
-tree <- read.tree("output/concord.cf.tree")
+tree <- read.tree("concord.cf.tree")
 
 #create the plot
 concat_tree <-

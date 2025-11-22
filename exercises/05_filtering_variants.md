@@ -7,9 +7,9 @@ In the last session, we learned how to call variants and handle VCFs. In this se
 One thing we didn't check yet is how many variants we actually have. Each line in the main output of a vcf represents a single call so we can use the following code to work it out:
 
 ```shell
-bcftools view -H sara_sapho.vcf.gz| wc -l
+bcftools view -H sara_sapho_subset.vcf.gz| wc -l
 ```
-We have close to 48,393 variants in our full VCF. At present, we have applied no filters at all. This is intentional - we want to see what happens when filters are applied. However, it is also a good idea to perform an initial analysis, to get an idea of how to set filters. However as we have just seen, it takes time to perform operations on a large VCF.
+We have close to 24,346 variants in our full VCF. At present, we have applied no filters at all. This is intentional - we want to see what happens when filters are applied. However, it is also a good idea to perform an initial analysis, to get an idea of how to set filters. However as we have just seen, it takes time to perform operations on a large VCF.
 
 For this reason, it is a good idea to subsample our variant calls and get an idea of the general distribution of a few key attributes of the data.
 
@@ -35,7 +35,7 @@ mkdir ~/vcftools
 Next we will declare to variables to save us some typing below.
 
 ```shell
-VCF=~/vcf_real/sara_sapho.vcf.gz
+VCF=~/vcf_real/sara_sapho_subset.vcf.gz
 OUT=~/vcftools/sara_sapho
 ```
 #### Calculate mean depth per individual
@@ -72,7 +72,7 @@ vcftools --gzvcf $VCF --missing-site --out $OUT
 With the statistics calculated, take a moment to have a quick look at the output in the `~/vcftools/` directory. We will now need to download our output data onto our local machines in order to work with R.
 
 ```shell
-scp -i c28.pem user28@IP:~/vcftools ./
+scp -i username@toko.uncu.edu.ar:~/vcftools ./
 ```
 
 Examining statistics in R
@@ -202,7 +202,7 @@ Considering these two results, you should decide whether to remove individuals t
 Now we have an idea of how to set out thresholds, we will do just that. First of all, we will set some simple variables in order to make our filtering command more straightforward.
 
 ```shell
-VCF_IN=~/vcf_real/sara_sapho.vcf.gz
+VCF_IN=~/vcf_real/sara_sapho_subset.vcf.gz
 VCF_OUT=~/vcf_real/sara_sapho_filtered.vcf.gz
 ```
 Then next we will set our chosen filters like so:
@@ -217,8 +217,6 @@ MAX_DEPTH=30
 Finally we run the following `vcftools` command on the data to produce a filtered vcf. We will investigate the options as the filtering is running.
 
 ```shell
-# move to the vcf directory
-cd vcf_real
 # perform the filtering with vcftools
 vcftools --gzvcf $VCF_IN \
 --remove-indv D5252__Hvenez \

@@ -1,6 +1,6 @@
 ### fastq format
 
-Let's have a look at the first sequence from our raw read files which are stored in the [fastq format](https://en.wikipedia.org/wiki/FASTQ_format). As we saw in the [lecture](https://github.com/speciationgenomics/presentations/blob/master/Genome_assembly.pdf), each DNA sequence is composed of four lines. Therefore, we need to visualize the first four lines to have a look at the information stored for the first sequence.
+Let's have a look at the first sequence from our raw read files which are stored in the [fastq format]([https://en.wikipedia.org/wiki/FASTQ_format). As we saw in the (https://github.com/rapidspeciation/biodiversity_genomics_course/blob/main/slide_presentations/03_Raw_sequences_and_quality_control.pdf), each DNA sequence is composed of four lines. Therefore, we need to visualize the first four lines to have a look at the information stored for the first sequence.
 
 First we set the name of the fastq file that we will work with as the variable `FILE`. Then, we copy that file to our directory. Finally, we will examine the first 4 lines. However, we cannot just directly write `head -4 $FILE` like we might with a normal text file because the fastq file is actually compressed. It is thus a binary file which cannot just be read. Luckily, there are many commands that can directly read binary files. Instead of `cat`, we use `zcat`, instead of `grep`, we use `zgrep`. If we want to use any other command, we need to read the file with `zcat` and then pipe the output into our command of choice such as `head` or `tail`.
 
@@ -12,7 +12,7 @@ cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
 FILE="wgs1.R1.fastq.gz"
-cp ~/Share/wgs_raw/$FILE ./
+cp /home/genomics/biodiversity_genomics_course/data/Heliconius/$FILE ./
 
 # Let's have a look at the first read:
 zcat $FILE | head -4
@@ -54,26 +54,39 @@ Let's run `fastqc` on our read subsets:
 fastqc $FILE
 ```
 
-We should now also run fastqc on the file or reverse reads. As we do not need copies of these files in all of your personal directories, we will just write the file names with the paths.
+We should now also run fastqc on the file of reverse reads. As we do not need copies of these files in all of your personal directories, we will just write the file names with the paths.
 
 `fastqc` allows an output directory with the `-o` flag. We will thus just work in our home directories and run `fastqc` giving the file name with its path and specifying the output folder as the current directory (i.e. `-o ./`).
 
 ```shell
 # Reverse reads
-FILE="wgs1.R2.fastq.gz"
-cp ~/Share/wgs_raw/$FILE ./
-fastqc $FILE
-
+fastqc -o ./ /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs1_R2.fastq.gz 
 
 ```
 
-Now, we need to download the html files to the local computer for visualization. To download files, we will use the command `scp` on your local machine, so in a terminal that is not connected to the Amazon server. This command will download all html files in the folder fastqc on the Amazon server to the directory you are currently located "./". 
+When working with multiple individuals, it is more efficient to run FastQC on all of them using a single command with a wildcard such as `*.fastq.gz`. This tells FastQC to process all files in the directory that end with `*.fastq.gz`.
 
-Please note that you must change c1.pem and user1 to your username, and use the IP of the day.
+To save the results in a specific folder, you can first create the folder in your directory and then specify its path in the FastQC command.
 
 ```shell
-scp -i c1.pem user1@<IP address>:~/fastqc/wgs1.R1_fastqc.html ./
-scp -i c1.pem user1@<IP address>:~/fastqc/wgs1.R2_fastqc.html ./
+# fastqc for all the .fastq.gz files in the folder
+mkdir fastqc_results
+fastqc -o ./fastqc_results/ /home/genomics/biodiversity_genomics_course/data/Heliconius/*.fastq.gz
+
+```
+If you have many individuals, checking each HTML file manually can become very tedious. A better option is to run MultiQC. This program summarizes the results from FastQC (and other tools) into a single, interactive HTML report. To run it, navigate to the folder where the .html files are located and use the following command:
+
+```shell
+cd fastqc_results
+multiqc .
+
+```
+
+To visualize the HTML files, you need to download them from the cluster using the `scp` command on your local machine. For example:
+
+```shell
+scp username@toko.uncu.edu.ar:/path/to/file/multiqc_report.html ./
+
 ```
 
 Here some [slides](https://github.com/speciationgenomics/presentations/blob/master/fastqc_interpretation.pdf) on interpreting fastqc html output.
@@ -85,21 +98,21 @@ is there a warning for the per-base sequence content graphs?
 is there a fail for the per sequence GC content graphs?
 
 ```shell
-# Remember to copy first the data (RAD1 and RAD2) and specify FILE as the name of the file containing the reads:
-FILE="RAD1.fastq.gz"
-cp ~/Share/RAD_raw/$FILE ./
+# Remember that you can run `FastQC` on all files with a single command by specifying the path to the directory containing the reads:
+mkdir fastqc_results_RADs
+fastqc -o ./fastqc_results_RADs/ /home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/*.fastq.gz
+
 ```
 
 ### Challenging exercises for the bash wizards and those with extra time left
 
 In the `RAD2.fastq.gz `there are some reads with very low GC content which likely represent reads of contaminants. Find the 10 reads with the lowest GC content and check what they are by blasting them.
 
-
 Here one very condensed solution: Try to find your own solution first!
 ```shell
 FILE=RAD2
 
-cp /home/data/fastq/$FILE ./
+cp /home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/$FILE.fastq.gz ./
 
 #Add GC content to each read in fastq file to check reads with highest or lowest GC contents:
 zcat ${FILE}.fastq.gz | awk 'NR%4==2' | awk '{split($1,seq,""); gc=0; at=0; n=0; for(base in seq){if(seq[base]=="A"||seq[base]=="T") at++; else if(seq[base]=="G"||seq[base]=="C") gc++; else n++}; print $0,gc/(at+gc+n)*100,n}' > ${FILE}.gc
@@ -121,10 +134,10 @@ As a second exercise, try to generate a new file from the fastqz file containing
 
 ```shell
 # Forward (R1) reads
-zcat /home/data/fastq/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R1.subsampled.fastq.gz &
 
 # Reverse (R2) reads
-zcat /home/data/fastq/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R2.subsampled.fastq.gz &
 ```

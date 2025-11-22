@@ -20,7 +20,7 @@ mkdir filteredReads
 cd filteredReads
 
 # Run fastp
-fastp --in1 ~/fastqc/wgs1.R1.fastq.gz --in2 ~/fastqc/wgs1.R2.fastq.gz --out1 wgs1.R1.trimmed.fastq.gz --out2 wgs1.R2.trimmed.fastq.gz -l 50 -h wgs.html &> wgs.log
+fastp --in1 /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs1_R1.fastq.gz --in2 /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs1_R2.fastq.gz --out1 wgs1.R1.trimmed.fastq.gz --out2 wgs1.R2.trimmed.fastq.gz -l 50 -h wgs.html &> wgs.log
 
 # Note &> redirects the information on what it did into the file wgs.log (both stderror and stdout are written into this file)
 
@@ -30,14 +30,13 @@ ls
 
 # To take a look at the HTML file, we first need to download it to our computer using the following command line: 
 
-scp -i c1.pem user1@IP:xx~/filteredReads/wgs.html ./
+scp -r username@toko.uncu.edu.ar:/home/genomics/biodiversity_genomics_course/data/Heliconius/wgs.html ./
 ```
 ### Parameters specified here:
 * \-\-in1 and \-\-in2: specify your files of forward (1) reads and of the reverse (2) reads.
 * \-\-out1 and \-\-out2: specify the output files for forward and reverse reads that are still Paired.
 * -l 50: this specifies that if a read is shorter than 50 basepairs after all filters, it should be removed.
 * -h: specifies name for the html file with plots showing the read quality before and after filtering
-
 
 ### PolyG tail trimming
 This feature removes the polyG tails that arise from lack of signal in NextSeq/NovaSeq technologies. It is enabled for Nextseq/Novaseq data by default, and you can specify -g to enable it for any data, or specify -G to disable it.
@@ -60,5 +59,4 @@ To filter reads by its percentage of unqualified bases, two options should be pr
 RAD1.fastq.gz and RAD2.fastq.gz
 
 ```
-
 
