@@ -9,11 +9,11 @@ To perform a PCA on our Heliconius data, we will use plink - specifically [versi
 
 ### Linkage pruning
 
-One of the major assumptions of PCA is that the data we use is indpendent - i.e. there are no spurious correlations among the measured variables. This is obviously not the case for most genomic data as allele frequencies are correlated due to physical linkage and linkage disequilibrium. We also want to get a genome-wide picture and avoid that e.g. a large inversion strongly affects the results. So as a first step, we need to prune our dataset of variants that are strongly linked (=highly correlated alleles).
+One of the major assumptions of PCA is that the data we use is indpendent - i.e. there are no spurious correlations among the genomic sites. This is not the case for most genomic data as allele frequencies are correlated due to physical linkage and linkage disequilibrium. We also want to get a genome-wide picture and avoid that e.g. a large inversion strongly affects the results. So as a first step, we need to prune our dataset of variants that are strongly linked (=highly correlated alleles).
 
-There are two options when it comes to pruning a dataset for LD.
+There are two options when it comes to keeping only independent sites.
 
-(1) **Filter based on linkage disequilibrium directly calculated from the data.** It makes sense to use this approach when the dataset is composed by a randomly mating population (i.e. a single species). 
+(1) **Filter based on linkage disequilibrium (LD) directly calculated from the data.** It makes sense to use this approach when the dataset is composed by a randomly mating population (i.e. a single species). 
 
     plink --indep-pairwise
 
@@ -38,10 +38,9 @@ Since we are only interested in investigating population structure within the me
     # To avoid having lots of copies of this vcf file, you can directly specify the full path to the file without copying it to your folder
     VCF="/home/genomics/scratch/data/martin2019/wgenome.martin2019.biallelic.mac2.vcf.gz"
 
-    # create a file listing individuals in ingroup (melpomene, timareta, cydno). This file will be used in plink to keep only these individuals
-    bcftools query -l $VCF | \
-        egrep -v Hnum | \
-        awk '{print $1}' > mel_tim_cyd.keep
+    # create a file listing individuals in ingroup (melpomene, timareta, cydno), excluding the outgroup "Hnum". This file will be used in plink to keep only these individuals
+    
+    bcftools query -l $VCF | grep -v Hnum > mel_tim_cyd.keep
 
     # Subset to ingroup individuals
     plink2 \
