@@ -77,13 +77,13 @@ awk '{if(NR>1) a+=$5}END{print a/(NR-1)}' martin2019_imiss.txt
 
 # Now if we want to get the mean missing data proportion per group
 # we need to first combine the two files to get the missing data proportion and group information in a single file. As they are ordered the same way, we can just combine them with paste
-paste martin2019_info.txt martin2019_imiss.txt > martin2019.combined
+paste martin2019_info.txt martin2019_imiss.txt > martin2019_combined.txt
 
 # as the info file has spaces instead of tabs as delimiters, let's replace the spaces by tabs
-sed -i 's/ /\t/g' martin2019.combined 
+sed -i 's/ /\t/g' martin2019_combined.txt 
 
 # Get the mean missing data proportion per group
-awk '{if(NR>1) missing[$2]+=$7; count[$2]++}END{for(g in missing){print g,(missing[g]/count[g])}}' martin2019.combined | column -t
+awk '{if(NR>1) missing[$2]+=$7; count[$2]++}END{for(g in missing){print g,(missing[g]/count[g])}}' martin2019_combined.txt | column -t
 
 
 #### String manipulation
