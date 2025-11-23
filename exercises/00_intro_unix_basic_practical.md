@@ -296,37 +296,53 @@ touch abc.txt abc.jpg xyz.txt xyz.jpg cat.txt car.txt
 
 First, list all text files.
 
+```bash
 ls *.txt
+```
 
 Then we’ll show all files with the name xyz.
 
+```bash
 ls xyz*
+```
 
 What about if we want to list all files except those with xyz in the name?
-
+```bash
 ls -Ixyz*
+```
+
 This example requires the -I flag to ls - i.e. ignore. This is one way to that, but you could also use more formal pattern matching which is more flexible and more powerful as it can be used with other commands such as mv.
 
-
+```bash
 ls [^x]*
+```
+
 Here we are essentially saying ‘show me everything except things that start with x’.
 
 
 We can easily extend this to make it exclude objects that do not start with x or a. Like so:
 
-
+```bash
 ls [^xa]*
+```
+
 Or only files that start with ‘c’?
 
+```bash
 ls c*
+```
+
 Or all files where the name contains ‘c’?
 
+```bash
 ls *c*
+```
 Finally here’s a little example of how to use something like this with copy – i.e. the cp command. We want to copy all .txt files from dir1 to dir2. As we learned previously, cp acts much like mv, except it only copies files. You can still accidentally overwrite things though so beware!
 
+```bash
 cp *.txt ../test_dir2
 ls ../test_dir2
-
+```
 
 
 
