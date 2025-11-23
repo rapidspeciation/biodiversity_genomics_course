@@ -71,7 +71,7 @@ awk '{if(NR>1) a+=$5}END{print a/(NR-1)}' martin2019.imiss
 
 # Now if we want to get the mean missing data proportion per group
 # we need to first combine the two files to get the missing data proportion and group information in a single file. As they are ordered the same way, we can just combine them with paste
-paste martin2019.info.tmp martin2019.imiss > martin2019.combined
+paste martin2019.info martin2019.imiss > martin2019.combined
 sed -i 's/ /\t/g' martin2019.combined # as the info file has blanks instead of tabs as delimiters 
 
 # Get the mean missing data proportion per group
@@ -86,7 +86,7 @@ Now that we have learned to create variables, we can also explore how to manipul
 First, let's declare a variable. We'll make a dummy filename in this instance:
 
 ```shell
-FILE="$HOME/an_example_file.txt"
+FILE="/home/genomics/scratch/data/martin2019/an_example_file.txt"
 ```
 Let's echo this back to the screen:
 
