@@ -10,6 +10,10 @@ head will display the ‘head’ of a file - i.e. the first 10 lines by default.
 For example, we can use head on the ilMelLudo1.reduced.fa file to see the first 10 lines
 
 ```bash
+mkdir unix_practice
+cd unix_practice
+#Copy the file to your folder
+cp /home/genomics/scratch/data/intro_unix/ilMelLudo1.reduced.fa ./
 head ilMelLudo1.reduced.fa
 ```
 
