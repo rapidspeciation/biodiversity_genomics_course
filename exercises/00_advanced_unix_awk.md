@@ -23,6 +23,7 @@ In the simplest way of running awk, we can tell awk to print out all lines where
 # Let's get the first line
 # in awk, NR means number of line
 awk 'NR==1' martin2019.info
+
 # get the tenth line
 awk 'NR==10' martin2019.info
 
@@ -31,6 +32,7 @@ awk 'NR%10==0' martin2019.info
 
 # awk can be used like grep to select all lines with a specific word such as "Htim" which is found in multiple sample names.
 awk '/Htim/' martin2019.info
+
 # this gives the same output as
 grep 'Htim' martin2019.info
 
@@ -49,10 +51,12 @@ By using curly brackets {} we can specify more complex awk commands.
 ```shell
 # Of the samples with missing data proportion above 0.2, print the first column ($1) which contains the individual labels
 awk '{if($5>0.2) print $1}' martin2019.imiss
+
 # with if() we can define a specific condition that needs to be fulfilled (e.g. column 5 needs to be greater than 0.01)
 
 # We could also specify now that the letters Htim need to be in the first column and the fifth column needs to be higher than 0.2.
 awk '{if($1~/Htim/ && $5>0.2) print $1}' martin2019.imiss
+
 # Note that && means that both conditions need to be true. You could specify lots of different conditions.
 
 # if we now wanted to print the entire line fulfilling both conditions (containing Htim and >20% missing data), we have to specify print $0 ($0 stands for the entire line)
@@ -72,11 +76,12 @@ awk '{if(NR>1) a+=$5}END{print a/(NR-1)}' martin2019.imiss
 # Now if we want to get the mean missing data proportion per group
 # we need to first combine the two files to get the missing data proportion and group information in a single file. As they are ordered the same way, we can just combine them with paste
 paste martin2019.info martin2019.imiss > martin2019.combined
-sed -i 's/ /\t/g' martin2019.combined # as the info file has blanks instead of tabs as delimiters 
+
+# as the info file has spaces instead of tabs as delimiters, let's replace the spaces by tabs
+sed -i 's/ /\t/g' martin2019.combined 
 
 # Get the mean missing data proportion per group
 awk '{if(NR>1) missing[$2]+=$7; count[$2]++}END{for(g in missing){print g,(missing[g]/count[g])}}' martin2019.combined | column -t
-
 
 
 #### String manipulation
