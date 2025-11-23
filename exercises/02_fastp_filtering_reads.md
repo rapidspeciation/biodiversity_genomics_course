@@ -20,7 +20,7 @@ mkdir filteredReads
 cd filteredReads
 
 # Run fastp
-fastp --in1 /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs1_R1.fastq.gz --in2 /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs1_R2.fastq.gz --out1 wgs1.R1.trimmed.fastq.gz --out2 wgs1.R2.trimmed.fastq.gz -l 50 -h wgs.html &> wgs.log
+fastp --in1 /home/genomics/scratch/data/Heliconius/wgs1_R1.fastq.gz --in2 /home/genomics/scratch/data/Heliconius/wgs1_R2.fastq.gz --out1 wgs1.R1.trimmed.fastq.gz --out2 wgs1.R2.trimmed.fastq.gz -l 50 -h wgs.html &> wgs.log
 
 # Note &> redirects the information on what it did into the file wgs.log (both stderror and stdout are written into this file)
 
@@ -30,7 +30,7 @@ ls
 
 # To take a look at the HTML file, we first need to download it to our computer using the following command line: 
 
-scp -r username@toko.uncu.edu.ar:/home/genomics/biodiversity_genomics_course/data/Heliconius/wgs.html ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/filteredReads/wgs.html ./
 ```
 ### Parameters specified here:
 * \-\-in1 and \-\-in2: specify your files of forward (1) reads and of the reverse (2) reads.
