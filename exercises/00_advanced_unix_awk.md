@@ -13,8 +13,8 @@ cd awk
 cp /home/genomics/scratch/data/martin2019/martin2019.* ./
 
 # Let's have a look at these file (note '| column -t' makes the columns nicely aligned)
-head martin2019.info | column -t
-head martin2019.imiss | column -t
+head martin2019_info.txt | column -t
+head martin2019_imiss.txt | column -t
 
 ```
 
@@ -24,27 +24,27 @@ In the simplest way of running awk, we can tell awk to print out all lines where
 
 # Let's get the first line
 # in awk, NR means number of line
-awk 'NR==1' martin2019.info
+awk 'NR==1' martin2019_info.txt
 
 # get the tenth line
-awk 'NR==10' martin2019.info
+awk 'NR==10' martin2019_info.txt
 
 # Get only every 10th line
-awk 'NR%10==0' martin2019.info
+awk 'NR%10==0' martin2019_info.txt
 
 # awk can be used like grep to select all lines with a specific word such as "Htim" which is found in multiple sample names.
-awk '/Htim/' martin2019.info
+awk '/Htim/' martin2019_info.txt
 
 # this gives the same output as
-grep 'Htim' martin2019.info
+grep 'Htim' martin2019_info.txt
 
 # Let's use awk for something else that grep cannot do
 # Get all samples with more than 30% missing data
 # note: $5 means fifth column
-awk '$5>0.3' martin2019.imiss
+awk '$5>0.3' martin2019_imiss.txt
 
 # you can can also combine the previous codes to select only lines with Htim with more than 20% missing data
-awk '/Htim/ && $5>0.2' martin2019.imiss
+awk '/Htim/ && $5>0.2' martin2019_imiss.txt
 
 ```
 
@@ -52,17 +52,17 @@ By using curly brackets {} we can specify more complex awk commands.
 
 ```shell
 # Of the samples with missing data proportion above 0.2, print the first column ($1) which contains the individual labels
-awk '{if($5>0.2) print $1}' martin2019.imiss
+awk '{if($5>0.2) print $1}' martin2019_imiss.txt
 
 # with if() we can define a specific condition that needs to be fulfilled (e.g. column 5 needs to be greater than 0.01)
 
 # We could also specify now that the letters Htim need to be in the first column and the fifth column needs to be higher than 0.2.
-awk '{if($1~/Htim/ && $5>0.2) print $1}' martin2019.imiss
+awk '{if($1~/Htim/ && $5>0.2) print $1}' martin2019_imiss.txt
 
 # Note that && means that both conditions need to be true. You could specify lots of different conditions.
 
 # if we now wanted to print the entire line fulfilling both conditions (containing Htim and >20% missing data), we have to specify print $0 ($0 stands for the entire line)
-awk '{if($1~/Htim/ && $5>0.2) print $0}' martin2019.imiss
+awk '{if($1~/Htim/ && $5>0.2) print $0}' martin2019_imiss.txt
 
 ```
 Everything until now was always performed for each line. If we wanted to do something before or after reading the lines, we can use BEGIN{} and END{}, before or after the main code {}, respectively.
@@ -70,14 +70,14 @@ Everything until now was always performed for each line. If we wanted to do some
 ```shell
 
 # Let's use END{} to get the mean missing data proportion. The part in END{} is preformed after going through all lines. a is a variable that will sum up the column five entries (missing data proportions). In the end statement, we specify that it should calculate the sum of missing data proportions divided by the number of lines.
-awk '{a+=$5}END{print a/NR}' martin2019.imiss
+awk '{a+=$5}END{print a/NR}' martin2019_imiss.txt
 
 # Actually the header is still in here, so let's skip the first line
-awk '{if(NR>1) a+=$5}END{print a/(NR-1)}' martin2019.imiss
+awk '{if(NR>1) a+=$5}END{print a/(NR-1)}' martin2019_imiss.txt
 
 # Now if we want to get the mean missing data proportion per group
 # we need to first combine the two files to get the missing data proportion and group information in a single file. As they are ordered the same way, we can just combine them with paste
-paste martin2019.info martin2019.imiss > martin2019.combined
+paste martin2019_info.txt martin2019_imiss.txt > martin2019.combined
 
 # as the info file has spaces instead of tabs as delimiters, let's replace the spaces by tabs
 sed -i 's/ /\t/g' martin2019.combined 
