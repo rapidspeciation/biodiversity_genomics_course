@@ -26,25 +26,14 @@ Day 2:
 - [Exercise](exercises/03_Mapping_to_a_reference_genome.md) to align Illumina paired-end reads to a reference genome with bwa-mem2
 - [Slides](slide_presentations/07_Variant_and_genotype_calling.pdf) about variant and genotype calling
 
-Day 3:
-- [Exercise](exercises/04_variant_calling.md) on variant and genotype calling with bcftools.
-- [Exercise](exercises/05_filtering_variants.md) on filtering vcf files.
-- [Slides](slide_presentations/08_Ithomiini_introduction_PCA.pdf) introducing ithomiini butterflies and PCA
-- [Exercise](exercises/06_pca.md) on PCA.
-- [Exercise](exercises/07_iqtree.md) on making phylogenies with iqtree.
+Day 3: TBA
 
-Day 4:
-- [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on identifying introgression with D statistics
-- [Exercise](exercises/08_Dstatistics.md) on Dstatistics to infer introgression using Dsuite
-- [Slides](slide_presentations/10_Genome_scans.pdf) on genome scans to locate genomic regions under selection and introgression
-- [Exercise](exercises/09_genome_scan.md) on genome scans
 
-Day 5:
-- [Slides](slide_presentations/11_Comparative%20genomics.pdf) on comparative genomics
-- [Exercise](exercises/10_Synteny.md) on macrosynteny
-- [Slides](slide_presentations/12_Phylogenomics.pdf) on phylogenomics with BUSCO genes
-- [Exercise](exercises/11_gene_trees.md) on phylogenomics with BUSCO genes
-- [Slides](slide_presentations/13_Course_Summary.pdf) summarising the course and giving some
+Day 4: TBA
+
+
+Day 5: TBA
+
 
 Advanced materials:
 - Statistical phasing [Exercise](exercises/12_statistical_phasing.md)
