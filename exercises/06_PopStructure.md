@@ -212,9 +212,10 @@ Note that this R code block also includes arguments to display the percentage of
 
 
 
-### Perform LD-based prunning
+### Supplementary: Perform LD-based prunning (if working with individuals from the same species)
+Linkage pruning, here in a window of 50 sites will remove sites that show strong linkage, i.e. correlation in allele frequency. So if multiple sites basically contain the same information, we only want to keep one of them.
 
-    #/ prune snps based on LD 
+    #/ prune snps based on linkage disequilibrium (LD)
     plink2 \
         --vcf $VCF \
         --threads 8 \
