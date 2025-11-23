@@ -9,7 +9,7 @@ The course website showing logistics and useful information about Menoza is [her
 
 
 ## Course structure
-Day 0: 
+Day 0:
 - [Slides](slide_presentations/00_Intro_unix.pdf) basic introduction to unix and the command line
 - [Exercise](exercises/00_intro_unix_basic_practical.md) on how to use the command line
 
