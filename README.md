@@ -10,8 +10,8 @@ The course website is here: https://biodiversitygenomicslatam.weebly.com/
 
 ## Course structure
 Day 0: 
-- [Slides](slide_presentations/) basic introduction to unix and the command line
-- [Exercise](exercises/ntro_unix_basic_practical.md) on how to use the command line
+- [Slides](slide_presentations/00_Intro_unix.pdf) basic introduction to unix and the command line
+- [Exercise](exercises/00_intro_unix_basic_practical.md) on how to use the command line
 
 Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
