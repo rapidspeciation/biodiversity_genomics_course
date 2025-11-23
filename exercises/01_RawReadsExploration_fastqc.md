@@ -12,7 +12,7 @@ cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
 FILE="wgs1.R1.fastq.gz"
-cp /home/genomics/biodiversity_genomics_course/data/Heliconius/$FILE ./
+cp /home/genomics/scratch/data/Heliconius/$FILE ./
 
 # Let's have a look at the first read:
 zcat $FILE | head -4
@@ -60,7 +60,7 @@ We should now also run fastqc on the file of reverse reads. As we do not need co
 
 ```shell
 # Reverse reads
-fastqc -o ./ /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs1_R2.fastq.gz 
+fastqc -o ./ /home/genomics/scratch/data/Heliconius/wgs1_R2.fastq.gz 
 
 ```
 
@@ -71,7 +71,7 @@ To save the results in a specific folder, you can first create the folder in you
 ```shell
 # fastqc for all the .fastq.gz files in the folder
 mkdir fastqc_results
-fastqc -o ./fastqc_results/ /home/genomics/biodiversity_genomics_course/data/Heliconius/*.fastq.gz
+fastqc -o ./fastqc_results/ /home/genomics/scratch/data/Heliconius/*.fastq.gz
 
 ```
 If you have many individuals, checking each HTML file manually can become very tedious. A better option is to run MultiQC. This program summarizes the results from FastQC (and other tools) into a single, interactive HTML report. To run it, navigate to the folder where the .html files are located and use the following command:
@@ -85,7 +85,7 @@ multiqc .
 To visualize the HTML files, you need to download them from the cluster using the `scp` command on your local machine. For example:
 
 ```shell
-scp username@toko.uncu.edu.ar:/path/to/file/multiqc_report.html ./
+scp genomics@toko.uncu.edu.ar:/path/to/file/multiqc_report.html ./
 
 ```
 
@@ -100,7 +100,7 @@ is there a fail for the per sequence GC content graphs?
 ```shell
 # Remember that you can run `FastQC` on all files with a single command by specifying the path to the directory containing the reads:
 mkdir fastqc_results_RADs
-fastqc -o ./fastqc_results_RADs/ /home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/*.fastq.gz
+fastqc -o ./fastqc_results_RADs/ /home/genomics/scratch/data/Heliconius/RADs/*.fastq.gz
 
 ```
 
@@ -112,9 +112,10 @@ Here one very condensed solution: Try to find your own solution first!
 ```shell
 FILE=RAD2
 
-cp /home/genomics/biodiversity_genomics_course/data/Heliconius/RADs/$FILE.fastq.gz ./
+cp /home/genomics/scratch/data/Heliconius/RADs/$FILE.fastq.gz ./
 
 #Add GC content to each read in fastq file to check reads with highest or lowest GC contents:
+
 zcat ${FILE}.fastq.gz | awk 'NR%4==2' | awk '{split($1,seq,""); gc=0; at=0; n=0; for(base in seq){if(seq[base]=="A"||seq[base]=="T") at++; else if(seq[base]=="G"||seq[base]=="C") gc++; else n++}; print $0,gc/(at+gc+n)*100,n}' > ${FILE}.gc
 
 #Lowest GC content:
@@ -134,10 +135,10 @@ As a second exercise, try to generate a new file from the fastqz file containing
 
 ```shell
 # Forward (R1) reads
-zcat /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /home/genomics/scratch/data/Heliconius/wgs.R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R1.subsampled.fastq.gz &
 
 # Reverse (R2) reads
-zcat /home/genomics/biodiversity_genomics_course/data/Heliconius/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /home/genomics/scratch/data/Heliconius/RADs/wgs.R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R2.subsampled.fastq.gz &
 ```
