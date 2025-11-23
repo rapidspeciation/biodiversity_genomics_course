@@ -74,7 +74,7 @@ tail ilMelLudo1.reduced.fa >> my_file.txt
 wc you can count the number of words, number of characters and number of lines 
 
 ```bash
-wc -c ilMelLudo1.reduced.fa
+wc -w ilMelLudo1.reduced.fa
 
 wc -l ilMelLudo1.reduced.fa
 
