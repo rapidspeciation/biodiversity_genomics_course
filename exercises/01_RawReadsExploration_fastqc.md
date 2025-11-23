@@ -85,7 +85,7 @@ multiqc .
 To visualize the HTML files, you need to download them from the cluster using the `scp` command on your local machine. For example:
 
 ```shell
-scp genomics@toko.uncu.edu.ar:/path/to/file/multiqc_report.html ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/fastqc/fastqc_results/multiqc_report.html ./
 
 ```
 
