@@ -5,7 +5,9 @@ awk is a domain-specific language designed for text manipulation. The abbreviati
 ```shell
 
 # First let's make a folder to work in
+cd /home/genomics/scratch/users/<your_name>
 mkdir awk
+cd awk
 
 # Let's get some files
 cp /home/genomics/scratch/data/martin2019/martin2019.* ./
