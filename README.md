@@ -20,11 +20,8 @@ Day 1:
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
 - [Slides](slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
 
-Day 2:
-- [Exercise](exercises/02_fastp_filtering_reads.md) on filtering Illumina reads with fastp which uses these [input files](input_files/raw_reads)
-- [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
-- [Exercise](exercises/03_Mapping_to_a_reference_genome.md) to align Illumina paired-end reads to a reference genome with bwa-mem2
-- [Slides](slide_presentations/07_Variant_and_genotype_calling.pdf) about variant and genotype calling
+Day 2: TBA
+
 
 Day 3: TBA
 
