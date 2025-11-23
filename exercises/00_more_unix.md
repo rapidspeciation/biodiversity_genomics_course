@@ -39,7 +39,7 @@ tail -n20 ilMelLudo1.reduced.fa
 If we use tail with + flag, we can skip lines from the start of the file. For example:
 
 ```bash
-tail -n+3 my_file.txt
+tail -n+3 ilMelLudo1.reduced.fa
 ```
 
 The -n+3 argument skips the first three lines of the file. This is very useful for removing lines you are not interested in.
@@ -57,7 +57,7 @@ We could add the last 10 line to the file
 Appending them to file with >>
 
 ```bash
-Tail ilMelLudo1.reduced.fa >> my_file.txt
+tail ilMelLudo1.reduced.fa >> my_file.txt
 ```
 
 
