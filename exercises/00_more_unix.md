@@ -57,7 +57,7 @@ We could add the last 10 line to the file
 Appending them to file with >>
 
 ```bash
-Tail ilMelLudo1.reduced.fa >> my_file.txt
+tail ilMelLudo1.reduced.fa >> my_file.txt
 ```
 
 
