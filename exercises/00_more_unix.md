@@ -10,6 +10,11 @@ head will display the ‘head’ of a file - i.e. the first 10 lines by default.
 For example, we can use head on the ilMelLudo1.reduced.fa file to see the first 10 lines
 
 ```bash
+#Create a folder to this practice and got there:
+mkdir unix_practice
+cd unix_practice
+#Copy the file to your folder
+cp /home/genomics/scratch/data/intro_unix/ilMelLudo1.reduced.fa ./
 head ilMelLudo1.reduced.fa
 ```
 
@@ -69,7 +74,7 @@ tail ilMelLudo1.reduced.fa >> my_file.txt
 wc you can count the number of words, number of characters and number of lines 
 
 ```bash
-wc -c ilMelLudo1.reduced.fa
+wc -w ilMelLudo1.reduced.fa
 
 wc -l ilMelLudo1.reduced.fa
 
