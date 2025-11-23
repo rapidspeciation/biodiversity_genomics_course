@@ -9,6 +9,10 @@ The course website is here: https://biodiversitygenomicslatam.weebly.com/
 
 
 ## Course structure
+Day 0: 
+- [Slides](slide_presentations/) basic introduction to unix and the command line
+- [Exercise](exercises/ntro_unix_basic_practical.md) on how to use the command line
+
 Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
 - [Slides](slide_presentations/02_Summary_reads-vcf.pdf) summarising the steps from getting raw Illumina reads, filtering, aligning them to a reference and calling variants and genotypes
