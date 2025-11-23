@@ -11,7 +11,7 @@ mkdir fastqc
 cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
-FILE="wgs1.R1.fastq.gz"
+FILE="wgs1_R1.fastq.gz"
 cp /home/genomics/scratch/data/Heliconius/$FILE ./
 
 # Let's have a look at the first read:
