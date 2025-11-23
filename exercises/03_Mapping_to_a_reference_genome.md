@@ -38,7 +38,7 @@ The `bwa index` tool simply requires the reference fasta file from which to buil
 If it takes too long, you can copy the file as shown below.
 
 ```shell
-cp ~/biodiversity_genomics_course/data/Heliconius/reference/GCA_* ./
+cp /home/genomics/scratch/data/Heliconius/reference/GCA* ./
 ```
 
 Use `ls` to take a look, but this will have copied in about 5 files all with the `GCA_917862395.2_iHelSar1.2_genomic.fna.` prefix that we will use for a reference alignment.
@@ -46,7 +46,7 @@ Use `ls` to take a look, but this will have copied in about 5 files all with the
 When `bwa` aligns reads, it needs access to these files, so they should be in the same directory as the reference genome. Then when we actually run the alignment, we tell `bwa` where the reference is and it does the rest. To make this easier, we will make a variable pointing to the reference.
 
 ```shell
-REF=~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=~/scratch/users/<yourname>/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 #### Performing a paired end alignment
@@ -68,8 +68,8 @@ Let's go ahead and align our data, we will break down what we did shortly after.
 
 ```shell
 bwa mem -t 2 $REF \
-~/biodiversity_genomics_course/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz \
-~/biodiversity_genomics_course/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
+/home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz \
+/home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
 ```
 Since we are only using a shortened fastq file, with 100K reads in it, this should just take a couple of minutes. In the meantime, we can breakdown what we actually did here.
 
@@ -82,7 +82,7 @@ Once your alignment has ended, you will see some alignment statistics written to
 If the analyses take a lot of time, you can stop the analysis and copy the output file from the data folder.
 
 ```shell
-cp ~/biodiversity_genomics_course/data/Heliconius/align/wgs1.sam ./
+cp /home/genomics/scratch/data/Heliconius/align/wgs1.sam ./
 ```
 
 #### SAM files
