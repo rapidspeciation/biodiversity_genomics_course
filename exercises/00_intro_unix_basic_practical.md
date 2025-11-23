@@ -246,6 +246,9 @@ Copy
 cp new_name.txt new_name_copy.txt
 
 ls ./
+```
+
+Copy the file to a new directory.
 
 ```bash
 cp new_name.txt ../
