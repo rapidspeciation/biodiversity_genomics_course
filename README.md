@@ -12,6 +12,7 @@ The course website showing logistics and useful information about Menoza is [her
 Day 0:
 - [Slides](slide_presentations/00_Intro_unix.pdf) basic introduction to unix and the command line
 - [Exercise](exercises/00_intro_unix_basic_practical.md) on how to use the command line
+- [Exercise](exercises/00_more_unix.md) on more use of the command line
 
 Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
