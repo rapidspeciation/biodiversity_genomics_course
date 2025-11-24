@@ -12,8 +12,9 @@ To save us some time and computer power we already have set of multi-fasta singl
 ## 1 - Orthologs
 
 ```
-#set up a new working directory from our home directory
-cd
+#set up a new working directory from your working directory
+pwd # check that you are in the right place 
+
 mkdir gene_trees
 cd gene_trees
 
