@@ -23,8 +23,11 @@ tail liolaemus_snps.nex
 At the bottom of the nexus file you should read
 
 outgroup lineomaculatus_0 lineomaculatus_1;
+
 svdq evalQuartets=random nquartets=100000 taxpartition=species bootstrap=standard nreps=100 nthreads=2;
+
 rootTrees rootMethod=outgroup;
+
 savetrees file=SVDquartets.tre format=Newick brlens=yes
 
 - `outgroup`: define outgroup samples in the matrix
