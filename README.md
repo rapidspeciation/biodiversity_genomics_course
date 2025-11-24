@@ -13,10 +13,10 @@ Day 0:
 - [Slides](slide_presentations/00_Intro_unix.pdf) basic introduction to unix and the command line
 - [Exercise](exercises/00_intro_unix_basic_practical.md) on how to use the command line
 - [Exercise](exercises/00_more_unix.md) on more use of the command line
+- [Exercise](exercises/00_advanced_unix_awk.md) for more advanced users (awk, variables, arrays, writing a bash script)
 
 Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
-- [Slides](slide_presentations/02_Summary_reads-vcf.pdf) summarising the steps from getting raw Illumina reads, filtering, aligning them to a reference and calling variants and genotypes
 - [Slides](slide_presentations/03_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
 - [Slides](slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
