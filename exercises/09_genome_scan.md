@@ -23,56 +23,79 @@ mkdir genome_scans
 cd genome_scans
 
 # Convert the vcf file to geno.gz which is the format that Simons script requires
-parseVCF.py -i ~/Share/Mechanitis/Mechanitis.vcf.gz | bgzip > Mechanitis.geno.gz
+python ~/software/genomics_general/VCF_processing/parseVCF.py \
+    -i ~/biodiversity_genomics_course/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.vcf.gz \
+    --skipIndels \
+    -o Hmel218003o.hmelv25.mel_tim_cyd_num.geno.gz
 
-# Get the file with individual and species information
-cp ~/Share/Mechanitis/Mechanitis.info ./
+#/ create a file assigning individuals to populations
+bcftools query -l ~/biodiversity_genomics_course/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.vcf.gz | \
+    awk '{print $1, $1}' | sed 's, ,\t,g' | sed 's/.\{4\}$//' > popmap.txt
+
 ```
+Note: `bcftools query` allows you to manipulate VCF files, extracting specimens names from the header (when using `-l` flag ).
+
+
 
 First, we will calculate pi for each species and Fst and dxy for each pair of species all in one go.
 ```shell
-popgenWindows.py -g Mechanitis.geno.gz -o Mechanitis.Fst.Dxy.pi.csv.gz \
-   -f phased -w 20000 -m 10000 -s 20000 \
-   -p polymnia -p lysimnia -p nesaea -p messenoides \
-   --popsFile Mechanitis.info
+python ~/software/genomics_general/popgenWindows.py \
+    --windType coordinate \
+    -g Hmel218003o.hmelv25.mel_tim_cyd_num.geno.gz \
+    -o Hmel218003o.hmelv25.mel_tim_cyd_num.popgen.w20s20.csv.gz \
+    -w 20000 \
+    -s 20000 \
+    -m 10000 \
+    -f phased \
+    -T 8 \
+    -p Hmel.mal.col -p Hmel.agl.per -p Hmel.ama.per -p Hmel.mel.gui -p Hnum.bsl.bra -p Htim.flo.per -p Htim.the.per -p Hcyd.chi.pan -p Hcyd.zel.col \
+    --popsFile popmap.txt
 ```
 
 Note that -w 20000 specifies a window size of 20 kb that is sliding by 20 kb (-s 20000) and -m 10000 requests these windows to have a minimum number of 10 kb sites covered. The way we have encoded the genotypes (e.g. A/T) in our geno.gz file is called "phased" and we specify that with "-f phased" even though our data is actually not phased. Instead of writing all the individual names into the command, we could give only the species names in the code (e.g. -p lysimnia -p polymnia) and with `--popsFile` specify a file that contains a line for each individual with its name and species in a text file.
 
-Next, we calculate fd to test for introgression from Mechanitis lysimnia into M. nesaea using M. messenoides as outgroup. fd is a measure of introgression suitable for small windows.
+Next, we calculate fd to test for introgression between H. melpomene amaryllis and H. timareta thelxiopea using H. numata as outgroup. fd is a measure of introgression suitable for small windows.
 
 ```shell
-ABBABABAwindows.py -w 20000 -m 10 -s 20000 -g Mechanitis.geno.gz \
-   -o Mechanitis_fd.csv.gz \
-   -f phased --minData 0.5 --writeFailedWindow \
-   -P1 polymnia -P2 nesaea -P3 lysimnia -O messenoides \
-   --popsFile Mechanitis.info
+python ~/software/genomics_general/ABBABABAwindows.py \
+    -g Hmel218003o.hmelv25.mel_tim_cyd_num.geno.gz \
+    -o Hmel218003o.hmelv25.mel_tim_cyd_num.dstats.w20s20.csv.gz \
+    -f phased \
+    -w 20000 \
+    -s 20000 \
+    -m 100 \
+    --minData 0.5 \
+    -T 8 \
+    -P1 Hmel.mel.gui -P2 Hmel.ama.per -P3 Htim.the.per -O Hnum.bsl.bra \
+    --popsFile popmap.txt \
+    --writeFailedWindows
 ```
 
-To speed up the calculation of these statistics, the script can be run on multiple threads by specifying -T <thread number>.
+To speed up the calculation of these statistics, the script can be run on multiple threads by specifying -T \<thread number>.
 
-For this script we need to specify that at least 50% of the individuals of each population need to have data for a site to be considered (-\-minData 0.5) and we reduce m to 10 as it only considers polymorphic sites.
+For this script we need to specify that at least 50% of the individuals of each population need to have data for a site to be considered (-\-minData 0.5) and we reduce m to 100 as it only considers polymorphic sites.
 
-To plot the results, we need will use the files I prepared for the complete chr9 and read it into R. You can download all files found in the Share/genome_scan_results folder. So in a separate terminal, type:
+To plot the results, we need will use the files I prepared for the complete chr18 (Hmel218003o) and read it into R. You can download all files found in the Share/genome_scan_results folder. So in a separate terminal, type:
+
 
 ```shell
-scp -i c1.pem user1@<IP>:~/Share/genome_scan_results/* ./
+scp -i c1.pem user1@<IP>:~/Share/genome_scan_results/*popgen.w20s20.csv.gz ./
+scp -i c1.pem user1@<IP>:~/Share/genome_scan_results/*dstats.w20s20.csv.gz ./
 
 # Unzip the file
-gunzip Mechanitis_fd.csv.gz
-gunzip Mechanitis.Fst.Dxy.pi.csv.gz
+gunzip Hmel218003o.hmelv25.mel_tim_cyd_num.popgen.w20s20.csv.gz 
+gunzip Hmel218003o.hmelv25.mel_tim_cyd_num.dstats.w20s20.csv.gz 
 ```
 
 Then we can start plotting:
 
 ```r
-
 # Prepare input files:
 # Read in the file with sliding window estimates of FST, pi and dxy
-windowStats<-read.csv("Mechanitis.Fst.Dxy.pi.csv",header=T)
+windowStats<-read.csv("Hmel218003o.hmelv25.mel_tim_cyd_num.popgen.w20s20.csv",header=T)
 
 # Read in the fd estimates of 20 kb windows for NyerMak into NyerPyt (P1=PundPyt, P2=NyerPyt, P3=NyerMak, outgroup=Kivu cichlid)
-fd<-read.csv("Mechanitis_fd.csv",header=T,na.strings = "NaN")
+fd<-read.csv("Hmel218003o.hmelv25.mel_tim_cyd_num.dstats.w20s20.csv",header=T,na.strings = "NaN")
 
 # Let's have a look at the FST and fd datasets
 head(windowStats)
@@ -80,8 +103,8 @@ head(fd)
 
 # Let's plot FST, dxy and fd between the two younger species
 require(ggplot2)
-fst<-ggplot(windowStats,aes(mid,Fst_polymnia_lysimnia))+geom_point()
-dxy<-ggplot(windowStats,aes(mid,dxy_polymnia_lysimnia))+geom_point()
+fst<-ggplot(windowStats,aes(mid,Fst_Hmel.mel.gui_Hmel.ama.per))+geom_point()
+dxy<-ggplot(windowStats,aes(mid,dxy_Hmel.mel.gui_Hmel.ama.per))+geom_point()
 fd<-ggplot(fd,aes(mid,fd))+geom_point()
 
 # Let's compare the stats on chr9 next to each other
