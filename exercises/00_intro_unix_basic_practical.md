@@ -254,11 +254,9 @@ mv test_file2.txt file6.txt
 ```
 Be careful you can overwrite if there is a file with the same name where you are moving the file to.
 
-When moving a directory into another directory it is impportant to text the slash after the target directory otherwise the target directory will be overwritten.
+When moving a directory into another directory it is impportant to type the slash after the target directory, otherwise the target directory will be overwritten.
 
-This examples shows the difference between writing target directory without slash - the target is overwritten test1 has been renamed to test2
-
-Adding a slash moves the source directory to the target directory
+This examples shows the difference between writing target directory without slash - the target is overwritten test1 has been renamed to test2, while adding a slash moves the source directory to the target directory
 
 ```bash
 mkdir test1 test2
