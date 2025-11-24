@@ -2,9 +2,6 @@
 ## held for the first time at [Ikiam](https://www.ikiam.edu.ec), in Tena, Ecuador in July 2024
 This course taught by Karin Näsvall, Nicol Rueda and Joana Meier from the [Wellcome Sanger Institute](https://www.sanger.ac.uk/group/meier-group/) is an adapted version of the [speciation genomics course](https://speciationgenomics.github.io/) by Mark Ravinet and Joana Meier. Here you will find all relevant course materials for the biodiversity genomics course, including all files we used during the course in case you want to redo anything at home.
 
-## Gitpod
-If you would like to use the online course material and go through the tutorials yourself, you can do this via GitPod. Get an account [here](https://gitpod.io/workspaces). 50 h per month of usage are free. You can then login to the course workspace via this link: https://gitpod.io/new#https://github.com/rapidspeciation/biodiversity_genomics_course. When asked, click "Continue". At the beginning of the GitPod session, it will install all required tools. You can watch the progress in the "installation" terminal (menu on the bottom right). This will take a minute, as soon as you can see the prompt "$" in the "working" terminal, you can start to run commands there.
-
 ## Course structure
 Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
