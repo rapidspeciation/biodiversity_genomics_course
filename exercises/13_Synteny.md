@@ -165,7 +165,7 @@ The order of the arguments is important in this case.
 
 ```
 #copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder)
-scp -r -i genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/YOUR_FOLDER/synteny/syntenyplotter/ ./
+scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/YOUR_FOLDER/synteny/syntenyplotter/ ./
 
 #In the RStudio terminal:
 # go into the syntenyplotter folder
@@ -357,7 +357,7 @@ We will copy the `circlize` directory to our local computer.
 ```
 #make sure you are in your workshop dir
 #copy the folder from the Amazon cluster
-scp -r -i genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/comparative_genomics/synteny/circlize/ ./
+scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/comparative_genomics/synteny/circlize/ ./
 ```
 Open the script in Rstudio.
 We will go through the script step by step.
