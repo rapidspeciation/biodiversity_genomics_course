@@ -20,6 +20,7 @@ Day 1:
 - [Slides](slide_presentations/03_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
 - [Slides](slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
+- [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
 
 Day 2: TBA
 
