@@ -10,7 +10,7 @@ mkdir awk
 cd awk
 
 # Let's get some files
-cp /home/genomics/scratch/data/martin2019/martin2019.* ./
+cp /home/genomics/scratch/data/martin2019/martin2019* ./
 
 # Let's have a look at these file (note '| column -t' makes the columns nicely aligned)
 head martin2019_info.txt | column -t
@@ -85,6 +85,7 @@ sed -i 's/ /\t/g' martin2019_combined.txt
 # Get the mean missing data proportion per group
 awk '{if(NR>1) missing[$2]+=$7; count[$2]++}END{for(g in missing){print g,(missing[g]/count[g])}}' martin2019_combined.txt | column -t
 
+```
 
 #### String manipulation
 

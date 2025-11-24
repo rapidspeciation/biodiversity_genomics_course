@@ -95,13 +95,15 @@ grep ">" ilMelLudo1.reduced.fa > chromosome_file.txt
 Have a look at the file we created. 
 
 ### sed 
-Stream editor
+The stream editor sed is working on the file line by line
 
 ```bash
 sed -n 3p chromosome_file.txt
 ```
 
-In this command, 3p is just telling the -n flag we want to see the third line. We could also extract lines 3-5 like so:
+From sed manual: By default, each line of input is echoed to the standard output after all of the commands have been applied to it.  The -n option suppresses this behavior.
+
+In this command, 3p is just telling the -n flag we want to see the third line. We could also extract lines 3-5
 
 ```bash
 sed -n 3,5p chromosome_file.txt
@@ -109,13 +111,20 @@ sed -n 3,5p chromosome_file.txt
 
 But sed can actually do much more than this. For example, it can replace text. Let’s replace all instances of “SUPER” with another name, like “MelLudo1”:
 
-
 ```bash
 sed 's/SUPER/MelLudo1/g' chromosome_file.txt
 ```
 
 This is just a small demonstration of what it is possible to do with sed. It is a very useful tool, especially for file conversion and well worth getting more familiar with.
 
+## Pipe - combining commands
+
+The pipe | links commands together. Standart output is piped into the next command.
+
+```bash
+grep ">" ilMelLudo1.reduced.fa | sed 's/SUPER/MelLudo1/g' > chromosome_file.renamed.txt
+
+```
 
 
 
