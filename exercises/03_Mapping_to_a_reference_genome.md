@@ -5,6 +5,7 @@ Now that we have our filtered reads, we need to map (or align) them to the refer
 Using alignment software, we essentially find where in the genome our reads originate from and then once these reads are aligned, we are able to either call variants or construct a consensus sequence for our set of aligned reads.
 
 ### Getting access to the reference genome
+You can find reference genomes here: https://www.ncbi.nlm.nih.gov/datasets/genome/
 
 We will be aligning our sequence data to the *Heliconius sara* reference genome, first published by [Rueda-M *et al.* (2024)](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1011318).
 
