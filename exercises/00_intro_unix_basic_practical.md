@@ -126,8 +126,8 @@ ls ./
 
 
 ```bash
-touch file3
-touch file4
+touch file3.txt
+touch file4.txt
 
 ls ./
 ```
@@ -143,6 +143,12 @@ ls ./
 
 Relative paths
 
+Tell the path relative to the directory you are in.
+
+./ is the current directory
+
+../ is the directory one level above
+
 ```bash
 
 cd test_dir2
@@ -150,7 +156,7 @@ cd test_dir2
 pwd
 
 ls ./
-
+# this is the same as the absolute path:
 ls /home/genomics/scratch/yourname_x/test_dir2
 
 ls ../
@@ -176,8 +182,8 @@ Printing the content to screen with the command cat
 
 ```bash
 
-touch new_file.txt
-cat new_file.txt 
+touch file5.txt
+cat file5.txt 
 
 ```
 
@@ -185,37 +191,44 @@ Well it is empty, so we need some content.
 nano is a text editor, but there are others vi, vim, emacs, etc
 
 Open the file with nano and write something.
-Save and exit with Ctrl + X
+
+Save and exit with Ctrl + X (same as ^X)
 
 ```bash
 
-nano new_file.txt
-cat new_file.txt 
+nano file5.txt
+cat file5.txt 
 
 ```
 If we do not want the whole file printed to screen
 
 ```bash
-less new_file.txt
+less file5.txt
 
 ```
 You can search in less with /text
+
 n next match
+
 N previous match
 
 Quit with q
 
 
-Take a look at the first lines of the file
+Take a look at the first lines of the file, default is 10 lines but you can decode the number of lines with the flag -n
 ```bash
 
-head file
+head file5.txt
+
+head -n3 file5.txt
 ```
 
 Take a look at the first lines of the file
 ```bash
 
 tail file
+
+tail -n3 file
 ```
 
 
@@ -224,26 +237,49 @@ tail file
 Command (cp or mv) source target
 
 Source is the file (or directory) you want to copy or move
+
 Target is the file (or directory) you want to copy or move it to
 
 ```bash
 
-mv new_file.txt ../
+mv file5.txt ../
 
 ```
-Mv can also be used to rename files
+mv can also be used to rename files
 
 ```bash
-touch new_file2.txt
-mv new_file2.txt new_name.txt
+touch test_file2.txt
+mv test_file2.txt file6.txt
 
 ```
+Be careful you can overwrite if there is a file with the same name where you are moving the file to.
+
+When moving a directory into another directory it is impportant to text the slash after the target directory otherwise the target directory will be overwritten.
+
+This examples shows the difference between writing target directory without slash - the target is overwritten test1 has been renamed to test2
+
+Adding a slash moves the source directory to the target directory
+
+```bash
+mkdir test1 test2
+# move without target trailing slash - rename directory test1 to test2
+mv test1 test2
+ls ./
+
+mkdir test1 test2
+# move with target trailing slash - move directory test1 to test2
+mv test1 test2/
+ls ./
+ls test2/
+
+```
+
 
 
 Copy
 ```bash
 
-cp new_name.txt new_name_copy.txt
+cp file6.txt file6_copy.txt
 
 ls ./
 ```
@@ -251,11 +287,11 @@ ls ./
 Copy the file to a new directory.
 
 ```bash
-cp new_name.txt ../
+cp file.txt ../
 
 ```
 
-Be careful, you could overwrite if there already is another file with the same name as the file you want to move or copy.
+Be careful, you could overwrite if there already is another file or directory with the same name as the file you want to copy.
 
 
 # Cleaning up
