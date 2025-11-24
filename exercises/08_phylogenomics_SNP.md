@@ -78,7 +78,7 @@ Once in R, load the functions with the SNPs2CF that we already uploaded to Toko.
 
 ```R
 source("/home/genomics/programs/functions_v1.7.R")
-setwd("/home/genomics/scratch/melisa/phylogenomics/liolaemus")
+setwd("/home/genomics/scratch/users/melisa_o/phylogenomics/liolaemus")
 
 ```
 
