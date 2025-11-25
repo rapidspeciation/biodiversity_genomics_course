@@ -146,10 +146,7 @@ First load the `tidyverse` package and ensure you have moved the plink output in
 ```r
 # load tidyverse package
 library(tidyverse)
-```
 
-Then we will use a combination of readr and the standard scan function to read in the data.
-```r
 # set the folder where you downloaded the files into as your working directory
 setwd("C:/Users/jm66/Dropbox/teaching/BiodiversityGenomics/Argentina2025/PCA/")
 
@@ -179,7 +176,7 @@ Now that we have done our housekeeping, we have everything in place to actually 
 # first convert to percentage variance explained
 pve <- data.frame(PC = 1:10, pve = eigenval/sum(eigenval)*100)
 
-With that done, it is very simple to create a bar plot showing the percentage of variance each principal component explains.
+# With that done, it is very simple to create a bar plot showing the percentage of variance each principal component explains.
 
 # make plot
 ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity") +
