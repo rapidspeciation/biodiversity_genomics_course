@@ -23,7 +23,9 @@ Day 1:
 - [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
 - [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) on assembling reference genomes
 
-Day 2: TBA
+Day 2: 
+- [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
+- [Excercise](exercises/03_Mapping_to_a_reference_genome.md) on aligning reads to a reference genome
 
 
 Day 3: TBA
