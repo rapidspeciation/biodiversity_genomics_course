@@ -58,7 +58,9 @@ zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz | head
 zgrep ">" GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz
 
 ```
-Now do the same for *M. messenoides*. Do you think there are any rearrangements between these genomes?
+Now do the same for *M. messenoides*. 
+
+Do you think there are any rearrangements between these genomes?
 
 To make it easy for ourselves in the downstream analyses we will rename the fasta sequences in the genome files. There are several software available to manipulate fasta files [seqkit](https://bioinf.shenwei.me/seqkit/) and [seqtk](https://github.com/lh3/seqtk) to name two. Here we will use seqkit and rename the chromosomes and create a copy of the genome file ending with \_renamed.fa. Here I am using the abbreviation in the genome file as species identifier (ilMecMaza1).
 
