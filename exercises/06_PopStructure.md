@@ -129,11 +129,14 @@ PCA output:
 
 ### Plotting the PCA output
 
-Let's now download the relevant files to our local computers to plot the PCA in R on your own computer. In a new terminal, write (changing the user number to your user number and the IP by the correct IP number)
+Let's now download the relevant files to our local computers to plot the PCA in R on your own computer. In a new terminal that is not connected to the server, write (changing <yourname> to the name of your users folder)
+Make sure to go into the folder where you want to download the files into.
 
 ```shell
-scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
-scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
+# define a variable with your users folder name
+NAME=joana_m
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/$NAME/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/$NAME/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
 scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/martin2019_info.txt ./
 ```
 
@@ -145,17 +148,18 @@ library(tidyverse)
 
 Then we will use a combination of readr and the standard scan function to read in the data.
 
+# set the folder where you downloaded the files into as your working directory
+setwd("C:/Users/jm66/Dropbox/teaching/BiodiversityGenomics/Argentina2025/PCA/")
+
 # read in data
-pca <- read_table2("./Heliconius.eigenvec", col_names = FALSE)
-eigenval <- scan("Heliconius.eigenval")
-info <- read_table2("Heliconius.info")
+pca <- read_table2("wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec", col_names = FALSE)
+eigenval <- scan("wgenome.martin2019.ingroup.mac2.prune10kb.eigenval")
+info <- read_table2("martin2019_info.txt")
 
 #### Cleaning up the data
-Unfortunately, we need to do a bit of legwork to get our data into reasonable shape. First we will remove a nuisance column (plink outputs the individual ID twice). We will also give our pca data.frame proper column names.
+Unfortunately, we need to do a bit of legwork to get our data into reasonable shape. We will also give our pca data.frame proper column names.
 
 # sort out the pca data
-# remove nuisance column
-pca <- pca[,-1]
 
 # set names
 names(pca)[1] <- "ind"
@@ -168,7 +172,7 @@ pca <- as_tibble(merge(pca, info, by="ind"))
 Now that we have done our housekeeping, we have everything in place to actually visualise the data properly. First we will plot the eigenvalues. It is quite straightforward to translate these into percentage variance explained (although note, you could just plot these raw if you wished).
 
 # first convert to percentage variance explained
-pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+pve <- data.frame(PC = 1:10, pve = eigenval/sum(eigenval)*100)
 
 With that done, it is very simple to create a bar plot showing the percentage of variance each principal component explains.
 
@@ -184,7 +188,7 @@ cumsum(pve$pve)
 Next we move on to actually plotting our PCA. Given the work we did earlier to get our data into shape, this doesn't take much effort at all.
 
 # plot pca
-ggplot(pca, aes(PC1, PC2, col = species)) + geom_point(size = 3) +
+ggplot(pca, aes(PC1, PC2, col = pop)) + geom_point(size = 3) +
 coord_equal() + theme_light() +
 xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
 ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
