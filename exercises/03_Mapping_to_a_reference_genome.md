@@ -120,7 +120,7 @@ Now, lets look at the mapping statistics again:
 samtools flagstat wgs1.sam
 ```
 
-This shows us that a total of 113k reads were read in (forward and reverse), that around 96% mapped successfully, 84% mapped with their mate pair, 1.09% were singletons and the rest did not map.
+This shows us that a total of 109k reads were read in (forward and reverse), that around 96% mapped successfully, 84% mapped with their mate pair, 1.09% were singletons and the rest did not map.
 
 #### BAM files
 
