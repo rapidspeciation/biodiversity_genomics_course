@@ -206,7 +206,8 @@ Note that this R code block also includes arguments to display the percentage of
 ### Supplementary: Perform LD-based prunning (if working with individuals from the same species)
 Linkage pruning, here in a window of 50 sites will remove sites that show strong linkage, i.e. correlation in allele frequency. So if multiple sites basically contain the same information, we only want to keep one of them.
 
-#/ prune snps based on linkage disequilibrium (LD)
+```shell
+# prune snps based on linkage disequilibrium (LD)
 plink2 \
 --vcf $VCF \
 --threads 8 \
@@ -220,7 +221,7 @@ plink2 \
 --indep-pairwise 50 10 0.2 \
 --out wgenome.martin2019.ingroup.mac2
 
-#/ extract LD-pruned sites
+# extract LD-pruned sites
 plink2 \
 --vcf $VCF \
 --threads 8 \
@@ -233,5 +234,6 @@ plink2 \
 --extract wgenome.martin2019.ingroup.mac2.prune.in \
 --export vcf id-paste=iid \
 --out wgenome.martin2019.ingroup.mac2.ld_prune
+```
 
 As well as being versatile, plink is very fast. It will quickly produce a linkage analysis for all our data and write plenty of information to the screen. When complete, it will write out two files wgenome.martin2019.ingroup.mac2.prune.in and wgenome.martin2019.ingroup.mac2.prune.out. The first of these is a list of sites which fell below our linkage threshold - i.e. those we should retain. The other file is the opposite of this. In the next step, we will produce a PCA from these linkage-pruned sites.
