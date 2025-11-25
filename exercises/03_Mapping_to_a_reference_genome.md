@@ -22,7 +22,7 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/917/862/395/GCA_917862395.2_iH
 The file is compressed with `gzip`, so before we can do anything with it, we need to decompress it. Usually we avoid decompressing files but it was compressed here because of it's large size and we need it to be uncompressed for it to be used properly in our analysis. So to do this we simply use `gunzip`:
 
 ```shell
-gunzip GCA_917862395.2_iHelSar1.2_genomic.fna.gz
+gunzip -c /home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna.gz > ./GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 In order to align reads to the genome, we are going to use `bwa` which is a very fast and straightforward aligner. See [here](http://bio-bwa.sourceforge.net/) for more details on `bwa`.
@@ -55,7 +55,6 @@ REF=/home/genomics/scratch/users/<yourname>/reference/GCA_917862395.2_iHelSar1.2
 Now we are ready to align our sequences! To simplify matters, we will first try this on a single individual. First, we will create a directory to hold our aligned data:
 
 ```shell
-cd ~
 mkdir align
 cd align
 ```
@@ -121,7 +120,7 @@ Now, lets look at the mapping statistics again:
 samtools flagstat wgs1.sam
 ```
 
-This shows us that a total of 113k reads were read in (forward and reverse), that around 96% mapped successfully, 84% mapped with their mate pair, 1.09% were singletons and the rest did not map.
+This shows us that a total of 109k reads were read in (forward and reverse), that around 96% mapped successfully, 84% mapped with their mate pair, 1.09% were singletons and the rest did not map.
 
 #### BAM files
 
@@ -153,7 +152,7 @@ samtools sort wgs1.bam -o wgs1_sort.bam
 Once this is run, we will have a sorted bam. One point to note here, could we have done this is a more efficient manner? The answer is yes, actually we could have run all of these commands in a single line using pipes like so:
 
 ```shell
-bwa mem -t 4 $REF /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
+bwa mem -t 2 $REF /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
 ```
 
 However as you may have noticed, we have only performed this on a single individual so far... what if we want to do it on multiple individuals? Do we need to type all this everytime? The answer is no - we could do this much more efficiently.
