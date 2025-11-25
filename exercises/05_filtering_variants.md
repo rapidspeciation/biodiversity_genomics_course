@@ -5,23 +5,23 @@ A Conda environment is like a separate workspace on your computer where you can 
 Think of it like a "sandbox" — you create an environment for a project, install exactly what you need (like Python and certain bioinformatics tools), and everything stays isolated. This helps avoid conflicts between tools or versions when working on different projects.
 
 ```shell
-To create a conda environment
+## To create a conda environment
 
 conda create --name vcftools_nic
 
-To activate our conda environment
+## To activate our conda environment
 
 conda activate vcftools_nic
 
-To install a software
+## To install a software
 
 conda install vcftools
 
-Ask help about the software
+## Ask help about the software
 
 vcftools -help
 
-Close the conda environment
+## Close the conda environment
 
 conda deactivate
 
