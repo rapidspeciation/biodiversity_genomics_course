@@ -143,8 +143,8 @@ scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/martin2019_
 #### Setting up the R environment
 First load the `tidyverse` package and ensure you have moved the plink output into the working directory you are operating in. You may want to set up an RStudio Project to manage this analysis. See [here](https://speciationgenomics.github.io/more_advanced_R/) for a guide on how to do this.
 
-# load tidyverse package
 ```r
+# load tidyverse package
 library(tidyverse)
 ```
 
@@ -162,8 +162,9 @@ info <- read_table2("martin2019_info.txt")
 #### Cleaning up the data
 Unfortunately, we need to do a bit of legwork to get our data into reasonable shape. We will also give our pca data.frame proper column names.
 
-# sort out the pca data
 ```r
+# sort out the pca data
+
 # set names
 names(pca)[1] <- "ind"
 names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
@@ -175,7 +176,6 @@ pca <- as_tibble(merge(pca, info, by="ind"))
 #### Plotting the data
 Now that we have done our housekeeping, we have everything in place to actually visualise the data properly. First we will plot the eigenvalues. It is quite straightforward to translate these into percentage variance explained (although note, you could just plot these raw if you wished).
 ```r
-
 # first convert to percentage variance explained
 pve <- data.frame(PC = 1:10, pve = eigenval/sum(eigenval)*100)
 
