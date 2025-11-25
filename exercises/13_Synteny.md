@@ -44,7 +44,7 @@ mkdir genomes
 cd genomes
 
 ```
-The genomes can be accessed on ncbi, Mechanitis mazaeus and Mechanitis messenoides. A little repetition on how to download genomes: Go to ncbi (https://www.ncbi.nlm.nih.gov/datasets/genome/) and search for *Mechanitis*. We are looking for the primary assemblies of *Mechanitis mazaeus* and *M. messenoides*. Click on one of them, then chose FTP, right-click on the link to the file that ends in genomic.fna.gz and use `wget <link_to_file>`in the command line to retrieve the file to your directory on the server.
+The genomes can be accessed on ncbi, Mechanitis mazaeus and Mechanitis messenoides. A little repetition on how to download genomes: Go to ncbi (https://www.ncbi.nlm.nih.gov/datasets/genome/) and search for *Mechanitis*. We are looking for the primary assemblies of *Mechanitis mazaeus* and *M. messenoides*. Click on the reference assembly, then chose FTP, right-click on the link to the file that ends in genomic.fna.gz and use `wget <link_to_file>`in the command line to retrieve the file to your directory on the server.
 
 ```
 #download the files from ncbi (go to https://www.ncbi.nlm.nih.gov/datasets/genome/)
@@ -55,7 +55,7 @@ zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz | head
 
 #check how many chromosomes and scaffolds there are by grepping the fasta header, which always starts with a >
 #very important to use quotes around the >
-zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz | grep ">"
+zgrep ">" GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz
 
 ```
 Now do the same for *M. messenoides*. Do you think there are any rearrangements between these genomes?
@@ -120,7 +120,7 @@ minimap2 -t 2 ../genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ../geno
 
 This takes 10-20 minutes on a large cluster, but here it might take much longer and Minimap2 is memory demanding. With the settings -t 2 it took 15 min on our cluster with maximum memory usage of approximately 10 GB. During the wait you can take a look at Step 3 visualisation, or get a coffee.
 
-If the script is not finished or memory demands are to high we have prepared results in the `Share` folder. Copy the result file `MecMaza_MecMess.paf` to you output directory and look at the output:
+If the script is not finished or memory demands are to high we have prepared results in the `Share` folder. Copy the result file `MecMaza_MecMess.paf` to your output directory and look at the output:
 ```shell
 cp /home/genomics/scratch/data/comparative_genomics/synteny/MecMaza_MecMess.paf output/
 head output/MecMaza_MecMess.paf
@@ -134,7 +134,7 @@ There are many different ways to visualise genome alignments, such as dotplots, 
 
 Here we will use [SyntenyPlotteR](https://github.com/Farre-lab/syntenyPlotteR) to create a ribbon plot.
 
-All synteny visualisation require information about the name and size of the chromosomes and the links between the genomes (start and end of alignments or positions of common markers). SyntenyPlotter uses two intermediate files, a chromosome size file and a chain file containing the connections betwen the two genomes. We will use a wrapper script that create these files and makes the ribbon plot.
+All synteny visualisation require information about the name and size of the chromosomes and the links between the genomes (start and end of alignments or positions of common markers). SyntenyPlotter produces two intermediate files that it needs for plotting, a chromosome size file and a chain file containing the connections betwen the two genomes. We will use a wrapper script that create these files and makes the ribbon plot.
 
 ```shell
 #organise our directory
@@ -147,14 +147,14 @@ cd syntenyplotter
 mkdir intermediate plots
 
 ```
-Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
+To plot the synteny we need to load the R module.
 ```shell
-#copy the script from the Share folder
-cp  /home/genomics/scratch/scripts/Syntenyplotter_paf_wrapper.R ./
-cp ../minimap/output/MecMaza_MecMess.paf ./
+module load ~/modules/R
 ```
 
-This script formates the output from minimap2 to fit the input of SyntenyplotteR, prints the two intermediate files in the folder `intermediate`, then plots and saves the figure in the `plots` directory. You can run this script on the command line.
+Then we can run an R-script (collection of R commands) on the command line.
+
+The R-script Syntenyplotter_paf_wrapper.R reformats the output from minimap2 to fit the input of SyntenyplotteR, prints the two intermediate files in the folder `intermediate`, then plots and saves the figure in the `plots` directory. You can run this script on the command line.
 
 It requies three arguments:
 1. the paf-file (including the path to it)
@@ -163,21 +163,32 @@ It requies three arguments:
 
 The order of the arguments is important in this case.
 
+```shell
+Rscript /home/genomics/scratch/scripts/Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
+
+Alternatively if it is not working on the server:
+Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
+```shell
+#copy the script from the Share folder
+cp  /home/genomics/scratch/scripts/Syntenyplotter_paf_wrapper.R ./
+# copy the alignment file to the syntenyplotter folder
+cp ../minimap/output/MecMaza_MecMess.paf ./
+```
+```
+# go to the directory where you want the syntenyplotter folder
 #copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder)
 scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/YOUR_FOLDER/synteny/syntenyplotter/ ./
 
-#In the RStudio terminal:
-# go into the syntenyplotter folder
-cd syntenyplotter/
 #check
 ls
-#run the script on your local computer (not on the cluster)
+#run the script on your local computer
 Rscript Syntenyplotter_paf_wrapper.R MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
-Your alignment plot should now be in your `plots` directory. Describe what you see. Can you answer some of the questions we asked in the beginning?
+Your alignment plot should now be in your `plots` directory. Describe what you see. 
 
-If you want you can add the variables directly in the script (hardcode). The hardcoding could be useful if running your own genomes with a different formatting of the sequence (chromosome) names, the script is taylored for chromosome names in the format string_number or just a number.
+Can you answer some of the questions we asked in the beginning?
+
 
 **Extra**: Sometimes you need to refine to plot to increase the visibilty of the rearrangements to facilitate interpretation. For example, I want the Z-chromosome to be displayed last in both taxa. Try and change the order of the chromosomes in the plot.
 
