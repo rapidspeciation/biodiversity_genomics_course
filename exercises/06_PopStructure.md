@@ -26,23 +26,27 @@ There are two options when it comes to keeping only independent sites.
 
 First things first, we will make a directory called 06_PopulationStructure where we will run our analysis
 
-    # move to your directory
-    cd /home/genomics/scratch/<yourname>
-    # make a new directory for this excercise
-    mkdir 06_PopulationStructure
-    # move into it
-    cd 06_PopulationStructure
+```shell
+# move to your directory
+cd /home/genomics/scratch/<yourname>
+
+# make a new directory for this excercise
+mkdir pca
+
+# move into it
+cd pca
+```
 
 Since we are only interested in investigating population structure within the melpomene-timareta-cydno clade, we will exclude outgroup (*H. numata*) individuals from our dataset. This can be done using the `--keep` option in plink.
+```shell
+# To avoid having lots of copies of this vcf file, you can directly specify the full path to the file without copying it to your folder
+VCF="/home/genomics/scratch/data/martin2019/wgenome.martin2019.biallelic.mac2.vcf.gz"
 
-    # To avoid having lots of copies of this vcf file, you can directly specify the full path to the file without copying it to your folder
-    VCF="/home/genomics/scratch/data/martin2019/wgenome.martin2019.biallelic.mac2.vcf.gz"
-
-    # create a file listing individuals in ingroup (melpomene, timareta, cydno), excluding the outgroup "Hnum". This file will be used in plink to keep only these individuals
+# create a file listing individuals in ingroup (melpomene, timareta, cydno), excluding the outgroup "Hnum". This file will be used in plink to keep only these individuals
     
-    bcftools query -l $VCF | grep -v Hnum > mel_tim_cyd.keep
+bcftools query -l $VCF | grep -v Hnum > mel_tim_cyd.keep
 
-    # Subset to ingroup individuals
+# Subset to ingroup individuals
     plink2 \
         --vcf $VCF \
         --threads 8 \
@@ -50,6 +54,7 @@ Since we are only interested in investigating population structure within the me
         --keep mel_tim_cyd.keep \
         --export vcf id-paste=iid \
         --out wgenome.martin2019.ingroup
+```
 
 Note that since we excluded outgroup individuals, some of the sites might not be variable in the ingroup dataset. We need to apply again filters to get only variable sites `--min-alleles 2 --max-alleles 2 --mac 2`. We will also remove sites where not all individuals have information `--geno 0`. (Note: you may want to be more or less stringent with the missing data filter --geno, depending on your dataset).
     
