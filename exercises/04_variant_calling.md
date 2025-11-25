@@ -30,21 +30,18 @@ First of all, use `screen` to make a screen called variant and move into it.
 Inside the screen, declare a variable for the reference genome.
 
 ```shell
-REF=~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=/home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 Next we run the `bcftools mpileup` and `bcftools call` command. We will break it down after.
 
 ```shell
-## We need to have the bam files in our align folder.
-cd align
-cp ~/biodiversity_genomics_course/data/Heliconius/markdupl/*_sort.rmd.bam ./
 ## Go to home again and create a new folder and call it "vcf"
 mkdir vcf
 cd vcf
 ## We are going to call variants within the vcf folder using bcftools:
 bcftools mpileup -a AD,DP,SP -Ou -f $REF \
-../markdupl/*.sort.rmd.bam | bcftools call -f GQ,GP \
+/home/genomics/scratch/data/Heliconius/markdupl/*.sort.rmd.bam | bcftools call -f GQ,GP \
 -mO z -o ./sara_sapho.vcf.gz
 ```
 While this is running, let's go through the options and get an idea of what we did.
