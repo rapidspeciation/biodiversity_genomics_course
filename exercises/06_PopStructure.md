@@ -200,10 +200,10 @@ ggplot(pca, aes(PC1, PC2, col = pop)) + geom_point(size = 3) +
 coord_equal() + theme_light() +
 xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
 ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
+```
 
 Note that this R code block also includes arguments to display the percentage of variance explained on each axis. Here we only plot PC1 and PC2. Given that PC3 also shows a high percentage of variance explained, it could be worth it to also plot PC1 against PC3.
 
-```
 
 
 ### Supplementary: Perform LD-based prunning (if working with individuals from the same species)
