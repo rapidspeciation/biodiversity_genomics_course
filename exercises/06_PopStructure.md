@@ -46,61 +46,28 @@ VCF="/home/genomics/scratch/data/martin2019/wgenome.martin2019.biallelic.mac2.vc
     
 bcftools query -l $VCF | grep -v Hnum > mel_tim_cyd.keep
 
-# Subset to ingroup individuals
-    plink2 \
-        --vcf $VCF \
-        --threads 8 \
-        --allow-extra-chr \
-        --keep mel_tim_cyd.keep \
-        --export vcf id-paste=iid \
-        --out wgenome.martin2019.ingroup
 ```
 
-Note that since we excluded outgroup individuals, some of the sites might not be variable in the ingroup dataset. We need to apply again filters to get only variable sites `--min-alleles 2 --max-alleles 2 --mac 2`. We will also remove sites where not all individuals have information `--geno 0`. (Note: you may want to be more or less stringent with the missing data filter --geno, depending on your dataset).
-```shell
-    # Include bi-allelic sites only (excluding singletons)
-    plink2 \
-        --vcf wgenome.martin2019.ingroup.vcf \
-        --threads 8 \
-        --allow-extra-chr \
-        --geno 0 \
-        --min-alleles 2 \
-        --max-alleles 2 \
-        --mac 2 \
-        --export vcf id-paste=iid \
-        --out wgenome.martin2019.ingroup.mac2
-```
-
-Finally, we can prune the dataset based on physical linkage.
-```shell
-
-    plink2 \
-        --vcf $VCF \
-        --threads 8 \
-        --allow-extra-chr \
-        --keep mel_tim_cyd.keep \
-        --bp-space 10000 \
-        --export vcf id-paste=iid \
-        --out wgenome.martin2019.ingroup.mac2.prune10kb
-```
-
-Since in plink, filtering commands are processed in a pre-defined [order](https://www.cog-genomics.org/plink/2.0/order) we can run all the previous filters with a single command.
+PCA requires only variable SNPs that are bi-allelic (2 alternative alleles). Let's keep only the ingroup individuals and apply a filter to get variable sites where the allele is found at least twice `--min-alleles 2 --max-alleles 2 --mac 2`. We will also remove sites where more than 5 individuals have missing data `--geno 5`. Keep only one site per 10000 bp.
 
 ```shell
 plink2 \
-        --vcf $VCF \
-        --threads 8 \
-        --allow-extra-chr \
-        --keep mel_tim_cyd.keep \
-        --min-alleles 2 \
-        --max-alleles 2 \
-        --mac 2 \
-        --bp-space 10000 \
-        --export vcf id-paste=iid \
-        --out wgenome.martin2019.ingroup.mac2.prune10kb
+    --vcf $VCF \
+    --threads 2 \
+    --allow-extra-chr \
+    --keep mel_tim_cyd.keep \
+    --geno 0 \
+    --min-alleles 2 \
+    --max-alleles 2 \
+    --mac 2 \
+    --bp-space 10000 \
+    --export vcf bgz \
+    --out wgenome.martin2019.ingroup.mac2.prune10kb
 ```
 
-So for our plink command, we did the following:
+Since in plink, filtering commands are processed in a pre-defined [order](https://www.cog-genomics.org/plink/2.0/order) we we can run all these filters with a single command.
+
+Here an explanation for all parameters we used:
 - `--vcf` - specified the location of our VCF file.
 - `--threads` - number of compute threads to use.
 - `--allow-extra-chr` - allow additional chromosomes beyond the human chromosome set. This is necessary as otherwise plink expects chromosomes 1-22 and the human X chromosome.
@@ -110,6 +77,7 @@ So for our plink command, we did the following:
 - `-max-alleles` - Filter out variants with more than given # of alleles
 - `--mac` - Filter out variants with minor allele count lower than #
 - `--bp-space` - Remove variants so each pair is no closer than the given distance.
+- `--export vcf bgz` - Make a bgz-compressed vcf file
 
 If you wish to prune the dataset based on LD directly estimated from your dataset, you can find a series of commands to do so at the end of this tutorial.
 
@@ -118,11 +86,11 @@ If you wish to prune the dataset based on LD directly estimated from your datase
 
 Next we rerun plink with a few additional arguments to get it to conduct a PCA. First, we need to produce a file with allele frequencies per SNP, necessary for the PCA analyses (note this is not necessary in earlier versions of plink)
 
+First, we generate a file with allele frequencies for all sites
 ```shell
-    # generate an allele frequency file
     plink2 \
-        --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf \
-        --threads 8 \
+        --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf.gz \
+        --threads 2 \
         --allow-extra-chr \
         --set-missing-var-ids @:# \
         --freq \
@@ -133,7 +101,7 @@ Now we can create our PCA.
 ```shell
     # create pca
     plink2 \
-        --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf \
+        --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf.gz \
         --threads 8 \
         --allow-extra-chr \
         --set-missing-var-ids @:# \
