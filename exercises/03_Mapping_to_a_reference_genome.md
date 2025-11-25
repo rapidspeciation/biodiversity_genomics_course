@@ -55,7 +55,6 @@ REF=/home/genomics/scratch/users/<yourname>/reference/GCA_917862395.2_iHelSar1.2
 Now we are ready to align our sequences! To simplify matters, we will first try this on a single individual. First, we will create a directory to hold our aligned data:
 
 ```shell
-cd ~
 mkdir align
 cd align
 ```
