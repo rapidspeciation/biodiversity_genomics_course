@@ -144,10 +144,12 @@ scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/martin2019_
 First load the `tidyverse` package and ensure you have moved the plink output into the working directory you are operating in. You may want to set up an RStudio Project to manage this analysis. See [here](https://speciationgenomics.github.io/more_advanced_R/) for a guide on how to do this.
 
 # load tidyverse package
+```r
 library(tidyverse)
+```
 
 Then we will use a combination of readr and the standard scan function to read in the data.
-
+```r
 # set the folder where you downloaded the files into as your working directory
 setwd("C:/Users/jm66/Dropbox/teaching/BiodiversityGenomics/Argentina2025/PCA/")
 
@@ -155,21 +157,24 @@ setwd("C:/Users/jm66/Dropbox/teaching/BiodiversityGenomics/Argentina2025/PCA/")
 pca <- read_table2("wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec", col_names = FALSE)
 eigenval <- scan("wgenome.martin2019.ingroup.mac2.prune10kb.eigenval")
 info <- read_table2("martin2019_info.txt")
+```
 
 #### Cleaning up the data
 Unfortunately, we need to do a bit of legwork to get our data into reasonable shape. We will also give our pca data.frame proper column names.
 
 # sort out the pca data
-
+```r
 # set names
 names(pca)[1] <- "ind"
 names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
 
 # add the species information
 pca <- as_tibble(merge(pca, info, by="ind"))
+```
 
 #### Plotting the data
 Now that we have done our housekeeping, we have everything in place to actually visualise the data properly. First we will plot the eigenvalues. It is quite straightforward to translate these into percentage variance explained (although note, you could just plot these raw if you wished).
+```r
 
 # first convert to percentage variance explained
 pve <- data.frame(PC = 1:10, pve = eigenval/sum(eigenval)*100)
@@ -179,14 +184,17 @@ With that done, it is very simple to create a bar plot showing the percentage of
 # make plot
 ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity") +
 ylab("Percentage variance explained") + theme_light()
-
+```
 Cumulatively, they explain 100% of the variance but PC1, PC2 and possible PC3 together explain about 54% of the variance. We could calculate this with the cumsum function, like so:
 
+```r
 # calculate the cumulative sum of the percentage variance explained
 cumsum(pve$pve)
+```
 
 Next we move on to actually plotting our PCA. Given the work we did earlier to get our data into shape, this doesn't take much effort at all.
 
+```r
 # plot pca
 ggplot(pca, aes(PC1, PC2, col = pop)) + geom_point(size = 3) +
 coord_equal() + theme_light() +
@@ -195,7 +203,7 @@ ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
 
 Note that this R code block also includes arguments to display the percentage of variance explained on each axis. Here we only plot PC1 and PC2. Given that PC3 also shows a high percentage of variance explained, it could be worth it to also plot PC1 against PC3.
 
-
+```
 
 
 ### Supplementary: Perform LD-based prunning (if working with individuals from the same species)
