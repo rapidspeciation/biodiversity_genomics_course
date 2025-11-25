@@ -122,8 +122,8 @@ Once the command is run, we will see a series of new files. We will break these 
 
 PCA output:
 
-- wgenome.martin2019.ingroup.mac2.prune10kb.**eigenval** - the eigenvalues from our analysis
-- wgenome.martin2019.ingroup.mac2.prune10kb.**eigenvec**- the eigenvectors from our analysis
+- wgenome.martin2019.ingroup.mac2.prune10kb.**eigenval** - the eigenvalues from our analysis for each PC axis
+- wgenome.martin2019.ingroup.mac2.prune10kb.**eigenvec**- the eigenvectors from our analysis for each individual
 
 
 
@@ -132,9 +132,9 @@ PCA output:
 Let's now download the relevant files to our local computers to plot the PCA in R on your own computer. In a new terminal, write (changing the user number to your user number and the IP by the correct IP number)
 
 ```shell
-    scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
-    scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
-    genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/martin2019_info.txt ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/martin2019_info.txt ./
 ```
 
 #### Setting up the R environment
