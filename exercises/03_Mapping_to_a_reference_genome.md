@@ -152,7 +152,7 @@ samtools sort wgs1.bam -o wgs1_sort.bam
 Once this is run, we will have a sorted bam. One point to note here, could we have done this is a more efficient manner? The answer is yes, actually we could have run all of these commands in a single line using pipes like so:
 
 ```shell
-bwa mem -t 4 $REF /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
+bwa mem -t 2 $REF /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
 ```
 
 However as you may have noticed, we have only performed this on a single individual so far... what if we want to do it on multiple individuals? Do we need to type all this everytime? The answer is no - we could do this much more efficiently.
