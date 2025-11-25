@@ -1,3 +1,32 @@
+## Conda environment
+
+A Conda environment is like a separate workspace on your computer where you can install specific versions of software and libraries without affecting anything else on your system.
+
+Think of it like a "sandbox" — you create an environment for a project, install exactly what you need (like Python and certain bioinformatics tools), and everything stays isolated. This helps avoid conflicts between tools or versions when working on different projects.
+
+```shell
+To create a conda environment
+
+conda create --name vcftools_nic
+
+To activate our conda environment
+
+conda activate vcftools_nic
+
+To install a software
+
+conda install vcftools
+
+Ask help about the software
+
+vcftools -help
+
+Close the conda environment
+
+conda deactivate
+
+```
+
 ## Filtering vcf
 
 In the last session, we learned how to call variants and handle VCFs. In this session, we are going to focus on how to filter VCFs. This might seem like a relatively straightforward task but it is actually exceptionally important and something you should spend a lot of time thinking carefully about.
