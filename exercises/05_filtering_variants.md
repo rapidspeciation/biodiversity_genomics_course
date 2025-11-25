@@ -25,6 +25,12 @@ vcftools -help
 
 conda deactivate
 
+## Check the list of environments
+conda env list
+
+## Remove a conda environment
+
+conda remove --name vcftools_nic --all
 ```
 
 ## Filtering vcf
