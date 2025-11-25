@@ -21,7 +21,7 @@ Day 1:
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
 - [Slides](slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
 - [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
-- [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) on assembling reference genomes
+- [Slides](slide_presentations/05_Genome_assembly_final.pdf) on assembling reference genomes
 
 Day 2: 
 - [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
