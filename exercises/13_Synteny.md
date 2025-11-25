@@ -122,7 +122,7 @@ minimap2 -t 2 ../genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ../geno
 
 This takes 10-20 minutes on a large cluster, but here it might take much longer and Minimap2 is memory demanding. With the settings -t 2 it took 15 min on our cluster with maximum memory usage of approximately 10 GB. During the wait you can take a look at Step 3 visualisation, or get a coffee.
 
-If the script is not finished or memory demands are to high we have prepared results in the `Share` folder. Copy the result file `MecMaza_MecMess.paf` to your output directory and look at the output:
+If the script is not finished or memory demands are to high we have prepared results in the `data/comparative_genomics/synteny/` folder. Copy the result file `MecMaza_MecMess.paf` to your output directory and look at the output:
 ```shell
 cp /home/genomics/scratch/data/comparative_genomics/synteny/MecMaza_MecMess.paf output/
 head output/MecMaza_MecMess.paf
