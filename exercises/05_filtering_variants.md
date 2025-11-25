@@ -30,13 +30,13 @@ Luckily, `vcftools` makes it possible to easily calculate these statistics. In t
 Before we calculate our stats, lets make a little effort to make our commands simpler and also to ensure the output is written to the right place. First we need to make a directory for our results.
 
 ```shell
-mkdir ~/vcftools
+mkdir vcftools
 ```
 Next we will declare to variables to save us some typing below.
 
 ```shell
-VCF=~/vcf_real/sara_sapho_subset.vcf.gz
-OUT=~/vcftools/sara_sapho
+VCF=../vcf_real/sara_sapho_subset.vcf.gz
+OUT=sara_sapho
 ```
 #### Calculate mean depth per individual
 
@@ -72,7 +72,7 @@ vcftools --gzvcf $VCF --missing-site --out $OUT
 With the statistics calculated, take a moment to have a quick look at the output in the `~/vcftools/` directory. We will now need to download our output data onto our local machines in order to work with R.
 
 ```shell
-scp -i username@toko.uncu.edu.ar:~/vcftools ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/nicol_r/vcftools/sara_sapho.idepth ./
 ```
 
 Examining statistics in R
@@ -202,8 +202,9 @@ Considering these two results, you should decide whether to remove individuals t
 Now we have an idea of how to set out thresholds, we will do just that. First of all, we will set some simple variables in order to make our filtering command more straightforward.
 
 ```shell
-VCF_IN=~/vcf_real/sara_sapho_subset.vcf.gz
-VCF_OUT=~/vcf_real/sara_sapho_filtered.vcf.gz
+cd vcf_real
+VCF_IN=sara_sapho_subset.vcf.gz
+VCF_OUT=sara_sapho_filtered.vcf.gz
 ```
 Then next we will set our chosen filters like so:
 
