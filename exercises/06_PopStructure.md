@@ -57,7 +57,7 @@ bcftools query -l $VCF | grep -v Hnum > mel_tim_cyd.keep
 ```
 
 Note that since we excluded outgroup individuals, some of the sites might not be variable in the ingroup dataset. We need to apply again filters to get only variable sites `--min-alleles 2 --max-alleles 2 --mac 2`. We will also remove sites where not all individuals have information `--geno 0`. (Note: you may want to be more or less stringent with the missing data filter --geno, depending on your dataset).
-    
+```shell
     # Include bi-allelic sites only (excluding singletons)
     plink2 \
         --vcf wgenome.martin2019.ingroup.vcf \
@@ -69,8 +69,10 @@ Note that since we excluded outgroup individuals, some of the sites might not be
         --mac 2 \
         --export vcf id-paste=iid \
         --out wgenome.martin2019.ingroup.mac2
+```
 
 Finally, we can prune the dataset based on physical linkage.
+```shell
 
     plink2 \
         --vcf $VCF \
@@ -80,10 +82,12 @@ Finally, we can prune the dataset based on physical linkage.
         --bp-space 10000 \
         --export vcf id-paste=iid \
         --out wgenome.martin2019.ingroup.mac2.prune10kb
+```
 
 Since in plink, filtering commands are processed in a pre-defined [order](https://www.cog-genomics.org/plink/2.0/order) we can run all the previous filters with a single command.
 
-    plink2 \
+```shell
+plink2 \
         --vcf $VCF \
         --threads 8 \
         --allow-extra-chr \
@@ -94,6 +98,7 @@ Since in plink, filtering commands are processed in a pre-defined [order](https:
         --bp-space 10000 \
         --export vcf id-paste=iid \
         --out wgenome.martin2019.ingroup.mac2.prune10kb
+```
 
 So for our plink command, we did the following:
 - `--vcf` - specified the location of our VCF file.
@@ -113,7 +118,8 @@ If you wish to prune the dataset based on LD directly estimated from your datase
 
 Next we rerun plink with a few additional arguments to get it to conduct a PCA. First, we need to produce a file with allele frequencies per SNP, necessary for the PCA analyses (note this is not necessary in earlier versions of plink)
 
-    #/ generate allele frequency file
+```shell
+    # generate an allele frequency file
     plink2 \
         --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf \
         --threads 8 \
@@ -121,9 +127,10 @@ Next we rerun plink with a few additional arguments to get it to conduct a PCA. 
         --set-missing-var-ids @:# \
         --freq \
         --out wgenome.martin2019.ingroup.mac2.prune10kb
+```
 
 Now we can create our PCA.
-
+```shell
     # create pca
     plink2 \
         --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf \
@@ -133,6 +140,7 @@ Now we can create our PCA.
         --read-freq wgenome.martin2019.ingroup.mac2.prune10kb.afreq \
         --pca \
         --out wgenome.martin2019.ingroup.mac2.prune10kb
+```
 
 This is very similar to our previous command. What did we do here?
 
@@ -155,10 +163,11 @@ PCA output:
 
 Let's now download the relevant files to our local computers to plot the PCA in R on your own computer. In a new terminal, write (changing the user number to your user number and the IP by the correct IP number)
 
-    scp -i c1.pem user1@54.201.115.50:~/06_PopulationStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
-    scp -i c1.pem user1@54.201.115.50:~/06_PopulationStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
-    scp -i c1.pem user1@54.201.115.50:~/Share/Heliconius/Heliconius.info ./
-
+```shell
+    scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
+    scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/pca/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
+    genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/martin2019_info.txt ./
+```
 
 #### Setting up the R environment
 First load the `tidyverse` package and ensure you have moved the plink output into the working directory you are operating in. You may want to set up an RStudio Project to manage this analysis. See [here](https://speciationgenomics.github.io/more_advanced_R/) for a guide on how to do this.
