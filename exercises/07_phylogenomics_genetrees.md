@@ -8,7 +8,8 @@ For gene tree reconstructions, we will use a dataset of Australasian monitor liz
 Login into toko server and connect to toko05 node. Then go into your folder and copy all the data in phylogenomics folder provided by this course
 
 ```shell
-cd melisa_o
+NAME=melisa_o
+cd ~/scratch/users/$NAME
 cp -r ~/scratch/data/phylogenomics .
 ```
 Check what's in

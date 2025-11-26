@@ -10,12 +10,16 @@ We will use a SNPs matrix collected through RADseq from species belonging to the
 Now, we want to go to the liolaemus folder
 
 ```shell
-cd /home/genomics/scratch/users/melisa_o/phylogenomics/liolaemus
+NAME=melisa_o
+cd ~/scratch/users/$NAME
+cp -r ~/scratch/data/phylogenomics .
 ls
 ```
 
 The file liolaemus_snps.nex is a nexus matriz with one SNP retained per RAD locus, and a list of commands at the end to execute SVDquartets. Explore it using:
 ```shell
+cd phylogenomics/liolaemus
+ls
 head liolaemus_snps.nex
 tail liolaemus_snps.nex
 ```
