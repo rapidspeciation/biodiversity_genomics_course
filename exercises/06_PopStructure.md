@@ -151,7 +151,7 @@ library(tidyverse)
 setwd("C:/Users/jm66/Dropbox/teaching/BiodiversityGenomics/Argentina2025/PCA/")
 
 # read in data
-pca <- read_table2("wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec", col_names = FALSE)
+pca <- read_table2("wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec", col_names = TRUE)
 eigenval <- scan("wgenome.martin2019.ingroup.mac2.prune10kb.eigenval")
 info <- read_table2("martin2019_info.txt")
 ```
@@ -164,7 +164,6 @@ Unfortunately, we need to do a bit of legwork to get our data into reasonable sh
 
 # set names
 names(pca)[1] <- "ind"
-names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
 
 # add the species information
 pca <- as_tibble(merge(pca, info, by="ind"))
@@ -180,7 +179,7 @@ pve <- data.frame(PC = 1:10, pve = eigenval/sum(eigenval)*100)
 
 # make plot
 ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity") +
-ylab("Percentage variance explained") + theme_light()
+ylab("Percentage variance explained") + theme_classic()
 ```
 Cumulatively, they explain 100% of the variance but PC1, PC2 and possible PC3 together explain about 54% of the variance. We could calculate this with the cumsum function, like so:
 
@@ -194,7 +193,7 @@ Next we move on to actually plotting our PCA. Given the work we did earlier to g
 ```r
 # plot pca
 ggplot(pca, aes(PC1, PC2, col = pop)) + geom_point(size = 3) +
-coord_equal() + theme_light() +
+coord_equal() + theme_classic() +
 xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
 ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
 ```
