@@ -33,8 +33,7 @@ Day 2:
 - [Slides](slide_presentations/14_phylogenomics_MSNC.pdf) on Phylogenomics: gene trees, species trees and networks
 - [Excercise](exercises/07_phylogenomics_genetrees.md) on phylogenomics using gene trees
 - [Excercise](exercises/08_phylogenomics_SNPs.md) on phylogenomics using SNPs
-
-
+- [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on inferring hybridisation
 
 Day 3: TBA
 
