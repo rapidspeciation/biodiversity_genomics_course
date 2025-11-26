@@ -106,13 +106,13 @@ We are going to estimate a phylogenetic network taking raxml gene trees as input
 julia
 ```
 
-Now we are inside Julia. To install the package type:
+Now we are inside Julia. To load the package type:
 
 ```julia
 using Distributed
 addprocs(1)
 @everywhere using PhyloNetworks
-using CSV, DataFrames, RCall, SNaQ
+using CSV, DataFrames, SNaQ
 ```
 
 Then set working directory in julia and read gene trees
