@@ -127,7 +127,7 @@ Now we are inside Julia. To load the package type:
 using Distributed
 addprocs(1)
 @everywhere using PhyloNetworks
-using CSV, DataFrames, RCall, SNaQ
+using CSV, DataFrames, SNaQ
 ```
 
 Then set working directory in julia and read the CF table
