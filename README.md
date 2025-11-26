@@ -27,6 +27,10 @@ Day 2:
 - [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
 - [Excercise](exercises/03_Mapping_to_a_reference_genome.md) on aligning reads to a reference genome
 - [Slides](slide_presentations/07_Variant_and_genotype_calling.pdf) on calling variants and genotypes
+- [Excercise](exercises/05_filtering_variants.md) on filtering vcf files
+- [Slides](slide_presentations/08_PCA.pdf) on population structure visualisation with PCA (principal components analysis)
+- [Excercise](exercises/06_PopStructure.md) on running a PCA
+
 
 
 Day 3: TBA
