@@ -70,13 +70,16 @@ GENOME=GCA_959347395.1_ilMecMaza1.1_genomic.fna
 TAXA_NAME=ilMecMaza1
 
 #make a tab separated key-value file with the old seq name and the new seq name
-zcat ${GENOME}.gz | grep ">" | awk -v taxa_name=$TAXA_NAME '{print $0"\t"taxa_name"_"$7}' | tr -d ">" > ../list_chr_names_$TAXA_NAME.txt
+zcat ${GENOME}.gz | grep ">" | awk -v taxa_name=$TAXA_NAME '{print $0"\t"taxa_name"_"$7}' | tr -d ">" > list_chr_names_$TAXA_NAME.txt
+
+#we want a new directory for the renamed files
+mkdir ../renamed_genomes
 
 #run seqkit
-zcat ${GENOME}.gz | seqkit replace -p "(.+)" -r '{kv}' -k ../list_chr_names_$TAXA_NAME.txt - > ${GENOME%.*}_renamed.fa
+zcat ${GENOME}.gz | seqkit replace -p "(.+)" -r '{kv}' -k list_chr_names_$TAXA_NAME.txt - > ../renamed_genomes/${GENOME%.*}_renamed.fa
 
 #check the fasta headers, remember the qoutes ">"!
-grep ">" ${GENOME%.*}_renamed.fa
+grep ">" ../renamed_genomes/${GENOME%.*}_renamed.fa
 ```
 Options in `seqkit`
 `-p` pattern
@@ -116,7 +119,7 @@ As you can see there are many options to refine the mapping and use different op
 
 
 ```
-minimap2 -t 2 ../genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ../genomes/GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa > output/MecMaza_MecMess.paf
+minimap2 -t 2 ../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ../renamed_genomes/GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa > output/MecMaza_MecMess.paf
 
 ```
 
@@ -128,7 +131,7 @@ cp /home/genomics/scratch/data/comparative_genomics/synteny/MecMaza_MecMess.paf 
 head output/MecMaza_MecMess.paf
 
 ```
-This file have a lot of columns. The important ones for us right now are the query and ref sequence names and length for each alignment, start and end of alignment, strand, gaps, total aligned bases, mapping quality. To interpret the output this site is informative: [paf](https://github.com/lh3/miniasm/blob/master/PAF.md).
+This file have a lot of columns. The important ones for us right now are the query and ref sequence names and length for each alignment, start and end of alignment, strand, number of matched bases, length of aligned block, mapping quality. To interpret the output this site is informative: [paf](https://github.com/lh3/miniasm/blob/master/PAF.md).
 It is hard to directly interpret the output from the table so we need additional tools for exploring the results.
 
 ### 3 - Visualise in R SyntenyPlotteR
@@ -169,7 +172,14 @@ The order of the arguments is important in this case.
 Rscript /home/genomics/scratch/scripts/Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
 
-Alternatively if it is not working on the server:
+Your alignment plot should now be in your `plots` directory. 
+
+Describe what you see. 
+
+Can you answer some of the questions we asked in the beginning?
+
+
+Alternative if it is not working on the server:
 Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
 ```shell
 #copy the script from the Share folder
@@ -187,10 +197,6 @@ ls
 #run the script on your local computer
 Rscript Syntenyplotter_paf_wrapper.R MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
-Your alignment plot should now be in your `plots` directory. Describe what you see. 
-
-Can you answer some of the questions we asked in the beginning?
-
 
 **Extra**: Sometimes you need to refine to plot to increase the visibilty of the rearrangements to facilitate interpretation. For example, I want the Z-chromosome to be displayed last in both taxa. Try and change the order of the chromosomes in the plot.
 
@@ -232,7 +238,7 @@ busco -i $INPUT_DIR \          #the input file or directory with the input files
 Run it on one of our genomes:
 If we do not specify an output directory BUSCO will create an output directory in the directory where you are running the command.
 ```
-busco -i ../genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa -l lepidoptera_odb10 -m geno
+busco -i ../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa -l lepidoptera_odb12 -m geno
 ```
 
 BUSCO takes some time and is memory consuming so you can start one genome to see that it works but if it takes to long we have prepared output files that you can copy to your output directory.
@@ -249,7 +255,7 @@ One result of interest for our purposes are the full_table.tsv with the genomic 
 ```
 head /home/genomics/scratch/data/comparative_genomics/synteny/busco_out_summary/full_table.tsv
 ```
-BUSCO also output the nucleotide and protein sequences of the potential single copy genes. We will use the single_copy_busco_sequences in the next step.
+BUSCO produces amino acid sequences (if you want nucleotide sequences youhave to specify --metaeuk) of potential single copy genes. We will use those single_copy_busco_sequences in the next step.
 
 ### 5 - OrthoFinder
 We will use the single copy sequences from BUSCO to get the orthogroups from [orthofinder](https://github.com/davidemms/OrthoFinder ). OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs.
@@ -299,7 +305,8 @@ orthofinder -f ./ -t 2
 
 This will run for a couple of minutes.
 
-Explore the output, there is a lot of information here. Take a look at the comparative statistics. Here you can see number of genes in orthogroups, number of unassigned genes etc. This is not so interesting now when we are using BUSCOs but if you have a genome annotation this can tell you of total number of genes, genes clustering in orthogroups, number of species specific genes, etc.
+Explore the output, there is a lot of information here. Take a look at the comparative statistics. Here you can see number of genes in orthogroups, number of unassigned genes etc. If you have a genome annotation this can tell you of total number of genes, genes clustering in orthogroups, number of species specific genes, etc.
+
 Note: exchange the path to your actual result folder.
 ```
 ls OrthoFinder/
@@ -315,7 +322,7 @@ This file shows the name of orthogroups with single copy orthologues. We can cou
 #count the number of seq
 wc -l OrthoFinder/Results_Jul23/Orthogroups/Orthogroups_SingleCopyOrthologues.txt
 ```
-Are these markers enough to detect the  rearrangements we are interested in?
+Are these markers enough to detect the rearrangements we are interested in?
 You can do a rough estimate of marker density per MB by dividing the number of markers with the genome size.
 
 
