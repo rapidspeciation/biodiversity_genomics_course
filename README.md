@@ -30,6 +30,9 @@ Day 2:
 - [Excercise](exercises/05_filtering_variants.md) on filtering vcf files
 - [Slides](slide_presentations/08_PCA.pdf) on population structure visualisation with PCA (principal components analysis)
 - [Excercise](exercises/06_PopStructure.md) on running a PCA
+- [Slides](slide_presentations/14_phylogenomics_MSNC.pdf) on Phylogenomics: gene trees, species trees and networks
+- [Excercise](exercises/07_phylogenomics_genetrees.md) on phylogenomics using gene trees
+- [Excercise](exercises/08_phylogenomics_SNPs.md) on phylogenomics using SNPs
 
 
 
