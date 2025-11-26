@@ -137,7 +137,7 @@ Now read SVDquartets species tree
 sppTree = readTopology("SVDquartets.tre");
 ```
 
-and run a species tree (no yet with gene flow) estimation with SNaQ!
+and run a species tree estimation (no yet with gene flow) with SNaQ!
 ```julia
 net_h0 = snaq!(sppTree, CF, hmax = 0, filename = "net0", runs = 1)
 ```
@@ -149,5 +149,22 @@ net_h1 = snaq!(net_h0, CF, hmax = 1, filename = "net1", runs = 1)
 Note: it is recommended to run several runs (usually at least runs=20). Each run can be estimated on a different core, so set addprocs() accordingly
 
 
+As the server does not have a display, to plot results, we are going to need to download the network to our computer. Use scp to download the network to your computer, or simply copy the network you want to plot and paste in julia as shown below.
 
+Once you have the network, in your computer open julia. 
 
+```julia
+Pkg.add("PhyloPlots") # if you do not have PhyloPlots then (package to visualize the networks), then install it
+using PhyloPlots
+net_h1 = readTopology("(Paste,Network)Here))")
+plot(net_h1, showgamma = true, style = :majortree, arrowlen = 0.2)
+
+```
+
+The networks returned by the method are not rooted, so it is convinient to include an outgroup species in the datset to properly root the networks after the estimation. In our dataset, the outgroup species is *Liolaemus lineomaculatus*:
+
+```julia
+net_h1.names # explore the names of the terminals
+rootatnode!(net_h1, "lineomaculatus") # root at the outgroup node
+plot(net_h1, showgamma = true, style = :majortree, arrowlen = 0.2) # plot again
+```
