@@ -200,6 +200,8 @@ Rscript Syntenyplotter_paf_wrapper.R MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 
 **Extra**: Sometimes you need to refine to plot to increase the visibilty of the rearrangements to facilitate interpretation. For example, I want the Z-chromosome to be displayed last in both taxa. Try and change the order of the chromosomes in the plot.
 
+**Extra2**: Create a dot-plot for comparing the genomes with [DGenies](https://dgenies.toulouse.inra.fr). Go to 'run', enter your email, the url of the genomes of interest from NCBI or upload you own genomes. 
+
 
 ## Synteny plot with BUSCO genes
 For more divergent taxa whole genome alignment can be difficult due to low sequence similarity and low mappability. However, genes with important and basal functions are usually conserved due to strong puryfing selection. We can use this to find anchor points or common markers in the genomes we want to compare. Are the genes in the same order and on the same chromsome in the genomes? Or have rearrangements changed their positions? If we have an annotation there are several tools for synteny analyses like McscanX and GeneScape. If we do not have an annotation we can still find conserved genes. One tool to detect and locate conserved genes is [BUSCO](https://busco.ezlab.org/busco_userguide.html) (Benchmarking Universal Single-Copy Orthologs). BUSCO uses lineage specific databases containing genes present in > 90 % of the taxa and occur as single copy in >90% of the taxa in each lineage. It is commonly used to assess the completeness of genome assemblies, but we can use our genomes as input to retrive the position of busco genes in the genomes of interest.
@@ -275,6 +277,7 @@ orthofinder -h
 Do not run the next section, we already have the files prepared in the `/home/genomics/scratch/data/comparative_genomics/synteny`folder. But I am adding the commands here that we used to create these files, so you can see how it was done.
 
 ```shell
+#(do not run this section)
 #make a list of the species that we ran busco for
 ls ../busco/ |grep "fa" > list_fasta.txt
 #did we get the right files
@@ -283,7 +286,7 @@ less list_fasta.txt
 #run a for-loop to concatenate the single copy fasta files for each species
 for file in $(cat list_fasta.txt)
 do
-cat ../busco/${file}/run_lepidoptera_odb10/busco_sequences/single_copy_busco_sequences/*.faa > ${file%.*}_sco_cat.fa
+cat ../busco/${file}/run_lepidoptera_odb12/busco_sequences/single_copy_busco_sequences/*.faa > ${file%.*}.fa
 wait
 done
 
@@ -294,10 +297,10 @@ ls
 This is what we will do in this tutorial:
 ```
 #we will copy the sequences from the Share folder
-cp /home/genomics/scratch/data/comparative_genomics/synteny/busco/busco_sco_cat/*fa ./
+cp /home/genomics/scratch/data/comparative_genomics/synteny/busco/*fa ./
 
 #what do they look like
-less ilMecMaza1.1_sco_cat.fa
+less ilMecMaza1.fa
 
 #run orthofinder
 orthofinder -f ./ -t 2
@@ -350,7 +353,7 @@ head GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa.fai
 ```
 Do the same for *M. messenoides.*
 
-Now we have prepared the input files so we are ready to visualise our genomes. We will do this in Rstudio on our local computer. We will prepara a folder with all the input files that we can copy to our local computer.
+Now we have prepared the input files so we are ready to visualise our genomes. We will do this in Rstudio on our local computer. We will prepara a folder with all the input files so that we can copy them to our local computer.
 
 #create a new folder
 ```shell
