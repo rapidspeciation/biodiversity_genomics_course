@@ -27,26 +27,21 @@ cd /home/genomics/scratch/users/<yourname>
 mkdir genome_scans
 cd genome_scans
 
-# We will use a vcf file of just chromosome 18
+# We will use a vcf file of just a part of chromosome 18 to speed up this exercise.
 # Convert the vcf file to geno.gz which is the format that Simon's scripts require
 # Note, we do not filter for bi-allelic sites as we need to include monomorphic sites for pi and Dxy. This file does have a filter on missing data (max 10%).
-VCF="/home/genomics/scratch/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.vcf.gz"
+VCF="/home/genomics/scratch/data/martin2019/Hmel218003o.subset.vcf.gz"
 
 parseVCF.py \
     -i $VCF \
     --skipIndels \
     -o Hmel218003o.geno.gz
 
-# Because this takes very long, let's stop it with Ctrl+c and get the finished file:
-cp /home/genomics/scratch/data/martin2019/Hmel218003o.geno.gz ./
-
 # create a file assigning individuals to populations
-bcftools query -l $VCF | \
-    awk '{print $1"\t"substr($1,1,12)}' > popmap.txt
+bcftools query -l $VCF | awk '{print $1"\t"substr($1,1,12)}' > popmap.txt
 
 ```
 Note: `bcftools query` allows you to manipulate VCF files, extracting specimens names from the header (when using `-l` flag ). The awk command tells it to print the first column "$1", which here is the individual names (e.g. Hcyd.ali.ecu.001), and then a tab "\t" and then the first to 12th character of the first column "substr($1,1,12)", which here means the population name (e.g. Hcyd.ali.ecu).
-
 
 
 First, we will calculate pi for each species and Fst and dxy for each pair of species all in one go.
@@ -59,12 +54,13 @@ popgenWindows.py \
     -s 20000 \
     -m 10000 \
     -f phased \
-    -T 8 \
-    -p Hmel.mal.col -p Hmel.agl.per -p Hmel.ama.per -p Hmel.mel.gui -p Hnum.bsl.bra -p Htim.flo.per -p Htim.the.per -p Hcyd.chi.pan -p Hcyd.zel.col \
+    -T 2 \
+    -p Hmel.mal.col -p Hmel.agl.per -p Hmel.ama.per -p Hmel.mel.gui \
+    -p Hnum.bsl.bra -p Htim.flo.per -p Htim.the.per -p Hcyd.chi.pan -p Hcyd.zel.col \
     --popsFile popmap.txt
 ```
 
-Note that -w 20000 specifies a window size of 20 kb that is sliding by 20 kb (-s 20000) and -m 10000 requests these windows to have a minimum number of 10 kb sites covered. The way we have encoded the genotypes (e.g. A/T) in our geno.gz file is called "phased" and we specify that with "-f phased" even though our data is actually not phased. Instead of writing all the individual names into the command, we could give only the species names in the code (e.g. -p lysimnia -p polymnia) and with `--popsFile` specify a file that contains a line for each individual with its name and species in a text file.
+Note that -w 20000 specifies a window size of 20 kb that is sliding by 20 kb (-s 20000) and -m 10000 requests these windows to have a minimum number of 10 kb sites covered (50% of sites present). The way we have encoded the genotypes (e.g. A/T) in our geno.gz file is called "phased" and we specify that with "-f phased" even though our data is actually not phased. Instead of writing all the individual names into the command, we could give only the species names in the code (e.g. -p lysimnia -p polymnia) and with `--popsFile` specify a file that contains a line for each individual with its name and species in a text file.
 
 Next, we calculate fd to test for introgression between H. melpomene amaryllis and H. timareta thelxiopea using H. numata as outgroup. fd is a measure of introgression suitable for small windows.
 
@@ -77,7 +73,7 @@ ABBABABAwindows.py \
     -s 20000 \
     -m 100 \
     --minData 0.5 \
-    -T 8 \
+    -T 2 \
     -P1 Hmel.mel.gui -P2 Hmel.ama.per -P3 Htim.the.per -O Hnum.bsl.bra \
     --popsFile popmap.txt \
     --writeFailedWindows
@@ -91,8 +87,8 @@ To plot the results, we need will use the files I prepared for the complete chr1
 
 
 ```shell
-scp -i c1.pem user1@<IP>:~/Share/genome_scan_results/*popgen.w20s20.csv.gz ./
-scp -i c1.pem user1@<IP>:~/Share/genome_scan_results/*dstats.w20s20.csv.gz ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/08_GenomeScans/*popgen.w20s20.csv.gz ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/08_GenomeScans/*dstats.w20s20.csv.gz ./
 
 # Unzip the file
 gunzip Hmel218003o.hmelv25.mel_tim_cyd_num.popgen.w20s20.csv.gz 
