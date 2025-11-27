@@ -102,7 +102,7 @@ Then we can start plotting:
 # Read in the file with sliding window estimates of FST, pi and dxy
 windowStats<-read.csv("Hmel218003o.hmelv25.mel_tim_cyd_num.popgen.w20s20.csv",header=T)
 
-# Read in the fd estimates of 20 kb windows for NyerMak into NyerPyt (P1=PundPyt, P2=NyerPyt, P3=NyerMak, outgroup=Kivu cichlid)
+# Read in the fd estimates of 20 kb windows
 fd<-read.csv("Hmel218003o.hmelv25.mel_tim_cyd_num.dstats.w20s20.csv",header=T,na.strings = "NaN")
 
 # Let's have a look at the FST and fd datasets
@@ -115,7 +115,7 @@ fst<-ggplot(windowStats,aes(mid,Fst_Hmel.mel.gui_Hmel.ama.per))+geom_point()
 dxy<-ggplot(windowStats,aes(mid,dxy_Hmel.mel.gui_Hmel.ama.per))+geom_point()
 fd<-ggplot(fd,aes(mid,fd))+geom_point()
 
-# Let's compare the stats on chr9 next to each other
+# Let's compare the stats on chr18 next to each other
 require(gridExtra)
 grid.arrange(fst, dxy, fd, nrow=3)
 ```
