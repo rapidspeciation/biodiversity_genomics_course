@@ -4,7 +4,7 @@
 According to the neutral theory of molecular evolution, most genetic variation is due to random fixation of mutations. However, in protein coding genes we do observe very different rates of substitutions depending on their effect. A synonymous, or silent, substitution does not change the amino acid and thus is under very low selective pressure. A non-synonymous, or replacement, substitution changes the amino acid and can there for be subjected to natural selection. 
 To test weather a gene, or a part of a gene, is affected by selection, the ratio between the non-synonymous (dN) and the synonymous (dS) substitution rates should be deviating from 1, because if there is no selection acting then only random fixation should determine the rate and that would be on average the same for both dN and dS. According to the nearly neutral model, which states that most mutations are neutral or slightly deleterious, non-synonymous mutations should be removed by selection at a higher rate than synonymous substitutions, who evolve mostly neutrally, leading to a dN/dS << 1, negative purifying selection. In rare cases, for example after a gene duplication leading to new functions or after change in the environment for a population, mutations changing the function of a protein could be beneficial. Then the rate of fixation of non-synonymous mutations will be higher than under neutrality, dN/dS > 1.
  
-dN/dS << 1	Purifying selection
+dN/dS < 1	Purifying selection
 
 dN/dS = 1	Neutral evolution, relaxed selection
 
