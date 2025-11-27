@@ -112,9 +112,9 @@ head(fd)
 
 # Let's plot FST, dxy and fd between the two younger species
 require(ggplot2)
-fst<-ggplot(windowStats,aes(mid,Fst_Hmel.ama.per_Hmel.mel.gui))+geom_point()
+fst<-ggplot(windowStats,aes(mid,Fst_Hmel.mal.col_Hmel.ama.per))+geom_point()
 fst
-dxy<-ggplot(windowStats,aes(mid,dxy_Hmel.ama.per_Hmel.mel.gui))+geom_point()
+dxy<-ggplot(windowStats,aes(mid,dxy_Hmel.mal.col_Hmel.ama.per))+geom_point()
 dxy
 fd<-ggplot(fd,aes(mid,fd))+geom_point()
 fd
