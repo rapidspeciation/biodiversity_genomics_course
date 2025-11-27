@@ -88,8 +88,8 @@ To plot the results, we need will use the files I prepared for the complete chr1
 
 ```shell
 #Remember change the user name:
-scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<your_user>/genome_scans/Hmel218003o.popgen.w20s20.csv.gz ./
-scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<your_user>/genome_scans/Hmel218003o.dstats.w20s20.csv.gz ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.dstats.w20s20.csv.gz ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.popgen.w20s20.csv.gz ./
 
 # Unzip the file
 gunzip Hmel218003o.popgen.w20s20.csv.gz 
