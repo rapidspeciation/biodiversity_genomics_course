@@ -11,10 +11,12 @@ dN/dS = 1	Neutral evolution, relaxed selection
 dN/dS > 1	Positive selection
 
 
-There are multiple programs developed for these kinds of test, here we will use *codeml* in the program suite [PaML](https://github.com/abacus-gene/paml/wiki/Installation). For more information on how to run different models [Álvarez-Carretero et al. 2023](https://doi.org/10.1093/molbev/msad041), [PaML-manual](https://github.com/abacus-gene/paml/blob/master/doc/pamlDOC.pdf), [PaML_FAQ](https://ocw.mit.edu/courses/6-877j-computational-evolutionary-biology-fall-2005/9a6d5e515fb1e7608eb3919855b01880_pamlfaqs.pdf).
+There are multiple programs developed test if there are signs of positive selection, here we will use *codeml* in the program suite [PaML](https://github.com/abacus-gene/paml/wiki/Installation). For more information on how to run different models [Álvarez-Carretero et al. 2023](https://doi.org/10.1093/molbev/msad041), [PaML-manual](https://github.com/abacus-gene/paml/blob/master/doc/pamlDOC.pdf), [PaML_FAQ](https://ocw.mit.edu/courses/6-877j-computational-evolutionary-biology-fall-2005/9a6d5e515fb1e7608eb3919855b01880_pamlfaqs.pdf).
 This uses a codon model of evolution, where the codon triplet is the unit of evolution. It is not only inferring the dN/dS ratio across the gene and across the phylogeny but also includes branch models for detecting elevated rates in specific branches compared to the background branches, and site models that allows the dN/dS to vary across the gene, specifying the likelihood of a specific codon being under positive selection. 
 
-We will use a model comparison to detect if genes in our branch of interest, the foreground branch, is under selection. First we specify a model that allows omega to vary across branches, and infer the proportion of sites in the gene with w=1 or w<1 in all branches. We will compare this to a model that allows for additional classes of sites in the foreground branch with w > 1 (branch-site model A). Positive selection is defined as the presence of some codons at which w > 1. The Likelihood Ratio Test (LRT) statistic, or twice the log likelihood difference between the two compared models is used against a chi-square distribution with 2 degrees of freedom for significance testing. An LRT is constructed to compare a null model that does not allow for any codons with w > 1 against a more general model that does. So we both should have a proportion of sites with w > 1 and a significantly higher likelihood of the more general model. 
+dN/dS is an estimator of omega (w), and so you will see all three notations in the tutorial.
+
+We will first specify a simple model (model_M0) with the same average dN/dS across all branches to inspect the alignment and the general statistics of our gene family. After that we will use the branch-site model A, that allows model comparison to detect if genes in our branch of interest, the foreground branch, is under selection. We specify a model that allows dN/dS to vary across branches, and infer the proportion of sites in the gene with w=1 or w<1 in all branches and allow for an additional class of sites in the foreground branch with w > 1 (branch-site model A). Positive selection is defined as the presence of some codons at which w > 1, and if the likelihood of this model is higher than the null model. The null model is the same model, but instead of allowing w>1 we fixed omega to w=1 in that class. The Likelihood Ratio Test (LRT) statistic, or twice the log likelihood difference between the two compared models is used against a chi-square distribution with 2 degrees of freedom for significance testing. The LRT is constructed to compare nested models, so a null model that does not allow for any codons with w > 1 against a more general model that does. So we both should have a proportion of sites with w > 1 and a significantly higher likelihood of the more general model. 
 
 
 
@@ -84,7 +86,7 @@ As earlier OrthoFinder will produce a large directory with many interesting file
 
 
 
-### Align the sequences
+### Step 3: Align the sequences
 
 We will use a multi sequence aligner that specifically accounts for codons, [PRANK](https://github.com/ariloytynoja/prank-msa/tree/master), which have a lot of other useful applications. PRANK uses evolutionary information for the placement of gaps and modelling of the substitution process. It infers a guide tree from genetic distances estimated from pairwise alignments using the neighbour-joining (NJ) algorithm and then iterates the alignment using an improved guide tree estimated from the first multiple alignment. 
 
@@ -132,7 +134,7 @@ less ${MY_GENE_FAMILY}_codon.phy
 
 ## Phylogenetic tree
 
-The program codeml also needs a guide tree to infer the rate of substitutions (it could infer one but it takes longer time and it is not made to be a tree inference program, so not recommended).
+The program codeml also needs a guide tree to infer the rate of substitutions (it could infer one but it takes longer time and it is not made to be a tree inference program, so not recommended). We will use iqtree to infer a tree from our alignment
 
 
 ```bash
@@ -140,7 +142,7 @@ The program codeml also needs a guide tree to infer the rate of substitutions (i
 mkdir iqtree
 cd iqtree
 
-#convert to interleaved phy, iqtree do not like paml format
+#convert to interleaved phy, iqtree do not like the paml format
 prank -convert -d=${MY_GENE_FAMILY}_codon.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
 
 iqtree -s ../prank/${MY_GENE_FAMILY}_codon.best.phy --prefix ${MY_GENE_FAMILY}
@@ -296,14 +298,14 @@ The null model is also the branch-site model A but with w = 1 fixed to 1, specif
 
 Model A1: model = 2, NSsites = 2, fix_omega = 1, omega = 1
 
-
+#### Branch-site model: Alternative model
 Prepare for the analysis.
 
 ```bash
 # Go back to codeml directory
 cd ../
-mkdir model_A_fixed
-cd model_A_fixed
+mkdir model_A_est
+cd model_A_est
 
 ```
 
@@ -317,43 +319,43 @@ sed 's/ilMecMaza1/ilMecMaza1 \#1/' ../${MY_GENE_FAMILY}.treefile > ${MY_GENE_FAM
 
 ```
 
-We will first run the null model:
+We will first run the alternative model:
 
-Adjust the control file for the null model with fixed omega.
+Adjust the control file for the model with fixed omega.
 
 ```bash
 
-cp ../template.ctl model_A_fixed.ctl
+cp ../template.ctl model_A_est.ctl
 
-# change input paths and filenames, and set output file XXX_modA_fix.out
+# change input paths and filenames, and set output file NAME of your orthogroup (can't use the variable here) NAME_modA_est.out
 
-nano model_A_fixed.ctl
+nano model_A_est.ctl
 
 ```
 Now we need to set the parameters in the control file to
 
 Nsites = 2
 Model = 2
-Fix(Omega) = 1 (fixed)
-Omega = 1 (fixed to 1)
+Fix(Omega) = 0 (estimate from data)
+Omega = .4 (initial value)
 
 
 ```bash
 
 # Set data to 1 (only one loci)
-sed -i 's/NDAT/1/' model_A_fixed.ctl 
-sed -i 's/CLEAN/1/' model_A_fixed.ctl # Remove sites with ambiguity data? Yes=1, No=0
+sed -i 's/NDAT/1/' model_A_est.ctl 
+sed -i 's/CLEAN/1/' model_A_est.ctl # Remove sites with ambiguity data? Yes=1, No=0
 
 # Specify all the sites models 
-sed -i 's/CODMOD/2/' model_A_fixed.ctl  # Models for ω varying across lineages
-sed -i 's/NSSIT/2/' model_A_fixed.ctl   # Models for ω varying across sites
-sed -i 's/CODFREQ/7/' model_A_fixed.ctl  # Codon frequencies, use mutation-selection model
-sed -i 's/ESTFREQ/0/' model_A_fixed.ctl  # Use observed freqs or estimate freqs by ML
-sed -i 's/CLOCK/0/' model_A_fixed.ctl  # Assume no clock
+sed -i 's/CODMOD/2/' model_A_est.ctl  # Models for ω varying across lineages
+sed -i 's/NSSIT/2/' model_A_est.ctl   # Models for ω varying across sites
+sed -i 's/CODFREQ/7/' model_A_est.ctl  # Codon frequencies, use mutation-selection model
+sed -i 's/ESTFREQ/0/' model_A_est.ctl  # Use observed freqs or estimate freqs by ML
+sed -i 's/CLOCK/0/' model_A_est.ctl  # Assume no clock
 
 # Starting values to be used when the model parameters are estimated
-sed -i 's/FIXOME/1/' model_A_fixed.ctl  # Enables option to estimate omega yes=0, fixed=1 
-sed -i 's/INITOME/1/' model_A_fixed.ctl # Initial or fixed omega, fixed to 1
+sed -i 's/FIXOME/0/' model_A_est.ctl  # Enables option to estimate omega yes=0, fixed=1 
+sed -i 's/INITOME/.4/' model_A_est.ctl # Initial or fixed omega, start value for the model
 
 ```
 
@@ -362,46 +364,49 @@ Some times the program have trouble with convergence of the model, and then it c
 
 Check the output in the .out file.
 
-Here we an see the the proportion of sites in the different classes and the omega values.
+```bash
+less ${MY_GENE_FAMILY}_modA_est.out
+```
 
+Here we an see the the proportion of sites in the different classes and the estimated omega values for each of the classes.
+We can also see the lnL log-likelihood for the model.
+
+
+#### Branch-site model: Null model
 Now we can run the alternative model for the branch-site test of positive selection.
 
-Input variables are the same, but the output file name needs to be changed! 
-
-
-
-
-Change from fixed omega to omega estimated from data.
+Input variables are the same, but the output file name needs to be changed, and we need to change to fixed omega. So we force omega to be 1 in the class that we previously allowed omega to be above 1, all other model paramenters are the same.
 
 ```bash
 
 cd ../
-mkdir model_A_est
-cd  model_A_est
+mkdir model_A_fixed
+cd  model_A_fixed
 
-cp ../ model_A_fixed/model_A_fixed.ctl model_A_est.ctl
+# copy the control file and change the name of the file, we will change the output and omega settings
+cp ../ model_A_est/model_A_est.ctl model_A_fixed.ctl
 
-#change the name of the output file (XXX_modA_est.out)
-# and change fix_omega = 0, and omega = .4
-nano model_A_est.ctl
+# change the name of the output file NAME is your orthogroup (NAME_modA_fixed.out)
+# Fix(Omega) = 1 (fixed omega)
+# Omega = 1 (initial value, fixed to 1)
 
+nano model_A_fixed.ctl
 
 ```
 
-## LRT
+#### LRT
 
 Use the LRT to test if the different in likelihood is statistically significant. We are testing a restricted model to a more permissive with more free parameters so it should by design have a higher likelihood, but is this more than expected?
-The LRT statistic is calculated 2x(lnL_est-lnL_fix)
-If lnL_est=-1130 and lnL_fix=-1146 is χ2 = 2×(-1130 + 1146) = 16. The degrees of freedom are k = 4-3 = 1. We can use the CHI2 program from the PAML package to assess the significance of the LRT statistic. The LRT test statistic does not strictly follow a chi-square distribution but using a χ2 with one degree of freedom makes the test conservative. 
+The LRT statistic is calculated 2x(lnL_est-lnL_fix). If lnL_est=-1130 and lnL_fix=-1146 is χ2 = 2×(-1130 + 1146) = 16. The degrees of freedom are k = 4-3 = 1. We can use the 'chi2' program from the PAML package to assess the significance of the LRT statistic. The LRT test statistic does not strictly follow a chi-square distribution but using a χ2 with one degree of freedom makes the test conservative. 
 
 ```bash
+# get the likelihood for both model_A:s
 grep "lnL" model_A*/*out
 ```
-
-
+Calculate LRT = 2x(lnL_est-lnL_fix)
 
 ```bash
-
+# check out chi2
 chi2 
 
 ```
@@ -422,10 +427,26 @@ DF 0.9950 0.9750 0.9000 0.5000 0.1000 0.0500 0.0100 0.0010
 
 The critical value for one-degree of freedom and significance level α=0.05 is 3.8415, so if you LRT statistic is larger than that we can reject our null model.
 
-Check the output file:
-If the LRT suggests presence of codons under positive selection on the foreground branch then we could check for the result of the Bayes empirical Bayes (BEB) method that calculates the posterior probabilities that each codon is from the site class of positive selection. 
+```bash
+chi2 --help
+# d.f. & Chi^2 value (Ctrl-c to break)?
+# Type in d.f. (degree of freedom), in our case 1, and the LRT-statistics. Here is an example where the value is 4
+1 4
+# output
+# df =  1  prob = 0.045500265 = 4.550e-02
+# to run directly
+chi2 1 4
 
-In each line, the first column shows the site position (e.g., 10, 25, 108, and 123), which is followed by the amino acid at this site in the first sequence (this is for identification of the site in the sequence). The third column (Pr (w > 1)) shows the posterior probability for the site to be from the positive-selection class (i.e., with ω > 1). The last columns show the posterior mean of ω and the standard deviation in the ω distribution for the site.
+#df =  1  prob = 0.045500265 = 4.550e-02
+
+```
+
+Is the LRT significant?
+
+Check the output file:
+If the LRT suggests presence of codons under positive selection in the foreground branch then we could check for the result of the Bayes empirical Bayes (BEB) method that calculates the posterior probabilities that each codon is from the site class of positive selection. 
+
+In each line, the first column shows the site position (e.g., 10, 25, 108, and 123), which is followed by the amino acid at this site in the first sequence (this is for identification of the site in the sequence). The third column (Pr (w > 1)) shows the posterior probability for the site to be from the positive-selection class (i.e., with ω > 1).
 
 
 What would you suggest as the next steps?
