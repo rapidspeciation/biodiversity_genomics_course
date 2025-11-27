@@ -18,8 +18,7 @@ There are two options when it comes to keeping only independent sites.
 plink --indep-pairwise
 
 
-(2) **Filter based on physical distance**. When two or more species are present in your dataset, it only makes sense to calculate LD for each species separately. You may want prune the datase by calculating LD for one of the species (provided large enough samples sizes). Alternatively, you may chose to calculate LD-decay (i.e. how LD values decrease with physical distance) and then prune based on physical distance between SNPs (e.g. average minimum distance between SNPs when LD ≤ 0.2). Sometimes, this is already known, as in the case of *Heliconius* in which LD ≤ 0.2 after ~10-kb.
-(Note: it might be worth comparing LD-decay among the different species in the dataset, provided large enough sample sizes)
+(2) **Filter based on physical distance**. When two or more species are present in your dataset, it only makes sense to calculate LD for each species separately. You may want prune the datase by calculating LD for one of the species (provided large enough samples sizes). Alternatively, you may chose to calculate LD-decay (i.e. how LD values decrease with physical distance) and then prune based on physical distance between SNPs (e.g. average minimum distance between SNPs when LD ≤ 0.2). Sometimes, this is already known, as in the case of *Heliconius* in which LD ≤ 0.2 after ~10-kb. It might be worth comparing LD-decay in your dataset to specify a threshhold. Here a [tutorial](https://speciationgenomics.github.io/ld_decay/) on how to do that. If you do not have a genome assembly, and work with e.g. de novo assembled RAD loci or UCEs, you can use [STACKS](https://catchenlab.life.illinois.edu/stacks/comp/populations.php) to select one SNP per RAD/UCE locus.
 
 plink --bp-space
 
@@ -43,7 +42,6 @@ Since we are only interested in investigating population structure within the me
 VCF="/home/genomics/scratch/data/martin2019/wgenome.martin2019.biallelic.mac2.vcf.gz"
 
 # create a file listing individuals in ingroup (melpomene, timareta, cydno), excluding the outgroup "Hnum". This file will be used in plink to keep only these individuals
-
 bcftools query -l $VCF | grep -v Hnum > mel_tim_cyd.keep
 
 ```
