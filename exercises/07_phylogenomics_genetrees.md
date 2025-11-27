@@ -145,7 +145,8 @@ Once you have the network, in your computer open julia.
 
 ```julia
 Pkg.add("PhyloPlots") # if you do not have PhyloPlots then (package to visualize the networks), then install it
-using PhyloPlots
+Pkg.add("PhyloNetworks") # if you do not have PhyloPlots then (package to visualize the networks), then install it
+using PhyloPlots, PhyloNetworks 
 net_h1 = readTopology("(Paste,Network)Here))")
 plot(net_h1, showgamma = true, style = :majortree, arrowlen = 0.2)
 
