@@ -37,13 +37,15 @@ parseVCF.py \
     --skipIndels \
     -o Hmel218003o.geno.gz
 
+# Because this takes very long, let's stop it with Ctrl+c and get the finished file:
+cp /home/genomics/scratch/data/martin2019/Hmel218003o.geno.gz ./
+
 # create a file assigning individuals to populations
 bcftools query -l $VCF | \
-    awk '{print $1"\t"$1}' | sed 's, ,\t,g' | \
-    sed 's/.\{4\}$//' > popmap.txt
+    awk '{print $1"\t"substr($1,1,12)}' > popmap.txt
 
 ```
-Note: `bcftools query` allows you to manipulate VCF files, extracting specimens names from the header (when using `-l` flag ).
+Note: `bcftools query` allows you to manipulate VCF files, extracting specimens names from the header (when using `-l` flag ). The awk command tells it to print the first column "$1", which here is the individual names (e.g. Hcyd.ali.ecu.001), and then a tab "\t" and then the first to 12th character of the first column "substr($1,1,12)", which here means the population name (e.g. Hcyd.ali.ecu).
 
 
 
