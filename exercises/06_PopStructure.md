@@ -48,7 +48,7 @@ bcftools query -l $VCF | grep -v Hnum > mel_tim_cyd.keep
 
 ```
 
-PCA requires only variable SNPs that are bi-allelic (2 alternative alleles). Let's keep only the ingroup individuals and apply a filter to get variable sites where the allele is found at least twice `--min-alleles 2 --max-alleles 2 --mac 2`. We will also remove sites where more than 5 individuals have missing data `--geno 5`. Keep only one site per 10000 bp.
+PCA requires only variable SNPs that are bi-allelic (2 alternative alleles). Let's keep only the ingroup individuals and apply a filter to get variable sites where the allele is found at least twice `--min-alleles 2 --max-alleles 2 --mac 2`. We will also remove sites where more than 10% of individuals have missing data `--geno 0.1`. Keep only one site per 10000 bp.
 
 ```shell
 plink2 \
@@ -56,7 +56,7 @@ plink2 \
 --threads 2 \
 --allow-extra-chr \
 --keep mel_tim_cyd.keep \
---geno 0 \
+--geno 0.1 \
 --min-alleles 2 \
 --max-alleles 2 \
 --mac 2 \
