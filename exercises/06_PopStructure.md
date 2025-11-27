@@ -42,7 +42,6 @@ Since we are only interested in investigating population structure within the me
 VCF="/home/genomics/scratch/data/martin2019/wgenome.martin2019.biallelic.mac2.vcf.gz"
 
 # create a file listing individuals in ingroup (melpomene, timareta, cydno), excluding the outgroup "Hnum". This file will be used in plink to keep only these individuals
-
 bcftools query -l $VCF | grep -v Hnum > mel_tim_cyd.keep
 
 ```
