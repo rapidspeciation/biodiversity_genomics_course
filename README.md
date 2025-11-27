@@ -25,9 +25,9 @@ Day 1:
 
 Day 2: 
 - [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
-- [Excercise](exercises/03_Mapping_to_a_reference_genome.md) on aligning reads to a reference genome
+- [Exercise](exercises/03_Mapping_to_a_reference_genome.md) on aligning reads to a reference genome
 - [Slides](slide_presentations/07_Variant_and_genotype_calling.pdf) on calling variants and genotypes
-- [Excercise](exercises/04_variant_calling.md) on calling variants and genotypes
+- [Exercise](exercises/04_variant_calling.md) on calling variants and genotypes
 
 Day 3:
 - [Excercise](exercises/05_filtering_variants.md) on filtering vcf files
@@ -37,9 +37,11 @@ Day 3:
 - [Excercise](exercises/07_phylogenomics_genetrees.md) on phylogenomic networks with gene trees
 
 Day 4:
-- [Excercise](exercises/08_phylogenomics_SNPs.md) on phylogenomics using SNPs
+- [Exercise](exercises/08_phylogenomics_SNPs.md) on phylogenomics using SNPs
 - [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on inferring hybridisation 
-- [Excercise](exercises/09_Dstatistics.md) on computing D statistics with Dsuite
+- [Exercise](exercises/09_Dstatistics.md) on computing D statistics with Dsuite
+- [Slides](slide_presentations/10_GenomeScans.pdf) on genome scans
+- [Exercise](exercises/10_genome_scan.md) on genome scans
 
 
 Day 5: TBA
