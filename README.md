@@ -33,12 +33,12 @@ Day 3:
 - [Slides](slide_presentations/08_PCA.pdf) on population structure visualisation with PCA (principal components analysis)
 - [Excercise](exercises/06_PopStructure.md) on running a PCA
 - [Slides](slide_presentations/14_phylogenomics_MSNC.pdf) on Phylogenomics: gene trees, species trees and networks
-- [Excercise](exercises/07_phylogenomics_genetrees.md) on phylogenomics using gene trees
+- [Excercise](exercises/07_phylogenomics_genetrees.md) on phylogenomic networks with gene trees
+
+Day 4:
 - [Excercise](exercises/08_phylogenomics_SNPs.md) on phylogenomics using SNPs
-- [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on inferring hybridisation
-
-
-Day 4: TBA
+- [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on inferring hybridisation 
+- [Excercise](exercises/09_Dstatistics.md) on computing D statistics with Dsuite
 
 
 Day 5: TBA
