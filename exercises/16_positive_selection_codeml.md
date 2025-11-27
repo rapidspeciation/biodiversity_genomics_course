@@ -33,7 +33,7 @@ The input for codeml is a phylogenetic tree, multiple sequence alignments, and a
 
 ## Alignment
 
-### get the data
+### Step 1: get the single copy orthologs in our genomes
 Here we will use BUSCO to find single copy orthologs in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
 This is the code I used run BUSCO on all species at once. Now we want nucleotide sequences so I need to 
@@ -51,7 +51,7 @@ busco -i ../renamed_fasta \
 To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup. More info on BUSCO is in exercise Synteny.
 
 
-### 1 - Orthologs
+### Step 2: run OrthoFinder to get orthologs genes
 
 ```bash
 #set up a new working directory from your working directory
