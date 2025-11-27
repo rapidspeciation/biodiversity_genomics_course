@@ -39,7 +39,7 @@ Here we will use BUSCO to find single copy orthologs in our genomes. We infer or
 This is the code I used run BUSCO on all species at once. Now we want nucleotide sequences so I need to 
 
 ```bash
-(Do not run)
+##Do not run
 busco -i ../renamed_fasta \
     -l lepidoptera_odb12 \
     -m geno \
