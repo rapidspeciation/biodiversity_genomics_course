@@ -27,13 +27,13 @@ zcat $FILE | wc -l
 The number of sequences is thus this number divided by 4, or we can count the number of lines starting with the header
 
 ```shell
-zgrep "@E00" $FILE -c
+zgrep -c "@E00" $FILE
 ```
 
 We might think that we could have just counted the number of `@` - i.e. the first symbols for each header.
 
 ```shell
-zgrep "@" $FILE -c
+zgrep -c "@" $FILE
 ```
 
 However, we see that this does not give us the same number. The reason is that `@` is also used as a symbol for encoding [quality scores](https://en.wikipedia.org/wiki/Phred_quality_score) and thus some quality score lines were also counted.

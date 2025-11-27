@@ -5,6 +5,7 @@ Now that we have our filtered reads, we need to map (or align) them to the refer
 Using alignment software, we essentially find where in the genome our reads originate from and then once these reads are aligned, we are able to either call variants or construct a consensus sequence for our set of aligned reads.
 
 ### Getting access to the reference genome
+You can find reference genomes here: https://www.ncbi.nlm.nih.gov/datasets/genome/
 
 We will be aligning our sequence data to the *Heliconius sara* reference genome, first published by [Rueda-M *et al.* (2024)](https://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1011318).
 
@@ -21,7 +22,7 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/917/862/395/GCA_917862395.2_iH
 The file is compressed with `gzip`, so before we can do anything with it, we need to decompress it. Usually we avoid decompressing files but it was compressed here because of it's large size and we need it to be uncompressed for it to be used properly in our analysis. So to do this we simply use `gunzip`:
 
 ```shell
-gunzip GCA_917862395.2_iHelSar1.2_genomic.fna.gz
+gunzip -c /home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna.gz > ./GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 In order to align reads to the genome, we are going to use `bwa` which is a very fast and straightforward aligner. See [here](http://bio-bwa.sourceforge.net/) for more details on `bwa`.
@@ -46,7 +47,7 @@ Use `ls` to take a look, but this will have copied in about 5 files all with the
 When `bwa` aligns reads, it needs access to these files, so they should be in the same directory as the reference genome. Then when we actually run the alignment, we tell `bwa` where the reference is and it does the rest. To make this easier, we will make a variable pointing to the reference.
 
 ```shell
-REF=~/scratch/users/<yourname>/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=/home/genomics/scratch/users/<yourname>/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 #### Performing a paired end alignment
@@ -54,7 +55,6 @@ REF=~/scratch/users/<yourname>/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 Now we are ready to align our sequences! To simplify matters, we will first try this on a single individual. First, we will create a directory to hold our aligned data:
 
 ```shell
-cd ~
 mkdir align
 cd align
 ```
@@ -120,7 +120,7 @@ Now, lets look at the mapping statistics again:
 samtools flagstat wgs1.sam
 ```
 
-This shows us that a total of 113k reads were read in (forward and reverse), that around 96% mapped successfully, 84% mapped with their mate pair, 1.09% were singletons and the rest did not map.
+This shows us that a total of 109k reads were read in (forward and reverse), that around 96% mapped successfully, 84% mapped with their mate pair, 1.09% were singletons and the rest did not map.
 
 #### BAM files
 
@@ -152,7 +152,7 @@ samtools sort wgs1.bam -o wgs1_sort.bam
 Once this is run, we will have a sorted bam. One point to note here, could we have done this is a more efficient manner? The answer is yes, actually we could have run all of these commands in a single line using pipes like so:
 
 ```shell
-bwa mem -t 4 $REF ~/biodiversity_genomics_course/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz ~/biodiversity_genomics_course/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
+bwa mem -t 2 $REF /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
 ```
 
 However as you may have noticed, we have only performed this on a single individual so far... what if we want to do it on multiple individuals? Do we need to type all this everytime? The answer is no - we could do this much more efficiently.
@@ -175,11 +175,11 @@ The first thing we will do is initiate the script with the line telling the inte
 Next, we will declare an array to ensure that we have all our individuals
 
 ```shell
-INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
+INDS=($(for i in /home/genomics/scratch/data/Heliconius/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
 ```
 This will create a list of individuals which we can then loop through in order to map each individual. Here we used bash substitution to take each forward read name, remove the directory and leave only the individual name.
 
-If you want to, declare the array in your command line and then test it (i.e. type `echo ${INDS[@]}`). You will see that we have only individual names, which gives us some flexibility to take our individual name and edit it inside our `for` loop (i.e. it makes defining input and output files much easier.
+If you want to, declare the array in your command line and then test it (i.e. type `echo ${INDS[@]}`). You will see that we have only individual names, which gives us some flexibility to take our individual name and edit it inside our `for` loop (i.e. it makes defining input and output files much easier).
 
 Next we will add the actual `for` loop to our script. We will use the following:
 
@@ -187,10 +187,10 @@ Next we will add the actual `for` loop to our script. We will use the following:
 for IND in ${INDS[@]};
 do
 	# declare variables
-	REF=~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-	FORWARD=~/biodiversity_genomics_course/data/Heliconius/filteredReads/${IND}.R1.trimmed.fastq.gz
-	REVERSE=~/biodiversity_genomics_course/data/Heliconius/filteredReads/${IND}.R2.trimmed.fastq.gz
-	OUTPUT=~/biodiversity_genomics_course/data/Heliconius/align/${IND}_sort.bam
+	REF=/home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+	FORWARD=/home/genomics/scratch/data/Heliconius/filteredReads/${IND}.R1.trimmed.fastq.gz
+	REVERSE=/home/genomics/scratch/data/Heliconius/filteredReads/${IND}.R2.trimmed.fastq.gz
+	OUTPUT=/home/genomics/scratch/data/Heliconius/align/${IND}_sort.bam
 
 done
 ```
@@ -202,10 +202,10 @@ After we have tested the loop to make sure it is working properly, all we have t
 for IND in ${INDS[@]};
 do
 	# declare variables
-	REF=~/biodiversity_genomics_course/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-	FORWARD=~/biodiversity_genomics_course/data/Heliconius/filteredReads/${IND}.R1.trimmed.fastq.gz
-	REVERSE=~/biodiversity_genomics_course/data/Heliconius/filteredReads/${IND}.R2.trimmed.fastq.gz
-	OUTPUT=~/biodiversity_genomics_course/data/Heliconius/align/${IND}_sort.bam
+	REF=/home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+	FORWARD=/home/genomics/scratch/data/Heliconius/filteredReads/${IND}.R1.trimmed.fastq.gz
+	REVERSE=/home/genomics/scratch/data/Heliconius/filteredReads/${IND}.R2.trimmed.fastq.gz
+	OUTPUT=/home/genomics/scratch/data/Heliconius/align/${IND}_sort.bam
 
 	# then align and sort
 	echo "Aligning $IND with bwa"
@@ -230,10 +230,10 @@ bash align_sort.sh
 
 You will now see the script running as the sequences align. Press `Ctrl + A + D` in order to leave the screen. Now is a good time to take a break as you wait for the job to complete.
 
-Since these analyses take quite a bit of time, we will stop the analysis and copy the output files from the biodiversity_genomics_course folder to run the next step:
+Since these analyses take quite a bit of time, we will stop the analysis and copy the output files from the data folder to run the next step:
 
 ```shell
-cp ~/biodiversity_genomics_course/data/Heliconius/align/*.bam ./
+cp /home/genomics/scratch/data/Heliconius/align/*.bam ./
 ```
 
 #### Remove duplicates reads

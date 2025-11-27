@@ -18,31 +18,43 @@ Note, that the scripts by Simon are written in Python2 (not Python3 which may be
 First, let's convert the vcf file into Simon Martin's geno file. You can download the script [here](https://github.com/simonhmartin/genomics_general/raw/master/VCF_processing/parseVCF.py).
 
 ```shell
-cd ~
+# Connect to the server
+ssh genomics@toko.uncu.edu.ar
+ssh toko05
+
+# make a new folder in your users folder
+cd /home/genomics/scratch/users/<yourname>
 mkdir genome_scans
 cd genome_scans
 
-# Convert the vcf file to geno.gz which is the format that Simons script requires
-python ~/software/genomics_general/VCF_processing/parseVCF.py \
-    -i ~/biodiversity_genomics_course/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.vcf.gz \
-    --skipIndels \
-    -o Hmel218003o.hmelv25.mel_tim_cyd_num.geno.gz
+# We will use a vcf file of just chromosome 18
+# Convert the vcf file to geno.gz which is the format that Simon's scripts require
+# Note, we do not filter for bi-allelic sites as we need to include monomorphic sites for pi and Dxy. This file does have a filter on missing data (max 10%).
+VCF="/home/genomics/scratch/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.vcf.gz"
 
-#/ create a file assigning individuals to populations
-bcftools query -l ~/biodiversity_genomics_course/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.vcf.gz | \
-    awk '{print $1, $1}' | sed 's, ,\t,g' | sed 's/.\{4\}$//' > popmap.txt
+parseVCF.py \
+    -i $VCF \
+    --skipIndels \
+    -o Hmel218003o.geno.gz
+
+# Because this takes very long, let's stop it with Ctrl+c and get the finished file:
+cp /home/genomics/scratch/data/martin2019/Hmel218003o.geno.gz ./
+
+# create a file assigning individuals to populations
+bcftools query -l $VCF | \
+    awk '{print $1"\t"substr($1,1,12)}' > popmap.txt
 
 ```
-Note: `bcftools query` allows you to manipulate VCF files, extracting specimens names from the header (when using `-l` flag ).
+Note: `bcftools query` allows you to manipulate VCF files, extracting specimens names from the header (when using `-l` flag ). The awk command tells it to print the first column "$1", which here is the individual names (e.g. Hcyd.ali.ecu.001), and then a tab "\t" and then the first to 12th character of the first column "substr($1,1,12)", which here means the population name (e.g. Hcyd.ali.ecu).
 
 
 
 First, we will calculate pi for each species and Fst and dxy for each pair of species all in one go.
 ```shell
-python ~/software/genomics_general/popgenWindows.py \
+popgenWindows.py \
     --windType coordinate \
-    -g Hmel218003o.hmelv25.mel_tim_cyd_num.geno.gz \
-    -o Hmel218003o.hmelv25.mel_tim_cyd_num.popgen.w20s20.csv.gz \
+    -g Hmel218003o.geno.gz \
+    -o Hmel218003o.popgen.w20s20.csv.gz \
     -w 20000 \
     -s 20000 \
     -m 10000 \
@@ -57,9 +69,9 @@ Note that -w 20000 specifies a window size of 20 kb that is sliding by 20 kb (-s
 Next, we calculate fd to test for introgression between H. melpomene amaryllis and H. timareta thelxiopea using H. numata as outgroup. fd is a measure of introgression suitable for small windows.
 
 ```shell
-python ~/software/genomics_general/ABBABABAwindows.py \
-    -g Hmel218003o.hmelv25.mel_tim_cyd_num.geno.gz \
-    -o Hmel218003o.hmelv25.mel_tim_cyd_num.dstats.w20s20.csv.gz \
+ABBABABAwindows.py \
+    -g Hmel218003o.geno.gz \
+    -o Hmel218003o.dstats.w20s20.csv.gz \
     -f phased \
     -w 20000 \
     -s 20000 \

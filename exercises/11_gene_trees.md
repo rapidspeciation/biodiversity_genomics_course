@@ -1,26 +1,24 @@
----
-title: IQ-tree
----
 
-# Phylogenomics
+# Creating gene trees with busco genes
 
 ## Intro
-Whole-genome information can be used to reconstruct evolutionary history and divergence times of genes and species, variable genealogy and branch length variation along the genome, presence of horisontal transfer, infer gene family evolution and gene function, ancestral sequence reconstruction, inference of selection, to name some. Whole genome alignment for tree reconstruction in computationally expensive, so depending on the final target for the analysis specific regions of markers in the genome can be used.
+Whole-genome information can be used to reconstruct evolutionary history and divergence times of genes and species, variable genealogy and branch length variation along the genome, presence of horisontal gene transfer, infer gene family evolution and gene function, ancestral sequence reconstruction, inference of selection, to name some. Whole genome alignment for tree reconstruction is computationally expensive, so depending on the final target for the analysis specific regions or markers in the genome can be used.
 
 Here we will use BUSCO to find single copy orthologs in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event.
-OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence sequence alignment.
+OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
 To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (*Melinaea*, *Mechanitis* and *Napeogenes*) and we are using the monarch (*Danaus plexippus*) as outgroup. Information on how to run BUSCO is in exercise 10_synteny.
 
 ## 1 - Orthologs
 
 ```
-#set up a new working directory from our home directory
-cd
+#set up a new working directory from your working directory
+pwd # check that you are in the right place 
+
 mkdir gene_trees
 cd gene_trees
 
-cp ~/Share/gene_trees/input_orthofinder/*.fa ./
+cp /home/genomics/scratch/data/comparative_genomics/gene_trees/input_orthofinder/*.fa ./
 
 ls
 #take a look at one of the files
@@ -34,7 +32,7 @@ Why do you think this is? How many shared single copy genes do we have?
 We will not use all in the following section, we will use a subset of 10 genes.
 
 ## 2 - Alignment
-First we need to align the gene sequences to infer homology and character state, and align each base so that the differences between the sequences represent evolutionary changes. There are several benchmarked muliple sequence aligner like[ Clustal Omega](http://www.clustal.org/omega/), [Muscle](https://www.drive5.com/muscle/), [T-coffee](https://tcoffee.crg.eu) and [Mafft](https://mafft.cbrc.jp/alignment/software/). They use different methods and are suitable for different types of datasets.If codon information is wanted in downstream applications, codon aware aligners like [PRANK](https://ariloytynoja.github.io/prank-msa/) or [MACSEv2](https://www.agap-ge2pop.org/macse/) should be used, but they are slower and more computer intenstive.
+First we need to align the gene sequences to infer homology and character state, and align each base so that the differences between the sequences represent evolutionary changes. There are several benchmarked muliple-sequence aligner like[ Clustal Omega](http://www.clustal.org/omega/), [Muscle](https://www.drive5.com/muscle/), [T-coffee](https://tcoffee.crg.eu) and [Mafft](https://mafft.cbrc.jp/alignment/software/). They use different methods and are suitable for different types of datasets.If codon information is wanted in downstream applications, codon aware aligners like [PRANK](https://ariloytynoja.github.io/prank-msa/) or [MACSEv2](https://www.agap-ge2pop.org/macse/) should be used, but they are slower and more computer intenstive.
 
 ### Mafft
 Mafft is a fast multiple sequence aligner which is also available as webinterface.
@@ -42,17 +40,22 @@ Mafft is a fast multiple sequence aligner which is also available as webinterfac
 mafft --help
 
 ```
-There are several options for specifying which algoritm to use, with accuracy-oriented methods suitable for up to 200 sequences and speed-oriented methods for very large alignments up to 50,000 sequences. It also have the very nice option --auto where it determines the most suitable method for the dataset. Let's align our data.
+There are several options for specifying which algoritm to use, with accuracy-oriented methods suitable for up to 200 sequences and speed-oriented methods for very large alignments up to 50,000 sequences. Mafft also has the very nice option --auto where it determines the most suitable method for the dataset. Let's align our data.
 
 ```
 #set up directory
-cd ~/gene_trees
+# you should be in the directory gene_trees/
+
 mkdir mafft
 cd mafft
+
+# make input and output directories
 mkdir input output
 ```
+Copy ten of the genes from orthofinder single copy sequences to our input (here all that starts with OG000004).
+
 ```shell
-#copy ten of the genes from orthofinder single copy sequences to our input (here all that starts with OG000004), before copying check how many:
+# before copying check how many with ls
 
 ls ../OrthoFinder/Results_Jul24/Single_Copy_Orthologue_Sequences/OG000004*
 
@@ -79,15 +82,20 @@ less list_sco.txt
 for GENE in $(cat list_sco.txt);do mafft --auto input/${GENE} > output/${GENE%.*}.msa.fa;done
 
 #if mafft do not run you can get the files from the Share folder
-cp ~/Share/gene_trees/mafft/output/* output/
+cp /home/genomics/scratch/data/comparative_genomics/gene_trees/mafft/output/* output/
 ```
 
 Trimming the alignment with [trimAL](https://vicfero.github.io/trimal/), which is a very handy tool for handling, filtering, and quality control of sequence alignments. We can remove gaps or remove species if we want to subset the dataset. It can also be used for format conversion.
 
-```
+```shell
+# make a new directory for the trimming trimal
 cd ../
 mkdir trimal
+
+cd trimal
+
 mkdir output log
+
 ls ../mafft/output/ > list_trimal_input.txt
 for FILE in $(cat list_trimal_input.txt)
  do trimal -in ../mafft/output/${FILE} -fasta -out output/${FILE%.*}_trimmed.fa -sgt -nogaps -htmlout log/${FILE%.*}_trimmed.html > log/${FILE%.*}_trimmed.summary.txt
@@ -101,11 +109,11 @@ grep -A2 "Residues" log/*txt
 ## 3 - A gene tree
 
 ### IQ-tree
-You have already familiarized yourself with [IQ-tree](http://www.iqtree.org/doc/iqtree-doc.pdf). Now we will use it to reconstruct our gene trees.
+You might already familiarised yourself with [IQ-tree](http://www.iqtree.org/doc/iqtree-doc.pdf). Now we will use it to reconstruct our gene trees.
 
 ```
 #start from the gene tree folder
-cd ~/gene_tree/
+cd ../gene_tree/
 mkdir iqtree
 cd iqtree
 mkdir output
@@ -129,12 +137,12 @@ less output/OG0000041.iqtree
 There is a lot of useful information about the alignment and the sequence composition, it also gives the best substitution model (default: lowest BIC) and the rate parameters and substitution matrix under this model, for more details on the models, look [here](http://www.iqtree.org/doc/Substitution-Models). And you can find a representation of the tree.
 
 ### Substitution model
-A substitution model infering the actual number of substitutions based on the observed differences between the sequences while accounting for multiple hits and different substitution probabilities.The simplest model is Jukes-Cantor (JC) which assumes equal probabilites of for all types of nucleotide substitutions. Other models acount for AT-biased mutation rate due to increased rate of deamination of C -> U, and that the transition and transversion rates are different. The General Time Reverable (GTR) uses different rates for all substitutions. There are also complex models accounting for rate variation across sites and lineages. To determine the most suitable model IQ-tree computes the log-likelihoods for different substitution models together with the the Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC). The information criteria are likelihood-based estimates of model fit that penalises number of additional parameters.The lower AIC or BIC the better model fit. You can also use specific models by specifying the option `-m`.
+A substitution model inferring the actual number of substitutions based on the observed differences between the sequences while accounting for multiple hits and different substitution probabilities. The simplest model is Jukes-Cantor (JC) which assumes equal probabilities of for all types of nucleotide substitutions. Other models account for AT-biased mutation rate due to increased rate of deamination of C -> U, and that the transition and transversion rates are different. The General Time Reverable (GTR) uses different rates for all substitutions. There are also complex models accounting for rate variation across sites and lineages. To determine the most suitable model IQ-tree computes the log-likelihoods for different substitution models together with the the Akaike information criterion (AIC), corrected Akaike information criterion (AICc), and the Bayesian information criterion (BIC). The information criteria are likelihood-based estimates of model fit that penalises number of additional parameters. The lower AIC or BIC the better model fit. You can also use specific models by specifying the option `-m`.
 
 
 ### How robust is our tree hypothesis?
 
-Assess branch support using bootstrapping. Bootstrapping uses resampling with replacement from the dataset to create rearranged datasets and repeats the generation of the phylogenetic tree. The values represent how many times out of a hundred the same branch is observed, it shows the robustness of the recontructed tree from the given data.
+Assess branch support using bootstrapping. Bootstrapping uses resampling with replacement from the dataset to create rearranged datasets and repeats the generation of the phylogenetic tree. The values represent how many times out of a hundred the same branch is observed, it shows the robustness of the reconstructed tree from the given data.
 We can specify the best model from the last run. We also have to specify a new prefix otherwise iqtree will raise an error to avoid overwriting files.
 
 ```shell
@@ -160,9 +168,11 @@ for file in $(cat list_input_msa.txt);do sed 's/_.*//' ../trimal/output/$file > 
 less OG0000041.msa.fa
 
 ```
-Now we have the separate alignments for each locus in a folder, so we can perform the following commands:
+
+We have the separate alignments for each locus (gene) in a folder. We can run iqtree on all loci with the following commands:
+
 ```shell
-#we can specify a variable for out input directory
+#we can specify a variable for our input directory
 INPUT=input/
 
 # infer a concatenation-based species tree with 1000 ultrafast bootstrap
@@ -182,10 +192,17 @@ We will use ggtree and [ggdensitree](https://rdrr.io/bioc/ggtree/man/ggdensitree
 Copy the script densitree.R to you `iqtree` folder or to your local computer.
 
 Copy the loci.treefile and concord.cf.tree to your local computer.
+Make sure you are in the directory you want to copy the reads to.
+
+
 ```
-scp -i c1.pem user1@35.92.168.2:~/Share/gene_trees/densitree.R ./
-scp -i c1.pem user1@35.92.168.2:~/gene_trees/iqtree/loci.treefile ./
-scp -i c1.pem user1@35.92.168.2:~/gene_trees/iqtree/concord.cf.tree ./
+mkdir gene_trees
+cd gene_trees
+
+#copy the files, CHANGE THE PATH TO THE CORRECT FOLDER NAME OF YOUR_FOLDER
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/comparative_genomics/gene_trees/densitree.R ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/YOUR_FOLDER/gene_trees/iqtree/loci.treefile ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/YOUR_FOLDER/gene_trees/iqtree/concord.cf.tree ./
 ```
 
 ```r
@@ -251,7 +268,7 @@ ggsave(plot=concat_tree_rerooted, filename = "concat_tree_rerooted.png",
        width = 6)
 ```
 
-Take a look at the genetrees
+Take a look at the gene trees
 
 ```r
 #read in the file with multiple trees
@@ -317,4 +334,5 @@ trees_slanted +
 
 ```
 Does the concatenated tree give a good representation of the gene trees?
+
 For many applications it is more informative to reconstruct a tree for each loci to represent the evolutionary history of that particular loci. The discrepancy between gene trees both in branch length and topology gives valuable information on the evolutionary processes acting across the genome, while a concatenated tree is at best an approximate summary.

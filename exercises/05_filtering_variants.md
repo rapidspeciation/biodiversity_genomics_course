@@ -1,3 +1,38 @@
+## Conda environment
+
+A Conda environment is like a separate workspace on your computer where you can install specific versions of software and libraries without affecting anything else on your system.
+
+Think of it like a "sandbox" — you create an environment for a project, install exactly what you need (like Python and certain bioinformatics tools), and everything stays isolated. This helps avoid conflicts between tools or versions when working on different projects.
+
+```shell
+## To create a conda environment
+
+conda create --name vcftools_nic
+
+## To activate our conda environment
+
+conda activate vcftools_nic
+
+## To install a software
+
+conda install vcftools
+
+## Ask help about the software
+
+vcftools -help
+
+## Close the conda environment
+
+conda deactivate
+
+## Check the list of environments
+conda env list
+
+## Remove a conda environment
+
+conda remove --name vcftools_nic --all
+```
+
 ## Filtering vcf
 
 In the last session, we learned how to call variants and handle VCFs. In this session, we are going to focus on how to filter VCFs. This might seem like a relatively straightforward task but it is actually exceptionally important and something you should spend a lot of time thinking carefully about.
@@ -30,13 +65,13 @@ Luckily, `vcftools` makes it possible to easily calculate these statistics. In t
 Before we calculate our stats, lets make a little effort to make our commands simpler and also to ensure the output is written to the right place. First we need to make a directory for our results.
 
 ```shell
-mkdir ~/vcftools
+mkdir vcftools
 ```
 Next we will declare to variables to save us some typing below.
 
 ```shell
-VCF=~/vcf_real/sara_sapho_subset.vcf.gz
-OUT=~/vcftools/sara_sapho
+VCF=../vcf_real/sara_sapho_subset.vcf.gz
+OUT=sara_sapho
 ```
 #### Calculate mean depth per individual
 
@@ -72,7 +107,7 @@ vcftools --gzvcf $VCF --missing-site --out $OUT
 With the statistics calculated, take a moment to have a quick look at the output in the `~/vcftools/` directory. We will now need to download our output data onto our local machines in order to work with R.
 
 ```shell
-scp -i username@toko.uncu.edu.ar:~/vcftools ./
+scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/nicol_r/vcftools/sara_sapho.idepth ./
 ```
 
 Examining statistics in R
@@ -202,8 +237,9 @@ Considering these two results, you should decide whether to remove individuals t
 Now we have an idea of how to set out thresholds, we will do just that. First of all, we will set some simple variables in order to make our filtering command more straightforward.
 
 ```shell
-VCF_IN=~/vcf_real/sara_sapho_subset.vcf.gz
-VCF_OUT=~/vcf_real/sara_sapho_filtered.vcf.gz
+cd vcf_real
+VCF_IN=sara_sapho_subset.vcf.gz
+VCF_OUT=sara_sapho_filtered.vcf.gz
 ```
 Then next we will set our chosen filters like so:
 

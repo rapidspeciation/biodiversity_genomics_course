@@ -20,14 +20,26 @@ Day 1:
 - [Slides](slide_presentations/03_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
 - [Slides](slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
+- [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
+- [Slides](slide_presentations/05_Genome_assembly_final.pdf) on assembling reference genomes
 
-Day 2: TBA
+Day 2: 
+- [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) on aligning reads to a reference genome
+- [Excercise](exercises/03_Mapping_to_a_reference_genome.md) on aligning reads to a reference genome
+- [Slides](slide_presentations/07_Variant_and_genotype_calling.pdf) on calling variants and genotypes
+- [Excercise](exercises/04_variant_calling.md) on calling variants and genotypes
 
+Day 3:
+- [Excercise](exercises/05_filtering_variants.md) on filtering vcf files
+- [Slides](slide_presentations/08_PCA.pdf) on population structure visualisation with PCA (principal components analysis)
+- [Excercise](exercises/06_PopStructure.md) on running a PCA
+- [Slides](slide_presentations/14_phylogenomics_MSNC.pdf) on Phylogenomics: gene trees, species trees and networks
+- [Excercise](exercises/07_phylogenomics_genetrees.md) on phylogenomic networks with gene trees
 
-Day 3: TBA
-
-
-Day 4: TBA
+Day 4:
+- [Excercise](exercises/08_phylogenomics_SNPs.md) on phylogenomics using SNPs
+- [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on inferring hybridisation 
+- [Excercise](exercises/09_Dstatistics.md) on computing D statistics with Dsuite
 
 
 Day 5: TBA

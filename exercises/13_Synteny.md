@@ -1,21 +1,17 @@
----
-title: "Synteny"
-layout: archive
-
-
----
-
-
 # Synteny
 
 
 ## Intro
 The aim of this tutorial is to characterise and visualise large scale rearrangements in genome structure using chromosome-level genomes in fasta format. This tutorial will show one way to visualise the macro synteny in a comparison between two genomes. There are many different ways to arrive at the same result.
 
-We have two new *Mechanitis* genomes, and we want to know if they have konserved karyotype or if there have been any chromosomal rearrangments since the divergence. Are there any chromosomes with rearrangments? Are there any chromosomes with conserved macrosynteny?
+We have two new *Mechanitis* genomes, and we want to know if they have conserved karyotype or if there have been any chromosomal rearrangments since the divergence. 
+
+Are there any chromosomes with rearrangments? 
+
+Are there any chromosomes with conserved macrosynteny?
 
 ## Whole genome alignment with Minimap2
-A whole genome alignment provides detection of large scale  rearrangements between relatively closely related genomes with sufficient sequence similarity. [Minimap2](https://github.com/lh3/minimap2) is a well documented long-read aligner, which works well for comparing taxa with divergence below ~15%. Minimap2 is memory hungry (5 -25GB) but is very fast.
+A whole genome alignment enables detection of large scale rearrangements. Whole genome alignment works best for relatively closely related taxa, which have sufficient sequence similarity in their genomes for the aligner to map. [Minimap2](https://github.com/lh3/minimap2) is a well documented long-read aligner, which works well for comparing taxa with sequence divergence below ~15%. Minimap2 is memory hungry (5 -25GB) but is very fast.
 
 **Input**: Two chromosome-level genomes in fasta format
 
@@ -23,27 +19,32 @@ A whole genome alignment provides detection of large scale  rearrangements betwe
 
 
 ```
+# Example (do not run)
 minimap2 ref.fa query.fa > approx-mapping.paf
 #or for sam format
 minimap2 -a ref.fa query.fa > approx-mapping.sam
 ```
 Here we will choose the paf-format so that we easliy can visualise it in R.
 
+Lets get started!
 
 ### 1 - Get assemblies
 
 ```
 #log in and begin in you home directory on the cloud
-cd
+#check where you are
+pwd
 
-#first organise the directory
+#first create the directory were we will work
 mkdir synteny
 cd synteny
+
+#create a directory for the input genomes
 mkdir genomes
 cd genomes
 
 ```
-The genomes can be accessed on ncbi, Mechanitis mazaeus and Mechanitis messenoides. A little repetition on how to download genomes: Go to ncbi (https://www.ncbi.nlm.nih.gov/datasets/genome/) and search for *Mechanitis*. We are looking for the primary assemblies of *Mechanitis mazaeus* and *M. messenoides*. Click on one of them, then chose FTP, right-click on the link to the file that ends in genomic.fna.gz and use `wget <link_to_file>`in the command line to retrieve the file to the Amazon cloud.
+The genomes can be accessed on ncbi, Mechanitis mazaeus and Mechanitis messenoides. A little repetition on how to download genomes: Go to ncbi (https://www.ncbi.nlm.nih.gov/datasets/genome/) and search for *Mechanitis*. We are looking for the primary assemblies of *Mechanitis mazaeus* and *M. messenoides*. Click on the reference assembly, then chose FTP, right-click on the link to the file that ends in genomic.fna.gz and use `wget <link_to_file>`in the command line to retrieve the file to your directory on the server.
 
 ```
 #download the files from ncbi (go to https://www.ncbi.nlm.nih.gov/datasets/genome/)
@@ -54,26 +55,31 @@ zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz | head
 
 #check how many chromosomes and scaffolds there are by grepping the fasta header, which always starts with a >
 #very important to use quotes around the >
-zcat GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz | grep ">"
+zgrep ">" GCA_959347395.1_ilMecMaza1.1_genomic.fna.gz
 
 ```
-Now do the same for *M. messenoides*. Do you think there are any rearrangements between these genomes?
+Now do the same for *M. messenoides*. 
+
+Do you think there are any rearrangements between these genomes?
 
 To make it easy for ourselves in the downstream analyses we will rename the fasta sequences in the genome files. There are several software available to manipulate fasta files [seqkit](https://bioinf.shenwei.me/seqkit/) and [seqtk](https://github.com/lh3/seqtk) to name two. Here we will use seqkit and rename the chromosomes and create a copy of the genome file ending with \_renamed.fa. Here I am using the abbreviation in the genome file as species identifier (ilMecMaza1).
 
 ```
-#make variables, genome without gz
+#make variables, genome file without gz and the taxon name
 GENOME=GCA_959347395.1_ilMecMaza1.1_genomic.fna
 TAXA_NAME=ilMecMaza1
 
 #make a tab separated key-value file with the old seq name and the new seq name
-zcat ${GENOME}.gz | grep ">" | awk -v taxa_name=$TAXA_NAME '{print $0"\t"taxa_name"_"$7}' | tr -d ">" > ../list_chr_names_$TAXA_NAME.txt
+zcat ${GENOME}.gz | grep ">" | awk -v taxa_name=$TAXA_NAME '{print $0"\t"taxa_name"_"$7}' | tr -d ">" > list_chr_names_$TAXA_NAME.txt
+
+#we want a new directory for the renamed files
+mkdir ../renamed_genomes
 
 #run seqkit
-zcat ${GENOME}.gz | seqkit replace -p "(.+)" -r '{kv}' -k ../list_chr_names_$TAXA_NAME.txt - > ${GENOME%.*}_renamed.fa
+zcat ${GENOME}.gz | seqkit replace -p "(.+)" -r '{kv}' -k list_chr_names_$TAXA_NAME.txt - > ../renamed_genomes/${GENOME%.*}_renamed.fa
 
 #check the fasta headers, remember the qoutes ">"!
-grep ">" ${GENOME%.*}_renamed.fa
+grep ">" ../renamed_genomes/${GENOME%.*}_renamed.fa
 ```
 Options in `seqkit`
 `-p` pattern
@@ -96,7 +102,7 @@ Now we should be ready to run Minimap2.
 #check that you are in your synteny folder
 pwd
 #if not go there
-cd ~/synteny/
+
 #make a directory for minimap
 mkdir minimap
 cd minimap
@@ -113,19 +119,19 @@ As you can see there are many options to refine the mapping and use different op
 
 
 ```
-minimap2 -t 2 ../genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ../genomes/GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa > output/MecMaza_MecMess.paf
+minimap2 -t 2 ../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ../renamed_genomes/GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa > output/MecMaza_MecMess.paf
 
 ```
 
 This takes 10-20 minutes on a large cluster, but here it might take much longer and Minimap2 is memory demanding. With the settings -t 2 it took 15 min on our cluster with maximum memory usage of approximately 10 GB. During the wait you can take a look at Step 3 visualisation, or get a coffee.
 
-If the script is not finished or memory demands are to high we have prepared results in the `Share` folder. Copy the result file `MecMaza_MecMess.paf` to you output directory and look at the output:
+If the script is not finished or memory demands are to high we have prepared results in the `data/comparative_genomics/synteny/` folder. Copy the result file `MecMaza_MecMess.paf` to your output directory and look at the output:
 ```shell
-cp ~/Share/synteny/MecMaza_MecMess.paf output/
+cp /home/genomics/scratch/data/comparative_genomics/synteny/MecMaza_MecMess.paf output/
 head output/MecMaza_MecMess.paf
 
 ```
-This file have a lot of columns. The important ones for us right now are the query and ref sequence names and length for each alignment, start and end of alignment, strand, gaps, total aligned bases, mapping quality. To interpret the output this site is informative: [paf](https://github.com/lh3/miniasm/blob/master/PAF.md).
+This file have a lot of columns. The important ones for us right now are the query and ref sequence names and length for each alignment, start and end of alignment, strand, number of matched bases, length of aligned block, mapping quality. To interpret the output this site is informative: [paf](https://github.com/lh3/miniasm/blob/master/PAF.md).
 It is hard to directly interpret the output from the table so we need additional tools for exploring the results.
 
 ### 3 - Visualise in R SyntenyPlotteR
@@ -133,12 +139,12 @@ There are many different ways to visualise genome alignments, such as dotplots, 
 
 Here we will use [SyntenyPlotteR](https://github.com/Farre-lab/syntenyPlotteR) to create a ribbon plot.
 
-All synteny visualisation require information about the name and size of the chromosomes and the links between the genomes (start and end of alignments or positions of common markers). SyntenyPlotter uses two intermediate files, a chromosome size file and a chain file containing the connections betwen the two genomes. We will use a wrapper script that  create these files and makes the ribbon plot.
+All synteny visualisation require information about the name and size of the chromosomes and the links between the genomes (start and end of alignments or positions of common markers). SyntenyPlotter produces two intermediate files that it needs for plotting, a chromosome size file and a chain file containing the connections betwen the two genomes. We will use a wrapper script that create these files and makes the ribbon plot.
 
 ```shell
 #organise our directory
-#go back to synteny folder
-cd ~/synteny/
+pwd
+#go to synteny folder
 
 mkdir syntenyplotter
 cd syntenyplotter
@@ -146,14 +152,14 @@ cd syntenyplotter
 mkdir intermediate plots
 
 ```
-Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
+To plot the synteny we need to load the R module.
 ```shell
-#copy the script from the Share folder
-cp  ~/Share/synteny/Syntenyplotter_paf_wrapper.R ./
-cp ../minimap/output/MecMaza_MecMess.paf ./
+module load ~/modules/R
 ```
 
-This script formates the output from minimap2 to fit the input of SyntenyplotteR, prints the two intermediate files in the folder `intermediate`, then plots and saves the figure in the `plots` directory. You can run this script on the commandline.
+Then we can run an R-script (collection of R commands) on the command line.
+
+The R-script Syntenyplotter_paf_wrapper.R reformats the output from minimap2 to fit the input of SyntenyplotteR, prints the two intermediate files in the folder `intermediate`, then plots and saves the figure in the `plots` directory. You can run this script on the command line.
 
 It requies three arguments:
 1. the paf-file (including the path to it)
@@ -162,23 +168,39 @@ It requies three arguments:
 
 The order of the arguments is important in this case.
 
+```shell
+Rscript /home/genomics/scratch/scripts/Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
-#copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder)
-scp -r -i user1.pem  c1@54.191.38.90:~/synteny/syntenyplotter/ ./
 
-#In the RStudio terminal:
-# go into the syntenyplotter folder
-cd syntenyplotter/
+Your alignment plot should now be in your `plots` directory. 
+
+Describe what you see. 
+
+Can you answer some of the questions we asked in the beginning?
+
+
+Alternative if it is not working on the server:
+Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
+```shell
+#copy the script from the Share folder
+cp  /home/genomics/scratch/scripts/Syntenyplotter_paf_wrapper.R ./
+# copy the alignment file to the syntenyplotter folder
+cp ../minimap/output/MecMaza_MecMess.paf ./
+```
+```
+# go to the directory where you want the syntenyplotter folder
+#copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder)
+scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/YOUR_FOLDER/synteny/syntenyplotter/ ./
+
 #check
 ls
-#run the script on your local computer (not on the cluster)
+#run the script on your local computer
 Rscript Syntenyplotter_paf_wrapper.R MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
-Your alignment plot should now be in your `plots` directory. Describe what you see. Can you answer some of the questions we asked in the beginning?
-
-If you want you can add the variables directly in the script (hardcode). The hardcoding could be useful if running your own genomes with a different formatting of the sequence (chromosome) names, the script is taylored for chromosome names in the format string_number or just a number.
 
 **Extra**: Sometimes you need to refine to plot to increase the visibilty of the rearrangements to facilitate interpretation. For example, I want the Z-chromosome to be displayed last in both taxa. Try and change the order of the chromosomes in the plot.
+
+**Extra2**: Create a dot-plot for comparing the genomes with [DGenies](https://dgenies.toulouse.inra.fr). Go to 'run', enter your email, the url of the genomes of interest from NCBI or upload you own genomes. 
 
 
 ## Synteny plot with BUSCO genes
@@ -188,8 +210,8 @@ For more divergent taxa whole genome alignment can be difficult due to low seque
 
 ```
 #go back to the synteny folder
-cd ../   #you can always check with pwd where you are
-pwd
+pwd  #you can always check with pwd where you are
+
 mkdir busco
 cd busco
 
@@ -218,7 +240,7 @@ busco -i $INPUT_DIR \          #the input file or directory with the input files
 Run it on one of our genomes:
 If we do not specify an output directory BUSCO will create an output directory in the directory where you are running the command.
 ```
-busco -i ../genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa -l lepidoptera_odb10 -m geno
+busco -i ../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa -l lepidoptera_odb12 -m geno
 ```
 
 BUSCO takes some time and is memory consuming so you can start one genome to see that it works but if it takes to long we have prepared output files that you can copy to your output directory.
@@ -226,16 +248,16 @@ BUSCO takes some time and is memory consuming so you can start one genome to see
 Take a look at the output.
 Check the file short_summary.txt.
 ```
-less ~/Share/synteny/busco_out_summary/short_summary.txt
+less /home/genomics/scratch/data/comparative_genomics/synteny/busco_out_summary/short_summary.txt
 ```
 Is the quality of the assembly good enough to use for synteny analysis?
 
 One result of interest for our purposes are the full_table.tsv with the genomic position of the best hits of the genes in the database.
 
 ```
-head ~/Share/synteny/busco_out_summary/full_table.tsv
+head /home/genomics/scratch/data/comparative_genomics/synteny/busco_out_summary/full_table.tsv
 ```
-BUSCO also output the nucleotide and protein sequences of the potential single copy genes. We will use the single_copy_busco_sequences in the next step.
+BUSCO produces amino acid sequences (if you want nucleotide sequences youhave to specify --metaeuk) of potential single copy genes. We will use those single_copy_busco_sequences in the next step.
 
 ### 5 - OrthoFinder
 We will use the single copy sequences from BUSCO to get the orthogroups from [orthofinder](https://github.com/davidemms/OrthoFinder ). OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs.
@@ -243,7 +265,8 @@ We will use the single copy sequences from BUSCO to get the orthogroups from [or
 Input for orthofinder are multi-fasta files, one for each taxa that we will concatenate from the single copy sequences from the busco output.
 ```
 #start from the synteny folder
-cd ~/synteny/
+pwd
+
 mkdir orthofinder
 cd orthofinder
 
@@ -251,30 +274,33 @@ cd orthofinder
 orthofinder -h
 ```
 
-Do not run the next section, we already have the files prepared in the `Share/synteny`folder. But I am adding the commands here that we used to create these files, so you can see how it was done.
+Do not run the next section, we already have the files prepared in the `/home/genomics/scratch/data/comparative_genomics/synteny`folder. But I am adding the commands here that we used to create these files, so you can see how it was done.
 
 ```shell
-#make a list of the busco runs that we want to include
+#(do not run this section)
+#make a list of the species that we ran busco for
 ls ../busco/ |grep "fa" > list_fasta.txt
 #did we get the right files
 less list_fasta.txt
 
+#run a for-loop to concatenate the single copy fasta files for each species
 for file in $(cat list_fasta.txt)
 do
-cat ../busco/${file}/run_lepidoptera_odb10/busco_sequences/single_copy_busco_sequences/*.faa > ${file%.*}_sco_cat.fa
+cat ../busco/${file}/run_lepidoptera_odb12/busco_sequences/single_copy_busco_sequences/*.faa > ${file%.*}.fa
 wait
 done
 
 #check that we have the files
 ls
 ```
-This is what we will do:
+
+This is what we will do in this tutorial:
 ```
 #we will copy the sequences from the Share folder
-cp ~/Share/synteny/busco/busco_sco_cat/*fa ./
+cp /home/genomics/scratch/data/comparative_genomics/synteny/busco/*fa ./
 
 #what do they look like
-less ilMecMaza1.1_sco_cat.fa
+less ilMecMaza1.fa
 
 #run orthofinder
 orthofinder -f ./ -t 2
@@ -282,7 +308,8 @@ orthofinder -f ./ -t 2
 
 This will run for a couple of minutes.
 
-Explore the output, there is a lot of information here. Take a look at the comparative statistics. Here you can see number of genes in orthogroups, number of unassigned genes etc. This is not so interesting now when we are using BUSCOs but if you have a genome annotation this can tell you of total number of genes, genes clustering in orthogroups, number of species specific genes, etc.
+Explore the output, there is a lot of information here. Take a look at the comparative statistics. Here you can see number of genes in orthogroups, number of unassigned genes etc. If you have a genome annotation this can tell you of total number of genes, genes clustering in orthogroups, number of species specific genes, etc.
+
 Note: exchange the path to your actual result folder.
 ```
 ls OrthoFinder/
@@ -298,7 +325,7 @@ This file shows the name of orthogroups with single copy orthologues. We can cou
 #count the number of seq
 wc -l OrthoFinder/Results_Jul23/Orthogroups/Orthogroups_SingleCopyOrthologues.txt
 ```
-Are these markers enough to detect the  rearrangements we are interested in?
+Are these markers enough to detect the rearrangements we are interested in?
 You can do a rough estimate of marker density per MB by dividing the number of markers with the genome size.
 
 
@@ -326,7 +353,7 @@ head GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa.fai
 ```
 Do the same for *M. messenoides.*
 
-Now we have prepared the input files so we are ready to visualise our genomes. We will do this in Rstudio on our local computer. We will prepara a folder with all the input files that we can copy to our local computer.
+Now we have prepared the input files so we are ready to visualise our genomes. We will do this in Rstudio on our local computer. We will prepara a folder with all the input files so that we can copy them to our local computer.
 
 #create a new folder
 ```shell
@@ -335,7 +362,7 @@ cd ../
 mkdir circlize
 cd circlize
 #copy the script
-cp ~/Share/synteny/circlize_orthofinderR.Rmd ./
+cp /home/genomics/scratch/data/comparative_genomics/synteny/circlize_orthofinderR.Rmd ./
 #copy the chromosome length files
 cp ../genomes/*.fai ./
 #copy the link file
@@ -353,7 +380,7 @@ We will copy the `circlize` directory to our local computer.
 ```
 #make sure you are in your workshop dir
 #copy the folder from the Amazon cluster
-scp -r -i  user1.pem  user1@35.161.175.22:~/synteny/circlize/ ./
+scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/comparative_genomics/synteny/circlize/ ./
 ```
 Open the script in Rstudio.
 We will go through the script step by step.
