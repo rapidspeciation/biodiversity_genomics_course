@@ -49,7 +49,7 @@ Input for orthofinder are multi-fasta files, one for each taxa that we will conc
 This is the code I used run BUSCO on all species at once. Now we want nucleotide sequences so I need to add the flag --metaeuk (using a different database), and will also take much longer time.
 
 ```bash
-##Do not run! Take to long time...
+##Do not run during the course! It takes too long time...
 busco -i ../renamed_fasta \
     -l lepidoptera_odb12 \
     -m geno \
