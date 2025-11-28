@@ -384,7 +384,6 @@ We will copy the `circlize` directory to our local computer.
 scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/karin_n/synteny_busco/circlize/ ./
 ```
 Open the script in Rstudio.
-We will go through the script step by step.
 
 ```r
 #load libraries
