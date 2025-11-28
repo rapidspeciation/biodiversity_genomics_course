@@ -172,10 +172,12 @@ cd codeml
 
 
 You will have a template form for the control file in the common repository /home/genomics/scratch/.
-Have to specify 
+Have to specify: 
 
 input tree
+
 alignment file
+
 output file
 
 This is important to change when running the different models or genes otherwise it will overwrite the previous result.
