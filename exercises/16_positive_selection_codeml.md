@@ -111,7 +111,7 @@ cd prank
 MY_GENE_FAMILY=OG0000036
 
 #copy the orthogroup, ops change the name of the result folder!!
-cp ../OrthoFinder/Results_Nov27/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
+cp ../orthofinder/Results_Nov28/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
 
 #check how many sequences there are
 grep ">" ${MY_GENE_FAMILY}.fa
