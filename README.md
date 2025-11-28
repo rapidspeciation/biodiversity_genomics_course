@@ -47,6 +47,7 @@ Day 4:
 Day 5:
 - [slides](slide_presentations/15_Selection.pdf) on detecting selection at long time-scales
 - [exercise](exercises/16_positive_selection_codeml.md) on detecting selection at long time-scales
+- [slides](slide_presentations/16_Large_scale_sequencing_projects.pdf) on large-scale sequencing initiatives
 
 Advanced materials:
 - Statistical phasing [Exercise](exercises/12_statistical_phasing.md)
