@@ -171,8 +171,8 @@ cd codeml
 ```
 
 
-You will have a template form for the control file in the common repository /home/genomics/scratch/.
-Have to specify: 
+You will have a template form for the control file (.ctl) in the common repository /home/genomics/scratch/. 
+This file has to specify: 
 
 input tree
 
@@ -182,7 +182,7 @@ output file
 
 This is important to change when running the different models or genes otherwise it will overwrite the previous result.
 
-You have to specify your models and other parameters of interest.
+You also have to specify your models and other parameters of interest. See below how a general control file looks like:
 
 
       seqfile = ALN            * Path to the alignment file
