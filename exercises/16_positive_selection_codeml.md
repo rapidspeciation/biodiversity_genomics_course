@@ -16,7 +16,7 @@ Codeml uses a codon model of evolution, where the codon triplet is the unit of e
 
 dN/dS is an estimator of omega (w), and so you will see all three notations in the tutorial.
 
-This tutorial is in two parts: 
+This tutorial consists of two parts: 
 
 First retriving and aligning orthologous genes, and run a basic model to infer the average evolutionary rate in a gene family. For this we will use a dataset of Ithomiini butterflies. 
 
@@ -138,7 +138,7 @@ This will take a while, maybe time for a quick break?
 ```bash
 # Take a look at the alignment
 less ${MY_GENE_FAMILY}_codon.phy
-
+```
 
 ### Phylogenetic tree
 
