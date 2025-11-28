@@ -40,9 +40,9 @@ cd selection_part_1
 ### Input
 The input for codeml is a phylogenetic tree, multiple sequence alignments, and a control file with the ending .ctl. The control file to tell codeml which models and parameters to use.
 
-#### Alignment
+### Alignment
 
-##### Step 1: get the single copy orthologs in our genomes
+#### Step 1: get the single copy orthologs in our genomes
 Here we will use single copy orthologs detected with BUSCO in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
 Input for orthofinder are multi-fasta files, one for each taxa that we will concatenate from the single copy sequences from the busco output.
