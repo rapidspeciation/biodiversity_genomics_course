@@ -1,8 +1,8 @@
 # Selection
 
 ## Introduction
-According to the neutral theory of molecular evolution, most genetic variation is due to random fixation of mutations. However, in protein coding genes we do observe very different rates of substitutions depending on their effect. A synonymous, or silent, substitution does not change the amino acid and thus is under very low selective pressure. A non-synonymous, or replacement, substitution changes the amino acid and can there for be subjected to natural selection. 
-To test weather a gene, or a part of a gene, is affected by selection, the ratio between the non-synonymous (dN) and the synonymous (dS) substitution rates should be deviating from 1, because if there is no selection acting then only random fixation should determine the rate and that would be on average the same for both dN and dS. According to the nearly neutral model, which states that most mutations are neutral or slightly deleterious, non-synonymous mutations should be removed by selection at a higher rate than synonymous substitutions, who evolve mostly neutrally, leading to a dN/dS << 1, negative purifying selection. In rare cases, for example after a gene duplication leading to new functions or after change in the environment for a population, mutations changing the function of a protein could be beneficial. Then the rate of fixation of non-synonymous mutations will be higher than under neutrality, dN/dS > 1.
+
+To test weather a gene, or a part of a gene, is affected by selection, the ratio between the non-synonymous (dN) and the synonymous (dS) substitution rates could be estimated. If there is no selection acting on the sites then only random fixation should determine the rate and that would be on average the same for both dN and dS so the ratio should be around 1. According to the nearly neutral model, which states that most mutations are neutral or slightly deleterious, non-synonymous mutations should be removed by selection at a higher rate than synonymous substitutions, who evolve mostly neutrally, leading to a dN/dS << 1, negative purifying selection. In rare cases, for example after a gene duplication leading to new functions or after change in the environment for a population, mutations changing the function of a protein could be beneficial. Then the rate of fixation of non-synonymous mutations will be higher than under neutrality, dN/dS > 1.
  
 dN/dS < 1	Purifying selection
 
@@ -12,11 +12,14 @@ dN/dS > 1	Positive selection
 
 
 There are multiple programs developed test if there are signs of positive selection, here we will use *codeml* in the program suite [PaML](https://github.com/abacus-gene/paml/wiki/Installation). For more information on how to run different models [Álvarez-Carretero et al. 2023](https://doi.org/10.1093/molbev/msad041), [PaML-manual](https://github.com/abacus-gene/paml/blob/master/doc/pamlDOC.pdf), [PaML_FAQ](https://ocw.mit.edu/courses/6-877j-computational-evolutionary-biology-fall-2005/9a6d5e515fb1e7608eb3919855b01880_pamlfaqs.pdf).
-This uses a codon model of evolution, where the codon triplet is the unit of evolution. It is not only inferring the dN/dS ratio across the gene and across the phylogeny but also includes branch models for detecting elevated rates in specific branches compared to the background branches, and site models that allows the dN/dS to vary across the gene, specifying the likelihood of a specific codon being under positive selection. 
+Codeml uses a codon model of evolution, where the codon triplet is the unit of evolution. It is not only inferring the dN/dS ratio across the gene and across the phylogeny but also includes branch models for detecting elevated rates in specific branches compared to the background branches, and site models that allows the dN/dS to vary across the gene, specifying the likelihood of a specific codon being under positive selection. 
 
 dN/dS is an estimator of omega (w), and so you will see all three notations in the tutorial.
 
-We will first specify a simple model (model_M0) with the same average dN/dS across all branches to inspect the alignment and the general statistics of our gene family. After that we will use the branch-site model A, that allows model comparison to detect if genes in our branch of interest, the foreground branch, is under selection. We specify a model that allows dN/dS to vary across branches, and infer the proportion of sites in the gene with w=1 or w<1 in all branches and allow for an additional class of sites in the foreground branch with w > 1 (branch-site model A). Positive selection is defined as the presence of some codons at which w > 1, and if the likelihood of this model is higher than the null model. The null model is the same model, but instead of allowing w>1 we fixed omega to w=1 in that class. The Likelihood Ratio Test (LRT) statistic, or twice the log likelihood difference between the two compared models is used against a chi-square distribution with 2 degrees of freedom for significance testing. The LRT is constructed to compare nested models, so a null model that does not allow for any codons with w > 1 against a more general model that does. So we both should have a proportion of sites with w > 1 and a significantly higher likelihood of the more general model. 
+We will first specify a simple model (model_M0) with the same average dN/dS across all branches to inspect the alignment and the general statistics of our gene family. For this we will use a dataset of Ithomiini butterflies, which do not yet have gene annotations for all. We first need to find orthologous genes to be able to infer the evolutionary rates. One tool to detect and locate single copy genes is [BUSCO](https://busco.ezlab.org/busco_userguide.html) (Benchmarking Universal Single-Copy Orthologs). BUSCO uses lineage specific databases containing genes present in > 90 % of the taxa and occur as single copy in >90% of the taxa in each lineage. It is commonly used to assess the completeness of genome assemblies, but we can use our genomes as input to retrive single copy orthologs.
+
+
+After that we will use the branch-site model A, that allows model comparison to detect if genes in our branch of interest, the foreground branch, is under selection. We specify a model that allows dN/dS to vary across branches, and infer the proportion of sites in the gene with w=1 or w<1 in all branches and allow for an additional class of sites in the foreground branch with w > 1 (branch-site model A). Positive selection is defined as the presence of some codons at which w > 1, and if the likelihood of this model is higher than the null model. The null model is the same model, but instead of allowing w>1 we fixed omega to w=1 in that class. The Likelihood Ratio Test (LRT) statistic, or twice the log likelihood difference between the two compared models is used against a chi-square distribution with 2 degrees of freedom for significance testing. The LRT is constructed to compare nested models, so a null model that does not allow for any codons with w > 1 against a more general model that does. So we both should have a proportion of sites with w > 1 and a significantly higher likelihood of the more general model. 
 
 
 
@@ -36,12 +39,13 @@ The input for codeml is a phylogenetic tree, multiple sequence alignments, and a
 ## Alignment
 
 ### Step 1: get the single copy orthologs in our genomes
-Here we will use BUSCO to find single copy orthologs in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
+Here we will use single copy orthologs detected with BUSCO in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
-This is the code I used run BUSCO on all species at once. Now we want nucleotide sequences so I need to 
+Input for orthofinder are multi-fasta files, one for each taxa that we will concatenate from the single copy sequences from the busco output.
+This is the code I used run BUSCO on all species at once. Now we want nucleotide sequences so I need to add the flag --metaeuk (using a different database), and will also take much longer time.
 
 ```bash
-##Do not run
+##Do not run! Take to long time...
 busco -i ../renamed_fasta \
     -l lepidoptera_odb12 \
     -m geno \
@@ -50,7 +54,7 @@ busco -i ../renamed_fasta \
     -c 12
 
 ```
-To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup. More info on BUSCO is in exercise Synteny.
+To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup.
 
 
 ### Step 2: run OrthoFinder to get orthologs genes
@@ -147,11 +151,7 @@ prank -convert -d=${MY_GENE_FAMILY}_codon.phy -o=${MY_GENE_FAMILY}_codon.phylipi
 
 iqtree -s ../prank/${MY_GENE_FAMILY}_codon.best.phy --prefix ${MY_GENE_FAMILY}
 
-
-
-
 ```
-
 
 
 ## Format control file
