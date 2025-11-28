@@ -152,7 +152,7 @@ mkdir iqtree
 cd iqtree
 
 #convert to interleaved phy, iqtree do not like the paml format
-prank -convert -d=${MY_GENE_FAMILY}_codon.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
+prank -convert -d=../prank/${MY_GENE_FAMILY}_codon.best.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
 
 iqtree -s ../prank/${MY_GENE_FAMILY}_codon.best.phy --prefix ${MY_GENE_FAMILY}
 
