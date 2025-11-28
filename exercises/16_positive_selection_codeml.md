@@ -306,8 +306,9 @@ Prepare for the analysis.
 # Go back to your working directory and make a new directory
 mkdir selection_part_2
 cd selection_part_2
+```
 
-Copy alignment and tree file we will use these for both models
+Copy alignment and tree file, we will use these for both models
 
 ```bash
 cp /home/genomics/scratch/data/comparative_genomics/selection/input_model_A/vertebrate* ./
