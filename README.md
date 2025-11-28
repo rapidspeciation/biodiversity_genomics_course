@@ -44,7 +44,7 @@ Day 4:
 - [Exercise](exercises/10_genome_scan.md) on genome scans
 
 
-Day 5: TBA
+Day 5:
 - [slides](slide_presentations/15_Selection.pdf) on detecting selection at long time-scales
 - [exercise](exercises/16_positive_selection_codeml.md) on detecting selection at long time-scales
 
