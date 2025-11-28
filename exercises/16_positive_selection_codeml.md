@@ -71,7 +71,7 @@ mkdir orthofinder
 cd orthofinder
 
 # copy all the fasta files 
-cp /home/genomics/scratch/data/comparative_genomics/selection/input_orthofinder/*.fa ./
+cp ../orthofinder/OrthoFinder/Results_Nov28/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
 
 ls
 #take a look at one of the files
