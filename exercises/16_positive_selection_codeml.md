@@ -11,34 +11,38 @@ dN/dS = 1	Neutral evolution, relaxed selection
 dN/dS > 1	Positive selection
 
 
-There are multiple programs developed test if there are signs of positive selection, here we will use *codeml* in the program suite [PaML](https://github.com/abacus-gene/paml/wiki/Installation). For more information on how to run different models [Álvarez-Carretero et al. 2023](https://doi.org/10.1093/molbev/msad041), [PaML-manual](https://github.com/abacus-gene/paml/blob/master/doc/pamlDOC.pdf), [PaML_FAQ](https://ocw.mit.edu/courses/6-877j-computational-evolutionary-biology-fall-2005/9a6d5e515fb1e7608eb3919855b01880_pamlfaqs.pdf).
+There are multiple programs developed test if there are signs of positive selection, here we will use *codeml* in the program suite [PaML](https://github.com/abacus-gene/paml). For more information on how to run different models [Álvarez-Carretero et al. 2023](https://doi.org/10.1093/molbev/msad041), [PaML-manual](https://github.com/abacus-gene/paml/blob/master/doc/pamlDOC.pdf), [PaML_FAQ](https://ocw.mit.edu/courses/6-877j-computational-evolutionary-biology-fall-2005/9a6d5e515fb1e7608eb3919855b01880_pamlfaqs.pdf).
 Codeml uses a codon model of evolution, where the codon triplet is the unit of evolution. It is not only inferring the dN/dS ratio across the gene and across the phylogeny but also includes branch models for detecting elevated rates in specific branches compared to the background branches, and site models that allows the dN/dS to vary across the gene, specifying the likelihood of a specific codon being under positive selection. 
 
 dN/dS is an estimator of omega (w), and so you will see all three notations in the tutorial.
 
-We will first specify a simple model (model_M0) with the same average dN/dS across all branches to inspect the alignment and the general statistics of our gene family. For this we will use a dataset of Ithomiini butterflies, which do not yet have gene annotations for all. We first need to find orthologous genes to be able to infer the evolutionary rates. One tool to detect and locate single copy genes is [BUSCO](https://busco.ezlab.org/busco_userguide.html) (Benchmarking Universal Single-Copy Orthologs). BUSCO uses lineage specific databases containing genes present in > 90 % of the taxa and occur as single copy in >90% of the taxa in each lineage. It is commonly used to assess the completeness of genome assemblies, but we can use our genomes as input to retrive single copy orthologs.
+This tutorial is in two parts: 
+
+First retriving and aligning orthologous genes, and run a basic model to infer the average evolutionary rate in a gene family. For this we will use a dataset of Ithomiini butterflies. 
+
+For part two we will use the branch-site model A to test for signs of selection in a vertebrate gene family.
 
 
-After that we will use the branch-site model A, that allows model comparison to detect if genes in our branch of interest, the foreground branch, is under selection. We specify a model that allows dN/dS to vary across branches, and infer the proportion of sites in the gene with w=1 or w<1 in all branches and allow for an additional class of sites in the foreground branch with w > 1 (branch-site model A). Positive selection is defined as the presence of some codons at which w > 1, and if the likelihood of this model is higher than the null model. The null model is the same model, but instead of allowing w>1 we fixed omega to w=1 in that class. The Likelihood Ratio Test (LRT) statistic, or twice the log likelihood difference between the two compared models is used against a chi-square distribution with 2 degrees of freedom for significance testing. The LRT is constructed to compare nested models, so a null model that does not allow for any codons with w > 1 against a more general model that does. So we both should have a proportion of sites with w > 1 and a significantly higher likelihood of the more general model. 
+## Part one - model M0
 
-
+We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. We do not have gene annotation for all the species yet, so we first need to find orthologous genes to be able to infer the evolutionary rates. One tool to detect and locate single copy genes is [BUSCO](https://busco.ezlab.org/busco_userguide.html) (Benchmarking Universal Single-Copy Orthologs). BUSCO uses lineage specific databases containing genes present in > 90 % of the taxa and occur as single copy in >90% of the taxa in each lineage. It is commonly used to assess the completeness of genome assemblies, and we can use our genomes as input to retrive single copy orthologs. Since these are conserved genes our hypothesis is that they will be under strong purifying selection in general.
 
 
 Start by organising the directory
 
 ```bash
-mkdir selection
-cd selection
+mkdir selection_part_1
+cd selection_part_1
 
 
 ```
 
-## Input
+### Input
 The input for codeml is a phylogenetic tree, multiple sequence alignments, and a control file with the ending .ctl. The control file to tell codeml which models and parameters to use.
 
-## Alignment
+### Alignment
 
-### Step 1: get the single copy orthologs in our genomes
+#### Step 1: get the single copy orthologs in our genomes
 Here we will use single copy orthologs detected with BUSCO in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
 Input for orthofinder are multi-fasta files, one for each taxa that we will concatenate from the single copy sequences from the busco output.
@@ -57,7 +61,7 @@ busco -i ../renamed_fasta \
 To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup.
 
 
-### Step 2: run OrthoFinder to get orthologs genes
+#### Step 2: run OrthoFinder to get orthologs genes
 
 ```bash
 #set up a new working directory from your working directory
@@ -90,7 +94,7 @@ As earlier OrthoFinder will produce a large directory with many interesting file
 
 
 
-### Step 3: Align the sequences
+#### Step 3: Align the sequences
 
 We will use a multi sequence aligner that specifically accounts for codons, [PRANK](https://github.com/ariloytynoja/prank-msa/tree/master), which have a lot of other useful applications. PRANK uses evolutionary information for the placement of gaps and modelling of the substitution process. It infers a guide tree from genetic distances estimated from pairwise alignments using the neighbour-joining (NJ) algorithm and then iterates the alignment using an improved guide tree estimated from the first multiple alignment. 
 
@@ -98,7 +102,7 @@ We will use a multi sequence aligner that specifically accounts for codons, [PRA
 Prepare input sequences
 
 ```bash
-# go back to the selection folder
+# go back to the selection_part_1 folder
 
 mkdir prank
 cd prank
@@ -136,7 +140,7 @@ This will take a while, maybe time for a quick break?
 less ${MY_GENE_FAMILY}_codon.phy
 
 
-## Phylogenetic tree
+### Phylogenetic tree
 
 The program codeml also needs a guide tree to infer the rate of substitutions (it could infer one but it takes longer time and it is not made to be a tree inference program, so not recommended). We will use iqtree to infer a tree from our alignment
 
@@ -154,7 +158,7 @@ iqtree -s ../prank/${MY_GENE_FAMILY}_codon.best.phy --prefix ${MY_GENE_FAMILY}
 ```
 
 
-## Format control file
+### Format control file
 Now we have the all the data needed to run codeml, so it is time to edit the control file.
 
 
@@ -215,9 +219,9 @@ cp ../iqtree/${MY_GENE_FAMILY}.treefile ./
 
 ```
 
-## Run codeml
+### Run codeml
 
-### Model M0
+#### Model M0
 First we will run with model M0 to estimate the general level of evolutionary rate for the genes of interest. This is the simplest model with fewest parameters and produces the average w across the tree for this group of genes.
 Here we get estimates of branch lengths and ω under the model and basic statistics of the data, such as the divergence levels, the base composition and codon usage bias.
 
@@ -280,17 +284,13 @@ What does the average evolutionary rate in this gene suggest?
 
 
 
-### Branch-site model A
+## Part 2 test for positive selection using branch-site model A
 
-The Model-M0 is quite unrealistic, is is rather unlikely that all branches and all sites would have the same evolutionary rate. A more realistic model is a model that allow the w to vary among branches and account for different selection pressures on codons in the gene. Model-A is a test of positive selection in a proportion of sites in the foreground branch relative to the background branches. An increased rate could for example suggest local adaption to novel environment in our species of interest compare to its relatives.
+The Model-M0 is quite unrealistic, is is rather unlikely that all branches and all sites would have the same evolutionary rate. A more realistic model is a model that allow the w to vary among branches and account for different selection pressures on codons in the gene. Branch-site model A is a test of positive selection in a proportion of sites in the foreground branch relative to the background branches. An increased rate could for example suggest local adaption to novel environment in our species of interest compare to its relatives. 
 
+The test is indicative of positive selection if of a proportion of codons at which w > 1, and if the likelihood of this model is higher than the null model. The null model uses the same parameters except we fix omega to w = 1 instead of allowing for w > 1. The Likelihood Ratio Test (LRT) statistic is used against a chi-square distribution with 1 degrees of freedom for significance testing. The LRT is constructed to compare nested models, so a null model that does not allow for any codons with w > 1, against a more general model that does.
 
-
-We will compare a null model that allows w to vary among tree different site classes, to a similar model but with one more site class that allow omega to take positive values. The model with higher number of parameters are likely to have higher likelihood but we can test if the difference in likelihood is larger than expected with a LRT and compare to a chi2 distribution.
-
-The branch-site model A is specified by changing the variables model and NSsites. 
-
-The alternative model allows omega to vary in the branch of interest by setting fix_omega=0
+The alternative branch-site model A allows omega to vary in the branch of interest by setting fix_omega=0, estimate from the data.
 
 Model A: model = 2, NSsites = 2, fix_omega = 0
 
@@ -299,35 +299,40 @@ The null model is also the branch-site model A but with w = 1 fixed to 1, specif
 Model A1: model = 2, NSsites = 2, fix_omega = 1, omega = 1
 
 #### Branch-site model: Alternative model
+
 Prepare for the analysis.
 
 ```bash
-# Go back to codeml directory
-cd ../
-mkdir model_A_est
-cd model_A_est
+# Go back to your working directory and make a new directory
+mkdir selection_part_2
+cd selection_part_2
+
+Copy alignment and tree file we will use these for both models
+
+```bash
+cp /home/genomics/scratch/data/comparative_genomics/selection/input_model_A/vertebrate* ./
 
 ```
-
-The input alignment is the same for all the models.
 
 In the tree file we need to add a label to the branch or branches we want as foreground branch.
 
 ```bash
 
-sed 's/ilMecMaza1/ilMecMaza1 \#1/' ../${MY_GENE_FAMILY}.treefile > ${MY_GENE_FAMILY}_MecMaza.treefile
+sed 's/Chicken_Mx/Chicken_Mx \#1/' vertebrate.tree > vertebrate_Chicken_Mx.tree
 
 ```
 
 We will first run the alternative model:
 
-Adjust the control file for the model with fixed omega.
-
 ```bash
 
-cp ../template.ctl model_A_est.ctl
+mkdir model_A_est
+cd model_A_est
 
-# change input paths and filenames, and set output file NAME of your orthogroup (can't use the variable here) NAME_modA_est.out
+#copy and rename the template file
+cp ../../selection/codeml/template.ctl model_A_est.ctl
+
+# change input and output paths and filenames
 
 nano model_A_est.ctl
 
@@ -359,13 +364,22 @@ sed -i 's/INITOME/.4/' model_A_est.ctl # Initial or fixed omega, start value for
 
 ```
 
+Time to run the model
+
+```bash
+codeml model_A_est.ctl > model_A_est.log
+
+```
+
 This can take some minutes depending the size of the alignment.
 Some times the program have trouble with convergence of the model, and then it could help to use the tree estimated in the simplest model M0 as guide tree. 
 
 Check the output in the .out file.
 
 ```bash
-less ${MY_GENE_FAMILY}_modA_est.out
+less model_A_est_chicken.out
+
+grep -A5 "MLE" model_A_est_chicken.out
 ```
 
 Here we an see the the proportion of sites in the different classes and the estimated omega values for each of the classes.
@@ -384,15 +398,30 @@ mkdir model_A_fixed
 cd  model_A_fixed
 
 # copy the control file and change the name of the file, we will change the output and omega settings
-cp ../ model_A_est/model_A_est.ctl model_A_fixed.ctl
+cp ../model_A_est/model_A_est.ctl model_A_fixed.ctl
 
 # change the name of the output file NAME is your orthogroup (NAME_modA_fixed.out)
 # Fix(Omega) = 1 (fixed omega)
 # Omega = 1 (initial value, fixed to 1)
 
 nano model_A_fixed.ctl
-
 ```
+Run the null model
+
+```bash
+
+codeml model_A_fixed.ctl > model_A_fixed.log
+```
+This can take a while again.
+
+```bash
+less model_A_est_chicken.out
+
+grep -A5 "MLE" model_A_est_chicken.out
+```
+
+
+
 
 #### LRT
 
@@ -458,8 +487,6 @@ https://github.com/abacus-gene/paml-tutorial/blob/main/positive-selection/01_pro
 
 Ref
 Yang, Wong & Nielsen 2005. Mol. Biol. Evol. 22:1107-1118
-also this "paml" paper may give you a useful overview.
-
 Yang, Z. 2007. PAML 4: Phylogenetic analysis by maximum likelihood. Mol. Biol. Evol. 24:1586-1591.
 
 
