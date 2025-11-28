@@ -375,6 +375,7 @@ ls
 mkdir plots
 ```
 
+### Plotting
 **Local computer**
 
 We will copy the `circlize` directory to our local computer.
