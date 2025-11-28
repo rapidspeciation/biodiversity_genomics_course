@@ -475,15 +475,17 @@ Is the LRT significant?
 Check the output file:
 If the LRT suggests presence of codons under positive selection in the foreground branch then we could check for the result of the Bayes empirical Bayes (BEB) method that calculates the posterior probabilities that each codon is from the site class of positive selection. 
 
-In each line, the first column shows the site position (e.g., 10, 25, 108, and 123), which is followed by the amino acid at this site in the first sequence (this is for identification of the site in the sequence). The third column (Pr (w > 1)) shows the posterior probability for the site to be from the positive-selection class (i.e., with ω > 1).
+In each line, the first column shows the site position followed by the amino acid at this site in the first sequence (this is for identification of the site in the sequence). The third column (Pr (w > 1)) shows the posterior probability for the site to be from the positive-selection class (i.e., with ω > 1).
+
+Are there sites in this gene under positive selection? Which gene is it?
 
 
-What would you suggest as the next steps?
 
 
-Link to LRT and chi2 interpretation
-https://github.com/abacus-gene/paml-tutorial/blob/main/positive-selection/01_protocol_analyses/03_branchsite_models/LRT_branchsite_models.pdf
 
+
+For more reading:
+This tutorial was using part of the material from https://github.com/abacus-gene/paml-tutorial/tree/main 
 
 Ref
 Yang, Wong & Nielsen 2005. Mol. Biol. Evol. 22:1107-1118
