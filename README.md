@@ -5,7 +5,7 @@ For the course taught in July 2024 at IKIAM University in Tena, Ecuador, see the
 This course is taught by Karin Näsvall, Nicol Rueda, Fernando Seixas, and Joana Meier from the [Wellcome Sanger Institute](https://www.sanger.ac.uk/group/meier-group/) and by Melisa Olave (CONICET, Argentina).
 Some of the course material is based on the [speciation genomics course](https://speciationgenomics.github.io/) by Joana Meier and Mark Ravinet.
 
-The course website showing logistics and useful information about Menoza is [here](https://biodiversitygenomicslatam.weebly.com/).
+The course website showing logistics and useful information about Mendoza is [here](https://biodiversitygenomicslatam.weebly.com/).
 
 
 ## Course structure
@@ -45,7 +45,8 @@ Day 4:
 
 
 Day 5: TBA
-
+- [slides](slide_presentations/15_Selection.pdf) on detecting selection at long time-scales
+- [exercise](exercises/16_positive_selection_codeml.md) on detecting selection at long time-scales
 
 Advanced materials:
 - Statistical phasing [Exercise](exercises/12_statistical_phasing.md)

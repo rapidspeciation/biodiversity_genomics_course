@@ -74,7 +74,7 @@ ABBABABAwindows.py \
     -m 100 \
     --minData 0.5 \
     -T 2 \
-    -P1 Hmel.mel.gui -P2 Hmel.ama.per -P3 Htim.the.per -O Hnum.bsl.bra \
+    -P1 Hmel.mal.col -P2 Hmel.ama.per -P3 Htim.flo.per -O Hnum.bsl.bra \
     --popsFile popmap.txt \
     --writeFailedWindows
 ```
@@ -87,7 +87,6 @@ To plot the results, we need will use the files I prepared for the complete chr1
 
 
 ```shell
-#Remember change the user name:
 scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.dstats.w20s20.csv.gz ./
 scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/martin2019/Hmel218003o.hmelv25.mel_tim_cyd_num.popgen.w20s20.csv.gz ./
 
@@ -112,10 +111,12 @@ head(fd)
 
 # Let's plot FST, dxy and fd between the two younger species
 require(ggplot2)
-fst<-ggplot(windowStats,aes(mid,Fst_Hmel.mel.gui_Hmel.ama.per))+geom_point()
-dxy<-ggplot(windowStats,aes(mid,dxy_Hmel.mel.gui_Hmel.ama.per))+geom_point()
+fst<-ggplot(windowStats,aes(mid,Fst_Hmel.mal.col_Hmel.ama.per))+geom_point()
+fst
+dxy<-ggplot(windowStats,aes(mid,dxy_Hmel.mal.col_Hmel.ama.per))+geom_point()
+dxy
 fd<-ggplot(fd,aes(mid,fd))+geom_point()
-
+fd
 # Let's compare the stats on chr18 next to each other
 require(gridExtra)
 grid.arrange(fst, dxy, fd, nrow=3)
