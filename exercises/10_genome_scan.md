@@ -74,7 +74,7 @@ ABBABABAwindows.py \
     -m 100 \
     --minData 0.5 \
     -T 2 \
-    -P1 Hmel.mel.gui -P2 Hmel.ama.per -P3 Htim.the.per -O Hnum.bsl.bra \
+    -P1 Hmel.mal.col -P2 Hmel.ama.per -P3 Htim.flo.per -O Hnum.bsl.bra \
     --popsFile popmap.txt \
     --writeFailedWindows
 ```
