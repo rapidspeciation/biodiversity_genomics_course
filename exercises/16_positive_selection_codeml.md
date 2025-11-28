@@ -103,7 +103,7 @@ Prepare input sequences
 
 ```bash
 # go back to the selection_part_1 folder
-
+cd ..
 mkdir prank
 cd prank
 
