@@ -44,7 +44,7 @@ Day 4:
 - [Exercise](exercises/10_genome_scan.md) on genome scans
 
 
-Day 5: TBA
+Day 5:
 - [slides](slide_presentations/15_Selection.pdf) on detecting selection at long time-scales
 - [exercise](exercises/16_positive_selection_codeml.md) on detecting selection at long time-scales
 
@@ -74,7 +74,7 @@ https://www.biodiversitygenomicsconference.org
 
 ### For RAD or UCE data
 If you have short-read data for only a subset of the genome because you used a reduced-representation technique (e.g. RAD or UCE), most of the tutorial will still be relevant. For RAD or UCE data you do not necessarily need a reference genome, unless you want to run the genome scans for finding regions with high differentiation or introgression.
-If you have RAD (restriction-enzyme associated DNA) data, you can either follow the steps in our tutorial with mapping reads to a reference genome or if you do not have a reference genome, you can do a de novo assembly, i.e. make your own reference for just the RAD loci. The most widely used tool for RAD data analysis is [STACKS](https://catchenlab.life.illinois.edu/stacks). If you are working with polyploids, check out [polyRAD](https://academic.oup.com/g3journal/article/9/3/663/6026786).
+If you have RAD (restriction-enzyme associated DNA) data, you can either follow the steps in our tutorial with mapping reads to a reference genome or if you do not have a reference genome, you can do a de novo assembly, i.e. make your own reference for just the RAD loci. The most widely used tool for RAD data analysis is [STACKS](https://catchenlab.life.illinois.edu/stacks) or if you have a phylogenetic dataset with many species, we can recommend [ipyrad](https://ipyrad.readthedocs.io/en/master/index.html). If you are working with polyploids, check out [polyRAD](https://academic.oup.com/g3journal/article/9/3/663/6026786).
 If you have UCE (ultra-conserved elements) data, have a look at this [website](https://www.ultraconserved.org/) for guidance.
 
 ##

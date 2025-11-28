@@ -49,7 +49,7 @@ Input for orthofinder are multi-fasta files, one for each taxa that we will conc
 This is the code I used run BUSCO on all species at once. Now we want nucleotide sequences so I need to add the flag --metaeuk (using a different database), and will also take much longer time.
 
 ```bash
-##Do not run! Take to long time...
+##Do not run during the course! It takes too long time...
 busco -i ../renamed_fasta \
     -l lepidoptera_odb12 \
     -m geno \
@@ -71,7 +71,7 @@ mkdir orthofinder
 cd orthofinder
 
 # copy all the fasta files 
-cp /home/genomics/scratch/data/comparative_genomics/selection/input_orthofinder/*.fa ./
+cp ../orthofinder/OrthoFinder/Results_Nov28/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
 
 ls
 #take a look at one of the files
@@ -103,7 +103,7 @@ Prepare input sequences
 
 ```bash
 # go back to the selection_part_1 folder
-
+cd ..
 mkdir prank
 cd prank
 
@@ -111,7 +111,7 @@ cd prank
 MY_GENE_FAMILY=OG0000036
 
 #copy the orthogroup, ops change the name of the result folder!!
-cp ../OrthoFinder/Results_Nov27/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
+cp ../orthofinder/Results_Nov28/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
 
 #check how many sequences there are
 grep ">" ${MY_GENE_FAMILY}.fa
@@ -152,9 +152,9 @@ mkdir iqtree
 cd iqtree
 
 #convert to interleaved phy, iqtree do not like the paml format
-prank -convert -d=${MY_GENE_FAMILY}_codon.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
+prank -convert -d=../prank/${MY_GENE_FAMILY}_codon.best.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
 
-iqtree -s ../prank/${MY_GENE_FAMILY}_codon.best.phy --prefix ${MY_GENE_FAMILY}
+iqtree -s ${MY_GENE_FAMILY}_codon.phylipi.phy --prefix ${MY_GENE_FAMILY}
 
 ```
 
@@ -171,16 +171,18 @@ cd codeml
 ```
 
 
-You will have a template form for the control file in the common repository /home/genomics/scratch/.
-Have to specify 
+You will have a template form for the control file (.ctl) in the common repository /home/genomics/scratch/. 
+This file has to specify: 
 
 input tree
+
 alignment file
+
 output file
 
 This is important to change when running the different models or genes otherwise it will overwrite the previous result.
 
-You have to specify your models and other parameters of interest.
+You also have to specify your models and other parameters of interest. See below how a general control file looks like:
 
 
       seqfile = ALN            * Path to the alignment file
