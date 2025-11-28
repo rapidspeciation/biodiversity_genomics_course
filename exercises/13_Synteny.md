@@ -209,8 +209,9 @@ For more divergent taxa whole genome alignment can be difficult due to low seque
 ### 4 - BUSCO
 
 ```
-#go back to the synteny folder
+#go back to the comparative genomics folder
 pwd  #you can always check with pwd where you are
+mkdir synteny_sco
 
 mkdir busco
 cd busco
@@ -240,7 +241,7 @@ busco -i $INPUT_DIR \          #the input file or directory with the input files
 Run it on one of our genomes:
 If we do not specify an output directory BUSCO will create an output directory in the directory where you are running the command.
 ```
-busco -i ../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa -l lepidoptera_odb12 -m geno
+busco -i ../../synteny/renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa -l lepidoptera_odb12 -m geno
 ```
 
 BUSCO takes some time and is memory consuming so you can start one genome to see that it works but if it takes to long we have prepared output files that you can copy to your output directory.
@@ -264,7 +265,7 @@ We will use the single copy sequences from BUSCO to get the orthogroups from [or
 
 Input for orthofinder are multi-fasta files, one for each taxa that we will concatenate from the single copy sequences from the busco output.
 ```
-#start from the synteny folder
+#start from the synteny_sco folder
 pwd
 
 mkdir orthofinder
@@ -279,17 +280,15 @@ Do not run the next section, we already have the files prepared in the `/home/ge
 ```shell
 #(do not run this section)
 #make a list of the species that we ran busco for
-ls ../busco/ |grep "fa" > list_fasta.txt
+ls ../busco/ |grep "fa" > list_taxa.txt
 #did we get the right files
-less list_fasta.txt
-
+less list_taxa.txt
 #run a for-loop to concatenate the single copy fasta files for each species
-for file in $(cat list_fasta.txt)
+for file in $(cat list_taxa.txt)
 do
-cat ../busco/${file}/run_lepidoptera_odb12/busco_sequences/single_copy_busco_sequences/*.faa > ${file%.*}.fa
+cat ../busco/${file}/run_lepidoptera_odb12/busco_sequences/single_copy_busco_sequences/*.faa > ${file%.*}.sco.faa
 wait
 done
-
 #check that we have the files
 ls
 ```
@@ -297,7 +296,7 @@ ls
 This is what we will do in this tutorial:
 ```
 #we will copy the sequences from the Share folder
-cp /home/genomics/scratch/data/comparative_genomics/synteny/busco/*fa ./
+cp /home/genomics/scratch/data/comparative_genomics/synteny_sco/busco_output/*faa ./
 
 #what do they look like
 less ilMecMaza1.fa
@@ -314,16 +313,17 @@ Note: exchange the path to your actual result folder.
 ```
 ls OrthoFinder/
 
-#exchange the path to your actual result folder.
-less OrthoFinder/Results_Jul23/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv
+# change the path to your actual result folder!
+less OrthoFinder/Results_Nov28/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv
 ```
 
 What we are interested in now are the single copy orthologues and their position in each genome.
 
-This file shows the name of orthogroups with single copy orthologues. We can count how many they are.
+This file conatins the name of orthogroups with single copy orthologues. We can count how many they are.
+
 ```
 #count the number of seq
-wc -l OrthoFinder/Results_Jul23/Orthogroups/Orthogroups_SingleCopyOrthologues.txt
+wc -l OrthoFinder/Results_Nov28/Orthogroups/Orthogroups_SingleCopyOrthologues.txt
 ```
 Are these markers enough to detect the rearrangements we are interested in?
 You can do a rough estimate of marker density per MB by dividing the number of markers with the genome size.
@@ -331,25 +331,26 @@ You can do a rough estimate of marker density per MB by dividing the number of m
 
 ### 6 -  Visualise in R circlize
 This time we will use a circular graph to show the chromosomes and the links between them. Circos was originally developed in a perl script, but now there are both R and Python versions. we will use [circlize](https://jokergoo.github.io/circlize_book/book/introduction.html), which is an R implementation.
+
 ### Prepare input
-Here we will use the output from OrthoFinder, we want to use single copy orthologues so we get the position from /Orthogroups.tsv by selecting only those that are present as singel copy in the file Orthogroups_SingleCopyOrthologues.txt. we can use grep with a file of patters with the -f option.
+Here we will use the output from OrthoFinder, we get the position from /Orthogroups.tsv by selecting only those that are present as single copy in the file Orthogroups_SingleCopyOrthologues.txt. We can use grep with a file of patterns with the -f option.
 
 ```
-grep -f OrthoFinder/Results_Jul23/Orthogroups/Orthogroups_SingleCopyOrthologues.txt OrthoFinder/Results_Jul23/Orthogroups/Orthogroups.tsv > single_copy_orthogroups.tsv
+grep -f OrthoFinder/Results_Nov28/Orthogroups/Orthogroups_SingleCopyOrthologues.txt OrthoFinder/Results_Nov28/Orthogroups/Orthogroups.tsv > single_copy_orthogroups.tsv
 ```
 Most synteny visualisations requires a chromosome size file and we do not get this information in the single_copy_markers.tsv, so we have to create one. Here we will create a file with chromosome name and length from samtools [faidx]( http://www.htslib.org/doc/samtools-faidx.html).
 ```shell
-#go to the folder with the genomes
-cd ../genomes
+#go to the folder with the renamed genomes
+cd ../../synteny/renamed_genomes
 #check that samtools works
 samtools
 #run samtools faidx to creat and index file
-samtools faidx GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa
+samtools faidx GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa
 ```
 This command will output a tab-separated index file genome.fa.fai, with the name and length of each sequence (chromosome) in the fasta file. In addition, information about the offset of the postion in the file along with line length in bases and bytes are also given (column 3-5). Here we only care about the first and second column.
 
 ```shell
-head GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa.fai
+head GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa.fai
 ```
 Do the same for *M. messenoides.*
 
@@ -357,14 +358,14 @@ Now we have prepared the input files so we are ready to visualise our genomes. W
 
 #create a new folder
 ```shell
-#go back to synteny
-cd ../
+#go back to synteny_sco
+cd ../synteny_sco
 mkdir circlize
 cd circlize
 #copy the script
-cp /home/genomics/scratch/data/comparative_genomics/synteny/circlize_orthofinderR.Rmd ./
+cp /home/genomics/scratch/scripts/cirklize_orthofinderR.Rmd ./
 #copy the chromosome length files
-cp ../genomes/*.fai ./
+cp ../../synteny/renamed_genomes/*.fai ./
 #copy the link file
 cp ../orthofinder/single_copy_orthogroups.tsv ./
 #check that we have our files
@@ -378,9 +379,9 @@ mkdir plots
 
 We will copy the `circlize` directory to our local computer.
 ```
-#make sure you are in your workshop dir
-#copy the folder from the Amazon cluster
-scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/data/comparative_genomics/synteny/circlize/ ./
+# make sure you are in your workshop dir on your local computer
+# copy the folder from the cluster to your computer, 
+scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/karin_n/synteny_busco/circlize/ ./
 ```
 Open the script in Rstudio.
 We will go through the script step by step.
@@ -392,6 +393,7 @@ library(dplyr)
 library(tidyr)
 library(gtools)
 library(forcats)
+library(scales)
 ```
 
 Add variables:
@@ -399,13 +401,13 @@ Add variables:
 #ref taxa
 TAXA_1 <- "ilMecMaza1"
 #for plotting
-NAME_REF <- "Mechanitis mazaeus"
+NAME_REF <- "Mechanitis mazaeus" #for plotting
 #chromosome length file from samtools faidx
 REF_FAI <- "GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa.fai"
 
 #query TAXA
 TAXA_2 <- "ilMecMess1"
-NAME_QUERY <- "Mechanitis messenoides"
+NAME_QUERY <- "Mechanitis messenoides" #for plotting
 QUERY_FAI <- "GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa.fai"
 
 
@@ -414,19 +416,20 @@ CHAIN_FILE <- "single_copy_orthogroups.tsv"
 ```
 Read in the data.
 ```r
-#read in the data
 sco.df <- read.csv(CHAIN_FILE, sep = "\t", header = F)
 
-#check
-sco.df
 
 #convert to long format and split columns
-sco_long.df <-
-    tidyr::pivot_longer(sco.df, cols = c(V2:V5)) %>%
+sco_long.df <- 
+    tidyr::pivot_longer(sco.df, cols = c(V2:V3)) %>%
     separate(value, into = c("marker", "position", "strand"), sep = "\\|") %>%
     separate(position, into = c("taxa_id", "chr", "start_end"), sep = "_") %>%
     separate(start_end, into = c("start", "end"), sep = "-", convert = T) %>%
     select(-c(V1, name))
+
+#check
+sco_long.df
+
 ```
 Now we need to prepare the input for circos.
 
@@ -434,26 +437,26 @@ Now we need to prepare the input for circos.
 sco_long.df$seq_id <- paste(sco_long.df$taxa_id, sco_long.df$chr, sep = "_" )
 
 
-chr_length.df <- rbind(read.table(REF_FAI)[,1:2],
+chr_length.df <- rbind(read.table(REF_FAI)[,1:2], 
                        read.table(QUERY_FAI)[,1:2])
 colnames(chr_length.df) <- c("seq_id", "chr_length")
 
 
 #select taxa and filter
-map_seq <-
+map_seq <- 
   sco_long.df %>%
   filter(taxa_id %in% c(TAXA_1, TAXA_2))
 map_seq <- as.data.frame(map_seq)
 
 #remove na
-map_seq <-
+map_seq <- 
   map_seq %>%
   na.omit()
 
 #keep only genes present in both
 map_seq <- subset(map_seq, marker %in% Reduce(intersect, split(map_seq$marker, map_seq$taxa_id)))
 
-#order file after ref so markers are in the same order in the chain files
+#order file after ref so markers are in the same order in the chain files 
 map_seq <-
   map_seq %>%
   mutate(taxa_id, taxa_id=as.factor(taxa_id)) %>%
@@ -511,13 +514,13 @@ Finally time for the actual plotting
 ```r
 #run circos
 #make the image
-pdf(paste("plots/circos", taxa_1, taxa_2, Sys.Date(),".pdf", sep = ""))
-#png(paste("plots/circos", taxa_1, taxa_2, Sys.Date(),".png", sep = ""))
+pdf(paste("plots/circos", TAXA_1, TAXA_2, Sys.Date(),".pdf", sep = "")) 
+#png(paste("plots/circos", TAXA_1, TAXA_2, Sys.Date(),".png", sep = "")) 
 
 circos.clear()
 circos.par(cell.padding = c(0.02, 0, 0.02, 0))
-circos.initialize(factors=unique(map_seq$seq_id),
-xlim=matrix(c(rep(0, length(unique(map_seq$seq_id))), unique(map_seq$chr_length)),
+circos.initialize(factors=unique(map_seq$seq_id), 
+xlim=matrix(c(rep(0, length(unique(map_seq$seq_id))), unique(map_seq$chr_length)), 
             ncol=2))
 
 #The xlim matrix defines the start and stop for each genome/chr. Essentially the genome or chr sizes.
@@ -530,10 +533,10 @@ circos.text(x=mean(xlim), y=mean(ylim), labels = chr,
             cex=0.6, col=col_text, facing="bending.inside", niceFacing=TRUE)
 }, bg.col=block_col, bg.border=F, track.height=0.06)
 
-circos.text(sector.index = paste(taxa_1,(round(length(unique(chain_circ_ref$seq_id))/2,0) -1), sep = "_"),
-            x=0,y=0,adj=c(0.05,-2.4),labels=name_ref,facing="bending.inside", font = 3)
-circos.text(sector.index = paste(taxa_2,(round(length(unique(chain_circ_query$seq_id))/2,0) -2), sep = "_"),
-            x=0,y=0,adj=c(0.3, 3),labels=name_query,facing="bending.outside", font = 3)
+circos.text(sector.index = paste(TAXA_1,(round(length(unique(chain_circ_ref$seq_id))/2,0) -1), sep = "_"),
+            x=0,y=0,adj=c(0.05,-2.4),labels=NAME_REF,facing="bending.inside", font = 3)
+circos.text(sector.index = paste(TAXA_2,(round(length(unique(chain_circ_query$seq_id))/2,0) -2), sep = "_"),
+            x=0,y=0,adj=c(0.3, 3),labels=NAME_QUERY,facing="bending.outside", font = 3)
 
 # rearrangements
 circos.genomicLink(chain_circ_ref[,1:4], chain_circ_query, col=anc_col)
@@ -541,3 +544,6 @@ circos.genomicLink(chain_circ_ref[,1:4], chain_circ_query, col=anc_col)
 dev.off()
 ```
 Your alignment plot should now be in your `plots` directory. Take a look, and describe what you see. Can you answer some of the questions we asked in the beginning? Are there any differences compared to the whole genome alignment we did with Minimap2/SyntenyPlotteR?
+
+Great work!
+
