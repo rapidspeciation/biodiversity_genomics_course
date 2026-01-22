@@ -17,7 +17,7 @@ Day 0:
 
 Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
-- [Slides](slide_presentations/03_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
+- [Slides](slide_presentations/01_Raw sequences and quality control.pdf) introducing the structure of Illumina reads and fastq files
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
 - [Slides](slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
 - [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
