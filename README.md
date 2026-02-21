@@ -17,8 +17,8 @@ Day 0:
 
 Day 1:
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing biodiversity genomics and sequencing technologies
-- [Slides](slide_presentations/03_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
-- [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](input_files/raw_reads)
+- [Slides](slide_presentations/01_Raw_sequences_and_quality_control.pdf) introducing the structure of Illumina reads and fastq files
+- [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these [input files](data/)
 - [Slides](slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc output of RAD data
 - [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
 - [Slides](slide_presentations/05_Genome_assembly_final.pdf) on assembling reference genomes
@@ -48,6 +48,9 @@ Day 5:
 - [slides](slide_presentations/15_Selection.pdf) on detecting selection at long time-scales
 - [exercise](exercises/16_positive_selection_codeml.md) on detecting selection at long time-scales
 - [slides](slide_presentations/16_Large_scale_sequencing_projects.pdf) on large-scale sequencing initiatives
+- [slides](slide_presentations/11_Comparative%20genomics.pdf) on comparative genomics
+- [exercise](exercises/13_Synteny.md) on genome synteny
+
 
 Advanced materials:
 - Statistical phasing [Exercise](exercises/12_statistical_phasing.md)
