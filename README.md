@@ -1,11 +1,12 @@
 # Welcome to the Biodiversity Genomics course
 ## held in [Bogotá, Colombia](https://biodiversitygenomicslatam.weebly.com/) in July 2026
 For the course taught in July 2024 at IKIAM University in Tena, Ecuador, see the folder [2024](2024).
+For the course taught in November 2025 at CONISET, Argentina, see the folder [2025](2025).
 
-This course is taught by Karin Näsvall, Nicol Rueda, Fernando Seixas, and Joana Meier from the [Wellcome Sanger Institute](https://www.sanger.ac.uk/group/meier-group/) and by Melisa Olave (CONICET, Argentina).
+This course is taught by Karin Näsvall, Nicol Rueda, Fernando Seixas, and Joana Meier from the [Wellcome Sanger Institute](https://www.sanger.ac.uk/group/meier-group/) and by Gustavo Silvia Arias (Instituto de Ciencias Naturales, Universidad Nacional de Colombia - sede Bogotá).
 Some of the course material is based on the [speciation genomics course](https://speciationgenomics.github.io/) by Joana Meier and Mark Ravinet.
 
-The course website showing logistics and useful information about Mendoza is [here](https://biodiversitygenomicslatam.weebly.com/).
+The course website showing logistics and useful information about Bogotá is [here](https://biodiversitygenomicslatam.weebly.com/).
 
 
 ## Course structure
