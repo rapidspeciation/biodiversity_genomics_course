@@ -90,7 +90,7 @@ Use hercules2 - 6
 This works for simple processes and we do not need to allocate space, we can just connect via ssh. 
 
 ```
-kn9sanger_ac@cecc:~$ ssh hercules2
+kn9sanger_ac@perseus:~$ ssh hercules2
 
 ```
 
