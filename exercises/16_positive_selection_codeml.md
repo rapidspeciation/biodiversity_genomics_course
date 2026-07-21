@@ -391,9 +391,9 @@ We can also see the lnL log-likelihood for the model.
 
 
 #### Branch-site model: Null model
-Now we can run the alternative model for the branch-site test of positive selection.
+Now we can run the null model for the branch-site test of positive selection.
 
-Input variables are the same, but the output file name needs to be changed, and we need to change to fixed omega. So we force omega to be 1 in the class that we previously allowed omega to be above 1, all other model paramenters are the same.
+Input variables are the same, but the output file name needs to be changed, and we need to change the parameters to fixed omega. So we force omega to be 1 in the class where we previously allowed omega to be above 1, all other model parameters are the same.
 
 ```bash
 
