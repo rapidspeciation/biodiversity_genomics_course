@@ -110,10 +110,10 @@ In this command, 3p is just telling the -n flag we want to see the third line. W
 sed -n 3,5p chromosome_file.txt
 ```
 
-But sed can actually do much more than this. For example, it can replace text. Let’s replace all instances of “SUPER” with another name, like “MelLudo1”:
+But sed can actually do much more than this. For example, it can replace text. Let’s replace all instances of “OZ” with another name, like “MecPoly1”:
 
 ```bash
-sed 's/SUPER/MelLudo1/g' chromosome_file.txt
+sed 's/OZ/MecPoly1_/g' chromosome_file.txt
 ```
 
 This is just a small demonstration of what it is possible to do with sed. It is a very useful tool, especially for file conversion and well worth getting more familiar with.
