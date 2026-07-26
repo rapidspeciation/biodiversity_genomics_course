@@ -4,7 +4,10 @@
 ## Log in to server
 
 ```bash
-ssh genomics@toko.uncu.edu.ar
+ssh <your_username>@168.176.34.122
+ssh perseus
+
+cd /scratchsan/C_computacion/<your_username>
 
 ```
 
@@ -20,21 +23,12 @@ ls ./
 
 ```
 
-## Make your working directory
-You have seen a list representing the directories and files in this directory.
+## Make an intro directory
+You have seen a list representing the directories and files in this directory. It is quite empty now.
 
-We can change to another directory by using the command 'change directory' cd
-Go into the users directory
+Make a directory for this intro session with the command
 
-```bash
-cd users
-
-```
-Here is where you make your directory for the course. 
-This is your own directory 
-Make a directory with your first name and the first letter of your surname, common letters connected with an underscore _
-
-mkdir karin_n
+mkdir 
 
 Remember no spaces! No special characters!
 
@@ -42,17 +36,22 @@ Remember no spaces! No special characters!
 # first make sure you are in the right place 
 pwd
 
-# you should be in /home/genomics/scratch/
+# you should be in /scratchsan/C_computacion/<your_username>
 
-mkdir firstname_x # change this to your name!!
+mkdir intro 
 ```
 
 Does everyone have a directory with the correct name?
 
+```
+ls .
+
+```
 
 Go to that directory
+
 ```bash
-cd karin_n
+cd intro
 
 ```
 
