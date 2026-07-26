@@ -7,21 +7,22 @@
 head will display the ‘head’ of a file - i.e. the first 10 lines by default. This command is essential if you are going to be working with bioinformatic data as often your files are millions of lines long and you just want to have a quick peek at what it contains.
 
 
-For example, we can use head on the ilMelLudo1.reduced.fa file to see the first 10 lines
+For example, we can use head on the ilMecPoly1_reduced.fa file to see the first 10 lines
 
 ```bash
 #Create a folder to this practice and got there:
 mkdir unix_practice
 cd unix_practice
 #Copy the file to your folder
-cp /home/genomics/scratch/data/intro_unix/ilMelLudo1.reduced.fa ./
-head ilMelLudo1.reduced.fa
+cp /scratchsan/C_computacion/kn9sanger_ac/intro_unix/data/ilMecPoly1_reduced.fa ./
+head ilMecPoly1_reduced.fa
+
 ```
 
 We can also specify exactly how many lines we want to display. For example, if we want to see 20 lines:
 
 ```bash
-head -n20 ilMelLudo1.reduced.fa
+head -n20 ilMecPoly1_reduced.fa
 ```
 
 ### tail
@@ -31,20 +32,20 @@ tail is much the same as head, except it operates at the other end - i.e. it sho
 First of all, let’s look at the last 10 lines of the udhr.txt file.
 
 ```bash
-tail ilMelLudo1.reduced.fa
+tail ilMecPoly1_reduced.fa
 ```
 
 Or the last 20?
 
 ```bash
-tail -n20 ilMelLudo1.reduced.fa
+tail -n20 ilMecPoly1_reduced.fa
 
 ```
 
 If we use tail with + flag, we can skip lines from the start of the file. For example:
 
 ```bash
-tail -n+3 ilMelLudo1.reduced.fa
+tail -n+3ilMecPoly1_reduced.fa
 ```
 
 The -n+3 argument skips the first three lines of the file. This is very useful for removing lines you are not interested in.
@@ -55,14 +56,14 @@ Let’s first just extract the first 10 lines of the declaration using head and 
 
 
 ```bash
-head ilMelLudo1.reduced.fa > my_file.txt
+head ilMecPoly1_reduced.fa > my_file.txt
 ```
 
 We could add the last 10 line to the file
 Appending them to file with >>
 
 ```bash
-tail ilMelLudo1.reduced.fa >> my_file.txt
+tail ilMecPoly1_reduced.fa >> my_file.txt
 ```
 
 
@@ -74,11 +75,11 @@ tail ilMelLudo1.reduced.fa >> my_file.txt
 wc you can count the number of words, number of characters and number of lines 
 
 ```bash
-wc -w ilMelLudo1.reduced.fa
+wc -w ilMecPoly1_reduced.fa
 
-wc -l ilMelLudo1.reduced.fa
+wc -l ilMecPoly1_reduced.fa
 
-wc -c ilMelLudo1.reduced.fa
+wc -c ilMecPoly1_reduced.fa
 ```
 
 
@@ -89,7 +90,7 @@ wc -c ilMelLudo1.reduced.fa
 ### grep
 ```bash
 
-grep ">" ilMelLudo1.reduced.fa > chromosome_file.txt
+grep ">" ilMecPoly1_reduced.fa > chromosome_file.txt
 ```
 
 Have a look at the file we created. 
@@ -122,7 +123,7 @@ This is just a small demonstration of what it is possible to do with sed. It is 
 The pipe | links commands together. Standart output is piped into the next command.
 
 ```bash
-grep ">" ilMelLudo1.reduced.fa | sed 's/SUPER/MelLudo1/g' > chromosome_file.renamed.txt
+grep ">" ilMecPoly1_reduced.fa | sed 's/SUPER/MelLudo1/g' > chromosome_file.renamed.txt
 
 ```
 
