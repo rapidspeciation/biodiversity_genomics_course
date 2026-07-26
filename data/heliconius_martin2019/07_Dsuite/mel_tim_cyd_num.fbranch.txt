@@ -1,0 +1,17 @@
+branch	branch_descendants	Outgroup	Hmel.mel.gui	Hcyd.chi.pan	Hcyd.zel.col	Htim.flo.per	Htim.the.per	Hmel.ros.pan	Hmel.vul.col	Hmel.ama.per	Hmel.mal.col
+b2	Hmel.mel.gui,Hmel.ros.pan,Hmel.vul.col,Hmel.ama.per,Hmel.mal.col	nan	nan	nan	nan	nan	nan	nan	nan	nan	nan
+b3	Hcyd.chi.pan,Hcyd.zel.col,Htim.flo.per,Htim.the.per	nan	nan	nan	nan	nan	nan	nan	nan	nan	nan
+b4	Hmel.ros.pan,Hmel.vul.col,Hmel.ama.per,Hmel.mal.col	nan	nan	0	0	0	0	nan	nan	nan	nan
+b5	Hmel.mel.gui	nan	nan	0	0	0.0190827	0.0365096	nan	nan	nan	nan
+b6	Hcyd.chi.pan,Hcyd.zel.col	nan	0	nan	nan	nan	nan	0.0317399	0.0339817	0	0
+b7	Htim.flo.per,Htim.the.per	nan	0.229629	nan	nan	nan	nan	0	0	0.408961	0.415963
+b8	Hmel.ros.pan,Hmel.vul.col	nan	0	0.285278	0.283577	0	0	nan	nan	nan	nan
+b9	Hmel.ama.per,Hmel.mal.col	nan	0.203644	0	0	0.134277	0.17314	nan	nan	nan	nan
+b10	Hcyd.chi.pan	nan	0	nan	nan	0	0	0	0	0	0
+b11	Hcyd.zel.col	nan	0	nan	nan	0	0	0	0	0.00279055	0.00236569
+b12	Htim.flo.per	nan	0	0.0332415	0.033181	nan	nan	0	0	0	0
+b13	Htim.the.per	nan	0.0334081	0	0	nan	nan	0	0	0.0943361	0.0541865
+b14	Hmel.ros.pan	nan	0.00469457	0	0	0	0	nan	nan	0	0
+b15	Hmel.vul.col	nan	0	0.0101641	0.0179177	0.00488724	0.00640132	nan	nan	0	0
+b16	Hmel.ama.per	nan	0.0614841	0	0	0	0.020127	0	0	nan	nan
+b17	Hmel.mal.col	nan	0	0.0220299	0.0218604	0.0112349	0	0.0319961	0.0282276	nan	nan

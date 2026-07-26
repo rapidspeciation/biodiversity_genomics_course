@@ -1,0 +1,2 @@
+P1	P2	P3	Dstatistic	Z-score	p-value	f4-ratio	BBAA	ABBA	BABA
+Hmel.mel.gui	Hmel.ama.per	Htim.the.per	0.145557	24.8727	2.3e-16	0.119583	366576	264289	197127
