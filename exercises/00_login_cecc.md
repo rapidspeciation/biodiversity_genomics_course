@@ -185,3 +185,33 @@ conda deactivate
 ```
 
 Check software and version
+
+
+## Upload and download data
+
+To upload a file or folder to the cluster use the -J flag to jump across the login node to the university cluster:
+
+scp -r -J user@servername file_to_upload user@servername2:absolute_path/to/directory/
+
+You might have to add your password twice.
+
+```bash
+
+scp -r -J kn9sanger_ac@168.176.34.122 test_up.txt kn9sanger_ac@perseus:/scratchsan/C_computacion/kn9sanger_ac/intro_unix/
+
+```
+
+To download to your computer:
+
+scp -r -J user@servername user@servername2:absolute_path/to/directory/file_to_download /path/target
+
+```bash
+
+scp -r -J kn9sanger_ac@168.176.34.122 kn9sanger_ac@perseus:/scratchsan/C_computacion/kn9sanger_ac/intro_unix/testfile.txt .
+
+```
+
+
+
+
+
