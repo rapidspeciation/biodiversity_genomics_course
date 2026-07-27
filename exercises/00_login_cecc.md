@@ -189,11 +189,13 @@ Check software and version
 
 ## Upload and download data
 
-To upload a file or folder to the cluster use the -J flag to jump across the login node to the university cluster:
+To upload a file or folder from your local computer to the cluster use the -J flag to jump across the login node to the university cluster:
 
 scp -r -J user@servername file_to_upload user@servername2:absolute_path/to/directory/
 
 You might have to add your password twice.
+
+Make sure you are in your local computer!
 
 ```bash
 
