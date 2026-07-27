@@ -71,7 +71,7 @@ To save the results in a specific folder, you can first create the folder in you
 ```shell
 # fastqc for all the .fastq.gz files in the folder
 mkdir fastqc_results
-fastqc -o ./fastqc_results/ /home/genomics/scratch/data/Heliconius/*.fastq.gz
+fastqc -o ./fastqc_results/ /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/*.fastq.gz
 
 ```
 If you have many individuals, checking each HTML file manually can become very tedious. A better option is to run MultiQC. This program summarizes the results from FastQC (and other tools) into a single, interactive HTML report. To run it, navigate to the folder where the .html files are located and use the following command:
