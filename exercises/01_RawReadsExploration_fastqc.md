@@ -93,9 +93,9 @@ To visualize the HTML files, you need to download them from the cluster using th
 scp nr10sanger_ac@hercules2:/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/fastqc/fastqc_results/multiqc_report.html ./
 
 ```
-scp may not be working for you. In this case, please download the multiqc to your laptop from here: [slide_presentations](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/multiqc_report.html)
+scp may not be working for you. In this case, please download the multiqc to your laptop from here: [multiqc](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/multiqc_report.html)
 
-Here some [slides](https://github.com/speciationgenomics/presentations/blob/master/fastqc_interpretation.pdf) on interpreting fastqc html output.
+Here some [slides](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/fastqc_interpretation.pdf) on interpreting fastqc html output.
 
 ### Hands-on: Run FastQC on the following data (RAD1.fastq.gz and RAD2.fastq.gz), interpret the results and answer these questions:
 
