@@ -23,7 +23,7 @@ mkdir filteredReads
 cd filteredReads
 
 # Run fastp
-fastp --in1 /home/genomics/scratch/data/Heliconius/wgs1_R1.fastq.gz --in2 /home/genomics/scratch/data/Heliconius/wgs1_R2.fastq.gz --out1 wgs1.R1.trimmed.fastq.gz --out2 wgs1.R2.trimmed.fastq.gz -l 50 -h wgs.html &> wgs.log
+fastp --in1 /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/wgs1_R1.fastq.gz --in2 /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/wgs1_R2.fastq.gz --out1 wgs1.R1.trimmed.fastq.gz --out2 wgs1.R2.trimmed.fastq.gz -l 50 -h wgs.html &> wgs.log
 
 # Note &> redirects the information on what it did into the file wgs.log (both stderror and stdout are written into this file)
 
