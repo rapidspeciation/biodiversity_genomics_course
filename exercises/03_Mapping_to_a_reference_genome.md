@@ -11,7 +11,7 @@ We will be aligning our sequence data to the *Heliconius sara* reference genome,
 
 ### Hands-on: Downloading the genome reference
 
-On the National Center for Biotechnology Information (NCBI) website, search for the reference genome of the species *Heliconius sara* v1.2 and download it directly to the home directory of the cluster using the wget command:
+On the National Center for Biotechnology Information (NCBI) website, search for the reference genome of the species *Heliconius sara* v1.2 and download it directly to the working directory of the cluster using the wget command:
 
 ```shell
 mkdir reference
@@ -22,7 +22,7 @@ wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/917/862/395/GCA_917862395.2_iH
 The file is compressed with `gzip`, so before we can do anything with it, we need to decompress it. Usually we avoid decompressing files but it was compressed here because of it's large size and we need it to be uncompressed for it to be used properly in our analysis. So to do this we simply use `gunzip`:
 
 ```shell
-gunzip -c /home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna.gz > ./GCA_917862395.2_iHelSar1.2_genomic.fna
+gunzip -c GCA_917862395.2_iHelSar1.2_genomic.fna.gz > ./GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 In order to align reads to the genome, we are going to use `bwa` which is a very fast and straightforward aligner. See [here](http://bio-bwa.sourceforge.net/) for more details on `bwa`.
@@ -32,22 +32,30 @@ In order to align reads to the genome, we are going to use `bwa` which is a very
 Before we can actually perform an alignment, we need to index the reference genome we just copied to our home directories. This essentially produces an index for rapid searching and aligning. We use the `bwa index` tool to achieve this. You can also use bwa-mem2 which is a faster, modern replacement for bwa mem with the same output and accuracy.
 
 ```shell
+
+module load envs/anaconda3
+conda env list
+conda activate bwa
+
 bwa index GCA_917862395.2_iHelSar1.2_genomic.fna
+
 ```
 The `bwa index` tool simply requires the reference fasta file from which to build our genome index. So it is a very simple command.
 
 If it takes too long, you can copy the file as shown below.
 
 ```shell
-cp /home/genomics/scratch/data/Heliconius/reference/GCA* ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/reference/GCA* ./
 ```
 
 Use `ls` to take a look, but this will have copied in about 5 files all with the `GCA_917862395.2_iHelSar1.2_genomic.fna.` prefix that we will use for a reference alignment.
 
 When `bwa` aligns reads, it needs access to these files, so they should be in the same directory as the reference genome. Then when we actually run the alignment, we tell `bwa` where the reference is and it does the rest. To make this easier, we will make a variable pointing to the reference.
 
+Change this to your username first!!
+
 ```shell
-REF=/home/genomics/scratch/users/<yourname>/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=/scratchsan/C_computacion/<user_name>/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 #### Performing a paired end alignment
@@ -68,8 +76,8 @@ Let's go ahead and align our data, we will break down what we did shortly after.
 
 ```shell
 bwa mem -t 2 $REF \
-/home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz \
-/home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
+~/filteredReads/wgs1.R1.trimmed.fastq.gz \
+~/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
 ```
 Since we are only using a shortened fastq file, with 100K reads in it, this should just take a couple of minutes. In the meantime, we can breakdown what we actually did here.
 
@@ -82,7 +90,11 @@ Once your alignment has ended, you will see some alignment statistics written to
 If the analyses take a lot of time, you can stop the analysis and copy the output file from the data folder.
 
 ```shell
-cp /home/genomics/scratch/data/Heliconius/align/wgs1.sam ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/align/wgs1.sam ./
+```
+Deactivate the bwa conda environment.
+```
+conda deactivate
 ```
 
 #### SAM files
@@ -91,6 +103,8 @@ Lets take a closer look at the output. To do this we will use `samtools`. More d
 
 ```shell
 cd align
+
+conda activate samtools
 samtools view -h wgs1.sam | head
 samtools view wgs1.sam | head
 ```
@@ -152,7 +166,7 @@ samtools sort wgs1.bam -o wgs1_sort.bam
 Once this is run, we will have a sorted bam. One point to note here, could we have done this is a more efficient manner? The answer is yes, actually we could have run all of these commands in a single line using pipes like so:
 
 ```shell
-bwa mem -t 2 $REF /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R1.trimmed.fastq.gz /home/genomics/scratch/data/Heliconius/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
+bwa mem -t 2 $REF /scratchsan/C_computacion/your_username/filteredReads/wgs1.R1.trimmed.fastq.gz /scratchsan/C_computacion/your_username/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
 ```
 
 However as you may have noticed, we have only performed this on a single individual so far... what if we want to do it on multiple individuals? Do we need to type all this everytime? The answer is no - we could do this much more efficiently.
@@ -175,7 +189,7 @@ The first thing we will do is initiate the script with the line telling the inte
 Next, we will declare an array to ensure that we have all our individuals
 
 ```shell
-INDS=($(for i in /home/genomics/scratch/data/Heliconius/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
+INDS=($(for i in ~/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
 ```
 This will create a list of individuals which we can then loop through in order to map each individual. Here we used bash substitution to take each forward read name, remove the directory and leave only the individual name.
 
@@ -187,10 +201,10 @@ Next we will add the actual `for` loop to our script. We will use the following:
 for IND in ${INDS[@]};
 do
 	# declare variables
-	REF=/home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-	FORWARD=/home/genomics/scratch/data/Heliconius/filteredReads/${IND}.R1.trimmed.fastq.gz
-	REVERSE=/home/genomics/scratch/data/Heliconius/filteredReads/${IND}.R2.trimmed.fastq.gz
-	OUTPUT=/home/genomics/scratch/data/Heliconius/align/${IND}_sort.bam
+	REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+	FORWARD=~/filteredReads/${IND}.R1.trimmed.fastq.gz
+	REVERSE=~/filteredReads/${IND}.R2.trimmed.fastq.gz
+	OUTPUT=~/align/${IND}_sort.bam
 
 done
 ```
@@ -202,13 +216,14 @@ After we have tested the loop to make sure it is working properly, all we have t
 for IND in ${INDS[@]};
 do
 	# declare variables
-	REF=/home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-	FORWARD=/home/genomics/scratch/data/Heliconius/filteredReads/${IND}.R1.trimmed.fastq.gz
-	REVERSE=/home/genomics/scratch/data/Heliconius/filteredReads/${IND}.R2.trimmed.fastq.gz
-	OUTPUT=/home/genomics/scratch/data/Heliconius/align/${IND}_sort.bam
+	REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+	FORWARD=~/filteredReads/${IND}.R1.trimmed.fastq.gz
+	REVERSE=~/filteredReads/${IND}.R2.trimmed.fastq.gz
+	OUTPUT=~/align/${IND}_sort.bam
 
 	# then align and sort
 	echo "Aligning $IND with bwa"
+	conda activate bwa
 	bwa mem -t 4 $REF $FORWARD \
 	$REVERSE | samtools view -b | \
 	samtools sort -T ${IND} > $OUTPUT
@@ -233,7 +248,7 @@ You will now see the script running as the sequences align. Press `Ctrl + A + D`
 Since these analyses take quite a bit of time, we will stop the analysis and copy the output files from the data folder to run the next step:
 
 ```shell
-cp /home/genomics/scratch/data/Heliconius/align/*.bam ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/align/*.bam ./
 ```
 
 #### Remove duplicates reads
