@@ -13,6 +13,9 @@ fastp also generates a html file that shows the read quality before and after fi
 ```shell
 
 # Check the options of fastp
+module load envs/anaconda3
+conda env list
+conda activate fastp
 fastp -h
 
 # Now let's again make a folder to work in
