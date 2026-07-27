@@ -76,9 +76,10 @@ fastqc -o ./fastqc_results/ /scratchsan/C_computacion/nr10sanger_ac/biodiversity
 ```
 If you have many individuals, checking each HTML file manually can become very tedious. A better option is to run MultiQC. This program summarizes the results from FastQC (and other tools) into a single, interactive HTML report. To run it, navigate to the folder where the .html files are located and use the following command:
 
+MultiQC is installed in a Conda environment. Therefore, you will first need to activate the MultiQC Conda environment. To do this, follow the steps below:
+
 ```shell
 cd fastqc_results
-MultiQC is installed in a Conda environment. Therefore, you will first need to activate the MultiQC Conda environment. To do this, follow the steps below:
 module load envs/anaconda3
 conda env list
 conda activate multiqc
