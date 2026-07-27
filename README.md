@@ -19,6 +19,7 @@ Sunday:
 
 Day 1 (Monday):
 - [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing the course and biodiversity genomics
+- [Slides](slide_presentations/01_Raw_sequences_and_quality_control.pdf) Raw reads and quality control
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these input files
 - [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
 
