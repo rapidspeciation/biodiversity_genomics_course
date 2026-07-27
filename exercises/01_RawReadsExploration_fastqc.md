@@ -78,6 +78,10 @@ If you have many individuals, checking each HTML file manually can become very t
 
 ```shell
 cd fastqc_results
+MultiQC is installed in a Conda environment. Therefore, you will first need to activate the MultiQC Conda environment. To do this, follow the steps below:
+module load envs/anaconda3
+conda env list
+conda activate multiqc
 multiqc .
 
 ```
@@ -85,7 +89,7 @@ multiqc .
 To visualize the HTML files, you need to download them from the cluster using the `scp` command on your local machine. For example:
 
 ```shell
-scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/fastqc/fastqc_results/multiqc_report.html ./
+scp nr10sanger_ac@hercules2:/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/fastqc/fastqc_results/multiqc_report.html ./
 
 ```
 
