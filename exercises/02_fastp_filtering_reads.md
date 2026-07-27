@@ -35,6 +35,8 @@ ls
 
 scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/filteredReads/wgs.html ./
 ```
+scp may not be working for you. In this case, please download the multiqc to your laptop from here: [fastp output file](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/wgs.html)
+
 ### Parameters specified here:
 * \-\-in1 and \-\-in2: specify your files of forward (1) reads and of the reverse (2) reads.
 * \-\-out1 and \-\-out2: specify the output files for forward and reverse reads that are still Paired.
