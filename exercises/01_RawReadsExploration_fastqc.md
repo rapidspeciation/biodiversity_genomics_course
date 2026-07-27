@@ -118,7 +118,7 @@ Here one very condensed solution: Try to find your own solution first!
 ```shell
 FILE=RAD2
 
-cp /home/genomics/scratch/data/Heliconius/RADs/$FILE.fastq.gz ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/RADs/*.fastq.gz ./
 
 #Add GC content to each read in fastq file to check reads with highest or lowest GC contents:
 
@@ -141,10 +141,10 @@ As a second exercise, try to generate a new file from the fastqz file containing
 
 ```shell
 # Forward (R1) reads
-zcat /home/genomics/scratch/data/Heliconius/wgs1_R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/wgs1_R1.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R1.subsampled.fastq.gz &
 
 # Reverse (R2) reads
-zcat /home/genomics/scratch/data/Heliconius/wgs1_R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
+zcat /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/wgs1_R2.fastq.gz | awk '{printf("%s",$0); n++; if(n%4==0){
 printf("\n")}else{printf("\t")} }' | awk 'NR == 1 || NR % 1000 == 0' | tr "\t" "\n" | gzip > wgs.R2.subsampled.fastq.gz &
 ```
