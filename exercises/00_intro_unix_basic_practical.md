@@ -90,8 +90,9 @@ q
 
 ```
 
-Check out some of the list options
-Make a long list (more information on each file), human readable, time sorted
+Check out some of the list options.
+
+Make a -l long list (more information on each file), -h human readable, -t time sorted
 
 ```bash
 ls -l ./
@@ -187,7 +188,8 @@ cat file5.txt
 ```
 
 Well it is empty, so we need some content.
-nano is a text editor, but there are others vi, vim, emacs, etc
+
+Here I will use nano is one text editor, but there are others like vi, vim, emacs, etc.
 
 Open the file with nano and write something.
 
@@ -199,7 +201,7 @@ nano file5.txt
 cat file5.txt 
 
 ```
-If we do not want the whole file printed to screen
+If we do not want the whole file printed to screen we can use the command less.
 
 ```bash
 less file5.txt
@@ -214,7 +216,7 @@ N previous match
 Quit with q
 
 
-Take a look at the first lines of the file, default is 10 lines but you can decode the number of lines with the flag -n
+To take a look at the first lines of a file, we can use head. The default is 10 lines but you can decode the number of lines with the flag -n
 ```bash
 
 head file5.txt
@@ -222,7 +224,7 @@ head file5.txt
 head -n3 file5.txt
 ```
 
-Take a look at the last lines of the file.
+Take a look at the last lines of the file with tail.
 ```bash
 
 tail file
@@ -253,12 +255,13 @@ mv test_file2.txt file6.txt
 ```
 Be careful you can overwrite if there is a file with the same name where you are moving the file to.
 
-This examples shows the difference between writing target directory without slash - the target is overwritten test1 has been renamed to test2, while adding a slash moves the source directory to the target directory
+We can also move directories:
 
 ```bash
-
+#make directories
 mkdir test1 test2
 
+#move directories
 mv test1/ test2/
 ls ./
 ls test2/
@@ -273,6 +276,7 @@ Copy
 cp file6.txt file6_copy.txt
 
 ls ./
+
 ```
 
 Copy the file to a new directory.
@@ -320,6 +324,15 @@ rm -i -r test_dir1/
 ls ./
 ```
 
+To remove an empty directory:
+
+```
+mkdir to_remove
+
+rmdir to_remove
+
+```
+
 There is no undo button so be sure where you are and what you are deleting.
 Good practice is to first list (ls) what you think of removing so you know which directories and files the command will delete.
 
@@ -333,30 +346,27 @@ touch abc.txt abc.jpg xyz.txt xyz.jpg cat.txt car.txt
 ```
 
 First, list all text files.
+The asterisk * match any character and any number of characters.
+For example, *.txt match anything that ends with .txt.
 
 ```bash
 ls *.txt
 ```
 
-Then we’ll list all files with the name xyz.
+Then we can list all files that starts with the letters xyz.
 
 ```bash
 ls xyz*
 ```
 
-What about if we want to list all files except those with xyz in the name?
-```bash
-ls -I xyz*
-```
-
-This example requires the -I flag to ls - i.e. ignore. This is one way to that, but you could also use more formal pattern matching which is more flexible and more powerful as it can be used with other commands such as mv.
+What about if we want to list all files except those that starts with x?
+This is one way to that, by using a formal pattern matching which is flexible and powerful as it can be used with other commands such as mv.
 
 ```bash
 ls [^x]*
 ```
 
 Here we are essentially saying ‘show me everything except things that start with x’.
-
 
 We can easily extend this to make it exclude objects that do not start with x or a. Like so:
 
