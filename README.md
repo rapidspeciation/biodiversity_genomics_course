@@ -18,6 +18,7 @@ Sunday:
 - [Exercise](exercises/00_advanced_unix_awk.md) for more advanced users (awk, variables, arrays, writing a bash script)
 
 Day 1 (Monday):
+- [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing the course and biodiversity genomics
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these input files
 - [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
 
