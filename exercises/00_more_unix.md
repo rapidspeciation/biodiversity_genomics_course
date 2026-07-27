@@ -127,14 +127,14 @@ This is just a small demonstration of what it is possible to do with sed. It is 
 
 ## Pipe - combining commands
 
-The pipe | links commands together. Standart output is piped into the next command.
+The pipe | links commands together. Standard output (the output from a command) is piped directly into the next command.
 
 ```bash
 grep ">" ilMecPoly1_reduced.fa | sed 's/OZ/MecPoly1/g' > chromosome_file.renamed.txt
 
 ```
 
-Or if we want to know the lenght of the sequence in our file but not the header:
+Or if we want to know the length of the sequence in our file but not the header:
 
 ```bash
 grep -v ">" ilMecPoly1_reduced.fa | wc -m 
