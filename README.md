@@ -17,4 +17,5 @@ Sunday:
 - [Exercise](exercises/00_more_unix.md) on more use of the command line
 - [Exercise](exercises/00_advanced_unix_awk.md) for more advanced users (awk, variables, arrays, writing a bash script)
 
+Day 1 (Monday):
 
