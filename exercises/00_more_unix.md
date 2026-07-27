@@ -123,7 +123,7 @@ But sed can actually do much more than this. For example, it can replace text. L
 sed 's/OZ/MecPoly1_/g' chromosome_file.txt
 ```
 
-This is just a small demonstration of what it is possible to do with sed. It is a very useful tool, especially for file conversion and well worth getting more familiar with.
+This is just a small demonstration of what it is possible to do with sed. It is a very useful tool, especially for file editing and conversion, well worth getting more familiar with.
 
 ## Pipe - combining commands
 
