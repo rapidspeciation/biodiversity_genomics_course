@@ -90,7 +90,8 @@ multiqc .
 To visualize the HTML files, you need to download them from the cluster using the `scp` command on your local machine. For example:
 
 ```shell
-scp nr10sanger_ac@hercules2:/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/fastqc/fastqc_results/multiqc_report.html ./
+
+scp -r -J nr10sanger_ac@168.176.34.122 nr10sanger_ac@perseus:/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/fastqc/fastqc_results/multiqc_report.html ./
 
 ```
 scp may not be working for you. In this case, please download the multiqc to your laptop from here: [multiqc](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/multiqc_report.html)
