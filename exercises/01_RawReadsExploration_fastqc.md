@@ -12,7 +12,7 @@ cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
 FILE="wgs1_R1.fastq.gz"
-cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/$FILE ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/$FILE ./
 
 # Let's have a look at the first read:
 zcat $FILE | head -4
@@ -60,7 +60,7 @@ We should now also run fastqc on the file of reverse reads. As we do not need co
 
 ```shell
 # Reverse reads
-fastqc -o ./ /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/wgs1_R2.fastq.gz 
+fastqc -o ./ /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/wgs1_R2.fastq.gz 
 
 ```
 
@@ -71,7 +71,7 @@ To save the results in a specific folder, you can first create the folder in you
 ```shell
 # fastqc for all the .fastq.gz files in the folder
 mkdir fastqc_results
-fastqc -o ./fastqc_results/ /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/*.fastq.gz
+fastqc -o ./fastqc_results/ /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/*.fastq.gz
 
 ```
 If you have many individuals, checking each HTML file manually can become very tedious. A better option is to run MultiQC. This program summarizes the results from FastQC (and other tools) into a single, interactive HTML report. To run it, navigate to the folder where the .html files are located and use the following command:
@@ -106,7 +106,7 @@ is there a fail for the per sequence GC content graphs?
 ```shell
 # Remember that you can run `FastQC` on all files with a single command by specifying the path to the directory containing the reads:
 mkdir fastqc_results_RADs
-fastqc -o ./fastqc_results_RADs/ /home/genomics/scratch/data/Heliconius/RADs/*.fastq.gz
+fastqc -o ./fastqc_results_RADs/ /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/RADs/*.fastq.gz
 
 ```
 
