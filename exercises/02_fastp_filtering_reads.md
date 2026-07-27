@@ -33,7 +33,8 @@ ls
 
 # To take a look at the HTML file, we first need to download it to our computer using the following command line: 
 
-scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/filteredReads/wgs.html ./
+scp -r -J nr10sanger_ac@168.176.34.122 nr10sanger_ac@perseus:/scratchsan/C_computacion/<yourname>/filteredReads/wgs.html ./
+
 ```
 scp may not be working for you. In this case, please download the multiqc to your laptop from here: [fastp output file](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/wgs.html)
 
