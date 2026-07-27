@@ -34,10 +34,10 @@ Before we can actually perform an alignment, we need to index the reference geno
 ```shell
 
 module load envs/anaconda3
-conda env list
-conda activate bwa
 
-bwa index GCA_917862395.2_iHelSar1.2_genomic.fna
+BWA_PATH=/scratchsan1/anaconda3/envs/bwa/bin/bwa
+
+$BWA_PATH/bwa index GCA_917862395.2_iHelSar1.2_genomic.fna
 
 ```
 The `bwa index` tool simply requires the reference fasta file from which to build our genome index. So it is a very simple command.
@@ -68,14 +68,14 @@ cd align
 ```
 As a side note, it is good practice to keep your data well organised like this, otherwise things can become confusing and difficult in the future.
 
-To align our individual we will use `bwa`. You might want to first have a look at the options available for it simply by calling `bwa`. We are actually going to use `bwa mem` which is the best option for short reads.
+To align our individual we will use ``. You might want to first have a look at the options available for it simply by calling ``. We are actually going to use ` mem` which is the best option for short reads.
 
 We will use the individual - `wgs1` which we have already trimmed. There are two files for this individual - `R1` and `R2` which are forward and reverse reads respectively.
 
 Let's go ahead and align our data, we will break down what we did shortly after. Note that we run this command from the home directory.
 
 ```shell
-bwa mem -t 2 $REF \
+$BWA_PATH/bwa mem -t 2 $REF \
 ~/filteredReads/wgs1.R1.trimmed.fastq.gz \
 ~/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
 ```
@@ -92,10 +92,7 @@ If the analyses take a lot of time, you can stop the analysis and copy the outpu
 ```shell
 cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/align/wgs1.sam ./
 ```
-Deactivate the bwa conda environment.
-```
-conda deactivate
-```
+
 
 #### SAM files
 
@@ -166,7 +163,7 @@ samtools sort wgs1.bam -o wgs1_sort.bam
 Once this is run, we will have a sorted bam. One point to note here, could we have done this is a more efficient manner? The answer is yes, actually we could have run all of these commands in a single line using pipes like so:
 
 ```shell
-bwa mem -t 2 $REF /scratchsan/C_computacion/your_username/filteredReads/wgs1.R1.trimmed.fastq.gz /scratchsan/C_computacion/your_username/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
+$BWA_PATH/bwa mem -t 2 $REF /scratchsan/C_computacion/your_username/filteredReads/wgs1.R1.trimmed.fastq.gz /scratchsan/C_computacion/your_username/filteredReads/wgs1.R2.trimmed.fastq.gz | samtools view -b | samtools sort -T wgs1_sort > ./align/wgs1_sort.bam
 ```
 
 However as you may have noticed, we have only performed this on a single individual so far... what if we want to do it on multiple individuals? Do we need to type all this everytime? The answer is no - we could do this much more efficiently.
@@ -220,11 +217,11 @@ do
 	FORWARD=~/filteredReads/${IND}.R1.trimmed.fastq.gz
 	REVERSE=~/filteredReads/${IND}.R2.trimmed.fastq.gz
 	OUTPUT=~/align/${IND}_sort.bam
+	BWA_PATH=/scratchsan1/anaconda3/envs/bwa/bin/bwa
 
 	# then align and sort
 	echo "Aligning $IND with bwa"
-	conda activate bwa
-	bwa mem -t 4 $REF $FORWARD \
+	$BWA_PATH/bwa mem -t 4 $REF $FORWARD \
 	$REVERSE | samtools view -b | \
 	samtools sort -T ${IND} > $OUTPUT
 
@@ -241,6 +238,9 @@ Once the script is on the cluster, open a screen and call it `align`; (i.e. `scr
 
 ```shell
 bash align_sort.sh
+
+#deactivate the conda environment
+conda deactivate
 ```
 
 You will now see the script running as the sequences align. Press `Ctrl + A + D` in order to leave the screen. Now is a good time to take a break as you wait for the job to complete.
@@ -256,6 +256,8 @@ cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Hel
 Finally, we need to remove duplicate reads from the dataset to avoid PCR duplicates and technical duplicates which inflate our sequencing depth and give us false certainty in the genotype calls. We can use [Picard Tools](https://broadinstitute.github.io/picard/) to do that.
 
 ```shell
+ conda activate picard
+
  picard MarkDuplicates REMOVE_DUPLICATES=true \
  ASSUME_SORTED=true VALIDATION_STRINGENCY=SILENT \
  MAX_FILE_HANDLES_FOR_READ_ENDS_MAP=1000 \
@@ -263,6 +265,12 @@ Finally, we need to remove duplicate reads from the dataset to avoid PCR duplica
  OUTPUT=wgs1.sort.rmd.bam \
  METRICS_FILE=wgs1.rmd.bam.metrics
 
+conda deactivate
+
 # Now we need to index all bam files again and that's it!
+
+conda activate samtools
 samtools index *.rmd.bam
- ```
+conda deactivate
+
+```
