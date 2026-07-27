@@ -175,7 +175,7 @@ pwd
 ```
 
 
-# Viewing files
+## Viewing files
 
 Printing the content to screen with the command cat
 
@@ -233,7 +233,7 @@ tail -n3 file
 ```
 
 
-# Moving and copying
+## Moving and copying
 
 Command (cp or mv) source target
 
@@ -296,7 +296,7 @@ cp -r test2/ ../
 Be careful, you could overwrite if there already is another file or directory with the same name as the file you want to copy.
 
 
-# Cleaning up
+## Cleaning up
 
 Removing files.
 
@@ -392,7 +392,15 @@ cp *.txt ../test_dir2
 ls ../test_dir2
 ```
 
+The asterisk matches any number of characters, but you can match a specific number of characters using ?.
 
+```bash
+
+ls ca?.txt
+
+```
+
+Will list car.txt and cat.txt in our example. To match two characters use ls c??.txt
 
 
 
