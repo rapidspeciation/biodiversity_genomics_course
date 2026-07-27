@@ -4,7 +4,7 @@ We will do some more exercises on a fasta file in this session.
 
 ```bash
 
-#Create a folder to this practice and got there:
+#Create a folder to this practice and go there:
 mkdir unix_practice
 cd unix_practice
 #Copy the file to your folder
