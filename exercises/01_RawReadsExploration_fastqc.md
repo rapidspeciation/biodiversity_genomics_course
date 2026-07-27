@@ -12,7 +12,7 @@ cd fastqc
 
 # Now let's specify FILE as the name of the file containing the forward reads
 FILE="wgs1_R1.fastq.gz"
-cp /home/genomics/scratch/data/Heliconius/$FILE ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/$FILE ./
 
 # Let's have a look at the first read:
 zcat $FILE | head -4
@@ -60,7 +60,7 @@ We should now also run fastqc on the file of reverse reads. As we do not need co
 
 ```shell
 # Reverse reads
-fastqc -o ./ /home/genomics/scratch/data/Heliconius/wgs1_R2.fastq.gz 
+fastqc -o ./ /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/wgs1_R2.fastq.gz 
 
 ```
 
