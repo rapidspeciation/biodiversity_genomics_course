@@ -115,7 +115,7 @@ ls ./
 
 ```
 
-Change diretory
+Change directory
 
 ```bash
 cd test_dir1
@@ -156,7 +156,7 @@ pwd
 
 ls ./
 # this is the same as the absolute path:
-ls /home/genomics/scratch/yourname_x/test_dir2
+ls /scratchsan/C_computacion/<your_username>/intro/test_dir2
 
 ls ../
 
@@ -222,7 +222,7 @@ head file5.txt
 head -n3 file5.txt
 ```
 
-Take a look at the first lines of the file
+Take a look at the last lines of the file.
 ```bash
 
 tail file
@@ -235,9 +235,9 @@ tail -n3 file
 
 Command (cp or mv) source target
 
-Source is the file (or directory) you want to copy or move
+Source is the file (or directory) you want to copy or move.
 
-Target is the file (or directory) you want to copy or move it to
+Target is the file (or directory) you want to copy or move it to.
 
 ```bash
 
@@ -253,19 +253,13 @@ mv test_file2.txt file6.txt
 ```
 Be careful you can overwrite if there is a file with the same name where you are moving the file to.
 
-When moving a directory into another directory it is impportant to type the slash after the target directory, otherwise the target directory will be overwritten.
-
 This examples shows the difference between writing target directory without slash - the target is overwritten test1 has been renamed to test2, while adding a slash moves the source directory to the target directory
 
 ```bash
-mkdir test1 test2
-# move without target trailing slash - rename directory test1 to test2
-mv test1 test2
-ls ./
 
 mkdir test1 test2
-# move with target trailing slash - move directory test1 to test2
-mv test1 test2/
+
+mv test1/ test2/
 ls ./
 ls test2/
 
@@ -288,10 +282,19 @@ cp file.txt ../
 
 ```
 
+Copy a directory, but using the option -r (recursive).
+
+```bash
+cp -r test2/ ../
+
+```
+
 Be careful, you could overwrite if there already is another file or directory with the same name as the file you want to copy.
 
 
 # Cleaning up
+
+Removing files.
 
 ```bash
 
@@ -299,7 +302,7 @@ rm -i new_name_copy.txt
 
 ls ./
 ```
-The flag -i returns a question before removing, are you sure you want to remove teh file?
+The flag -i returns a question before removing, are you sure you want to remove the file?
 
 rm -i test 
 rm: remove regular file 'test'? y
@@ -317,16 +320,15 @@ rm -i -r test_dir1/
 ls ./
 ```
 
-No undo button so be sure where you are and what you are deleting.
+There is no undo button so be sure where you are and what you are deleting.
 Good practice is to first list (ls) what you think of removing so you know which directories and files the command will delete.
-
 
 
 ## Using wild cards and pattern matching
 
 ```bash
-mkdir my_files.txt
-cd my_files.txt
+mkdir my_files
+cd my_files
 touch abc.txt abc.jpg xyz.txt xyz.jpg cat.txt car.txt
 ```
 
@@ -336,7 +338,7 @@ First, list all text files.
 ls *.txt
 ```
 
-Then we’ll show all files with the name xyz.
+Then we’ll list all files with the name xyz.
 
 ```bash
 ls xyz*
@@ -344,7 +346,7 @@ ls xyz*
 
 What about if we want to list all files except those with xyz in the name?
 ```bash
-ls -Ixyz*
+ls -I xyz*
 ```
 
 This example requires the -I flag to ls - i.e. ignore. This is one way to that, but you could also use more formal pattern matching which is more flexible and more powerful as it can be used with other commands such as mv.
