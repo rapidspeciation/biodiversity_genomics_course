@@ -95,7 +95,7 @@ scp nr10sanger_ac@hercules2:/scratchsan/C_computacion/nr10sanger_ac/biodiversity
 ```
 scp may not be working for you. In this case, please download the multiqc to your laptop from here: [multiqc](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/multiqc_report.html)
 
-Here some [slides](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/fastqc_interpretation.pdf) on interpreting fastqc html output.
+Here some [slides](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/04_fastqc_interpretation.pdf) on interpreting fastqc html output.
 
 ### Hands-on: Run FastQC on the following data (RAD1.fastq.gz and RAD2.fastq.gz), interpret the results and answer these questions:
 
