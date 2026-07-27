@@ -93,6 +93,7 @@ To visualize the HTML files, you need to download them from the cluster using th
 scp nr10sanger_ac@hercules2:/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/fastqc/fastqc_results/multiqc_report.html ./
 
 ```
+scp may not be working for you. In this case, please download the multiqc to your laptop from here: [slides](https://github.com/speciationgenomics/presentations/blob/master/fastqc_interpretation.pdf)
 
 Here some [slides](https://github.com/speciationgenomics/presentations/blob/master/fastqc_interpretation.pdf) on interpreting fastqc html output.
 
