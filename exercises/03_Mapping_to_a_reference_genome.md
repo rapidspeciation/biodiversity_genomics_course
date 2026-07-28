@@ -230,9 +230,6 @@ do
 		$REVERSE | samtools view -b | \
 		samtools sort -T ${IND} > $OUTPUT
 done
-
-
-done
 ```
 
 With this completed `for` loop, we have a command that will create variables, align and sort our reads and also echo to the screen which individual it is working on, so that we know how well it is progessing.
