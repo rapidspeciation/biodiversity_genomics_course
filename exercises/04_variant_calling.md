@@ -76,7 +76,7 @@ At this point, our "toy" dataset breaks down because we don't have enough reads 
 mkdir vcf_real
 cd  vcf_real
 # copy the sara_sapho file from the share directory
-cp /home/genomics/scratch/data/Heliconius/vcf/sara_sapho_subset.vcf.gz ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/VCF/sara_sapho_subset.vcf.gz ./
 ```
 
 Let's take a moment to see how big the file is:
