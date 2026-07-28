@@ -187,7 +187,7 @@ The first thing we will do is initiate the script with the line telling the inte
 Next, we will declare an array to ensure that we have all our individuals
 
 ```shell
-INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/WGS/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
+INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
 ```
 This will create a list of individuals which we can then loop through in order to map each individual. Here we used bash substitution to take each forward read name, remove the directory and leave only the individual name.
 
@@ -199,10 +199,10 @@ Next we will add the actual `for` loop to our script. We will use the following:
 for IND in ${INDS[@]};
 do
 	# declare variables
-	REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-	FORWARD=~/filteredReads/${IND}.R1.trimmed.fastq.gz
-	REVERSE=~/filteredReads/${IND}.R2.trimmed.fastq.gz
-	OUTPUT=~/align/${IND}_sort.bam
+	REF=~/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+	FORWARD=~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R1.trimmed.fastq.gz
+	REVERSE=~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R2.trimmed.fastq.gz
+	OUTPUT=~/biodiversity_genomics_course/data/Heliconius/WGS/align/${IND}_sort.bam
 
 done
 ```
