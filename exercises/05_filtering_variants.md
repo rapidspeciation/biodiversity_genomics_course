@@ -1,38 +1,3 @@
-## Conda environment
-
-A Conda environment is like a separate workspace on your computer where you can install specific versions of software and libraries without affecting anything else on your system.
-
-Think of it like a "sandbox" — you create an environment for a project, install exactly what you need (like Python and certain bioinformatics tools), and everything stays isolated. This helps avoid conflicts between tools or versions when working on different projects.
-
-```shell
-## To create a conda environment
-
-conda create --name vcftools_nic
-
-## To activate our conda environment
-
-conda activate vcftools_nic
-
-## To install a software
-
-conda install vcftools
-
-## Ask help about the software
-
-vcftools -help
-
-## Close the conda environment
-
-conda deactivate
-
-## Check the list of environments
-conda env list
-
-## Remove a conda environment
-
-conda remove --name vcftools_nic --all
-```
-
 ## Filtering vcf
 
 In the last session, we learned how to call variants and handle VCFs. In this session, we are going to focus on how to filter VCFs. This might seem like a relatively straightforward task but it is actually exceptionally important and something you should spend a lot of time thinking carefully about.
@@ -42,7 +7,9 @@ In the last session, we learned how to call variants and handle VCFs. In this se
 One thing we didn't check yet is how many variants we actually have. Each line in the main output of a vcf represents a single call so we can use the following code to work it out:
 
 ```shell
-bcftools view -H sara_sapho_subset.vcf.gz| wc -l
+module load envs/anaconda3
+PATH=/scratchsan1/anaconda3/envs/bcftools/bin/bcftools/
+${PATH}bcftools view -H sara_sapho_subset.vcf.gz | wc -l
 ```
 We have close to 24,346 variants in our full VCF. At present, we have applied no filters at all. This is intentional - we want to see what happens when filters are applied. However, it is also a good idea to perform an initial analysis, to get an idea of how to set filters. However as we have just seen, it takes time to perform operations on a large VCF.
 
