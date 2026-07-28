@@ -41,6 +41,8 @@ Next we run the `bcftools mpileup` and `bcftools call` command. We will break it
 mkdir vcf
 cd vcf
 ## We are going to call variants within the vcf folder using bcftools:
+module load envs/anaconda3
+conda activate bcftools
 bcftools mpileup -a AD,DP,SP -Ou -f $REF \
 /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/align/*.sort.rmd.bam | bcftools call -f GQ,GP \
 -mO z -o ./sara_sapho.vcf.gz
