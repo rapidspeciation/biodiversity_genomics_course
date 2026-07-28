@@ -187,7 +187,7 @@ The first thing we will do is initiate the script with the line telling the inte
 Next, we will declare an array to ensure that we have all our individuals
 
 ```shell
-INDS=($(for i in ~/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
+INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/WGS/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
 ```
 This will create a list of individuals which we can then loop through in order to map each individual. Here we used bash substitution to take each forward read name, remove the directory and leave only the individual name.
 
