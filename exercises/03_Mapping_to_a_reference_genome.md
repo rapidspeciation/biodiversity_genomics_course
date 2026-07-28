@@ -52,10 +52,8 @@ Use `ls` to take a look, but this will have copied in about 5 files all with the
 
 When `bwa` aligns reads, it needs access to these files, so they should be in the same directory as the reference genome. Then when we actually run the alignment, we tell `bwa` where the reference is and it does the rest. To make this easier, we will make a variable pointing to the reference.
 
-Change this to your username first!!
-
 ```shell
-REF=/scratchsan/C_computacion/<user_name>/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=~/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 #### Performing a paired end alignment
@@ -76,8 +74,8 @@ Let's go ahead and align our data, we will break down what we did shortly after.
 
 ```shell
 $BWA_PATH/bwa mem -t 2 $REF \
-/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R1.trimmed.fastq.gz \
-/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
+~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R1.trimmed.fastq.gz \
+~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
 ```
 Since we are only using a shortened fastq file, with 100K reads in it, this should just take a couple of minutes. In the meantime, we can breakdown what we actually did here.
 
@@ -200,8 +198,8 @@ for IND in ${INDS[@]};
 do
 	# declare variables
 	REF=~/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-	FORWARD=~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R1.trimmed.fastq.gz
-	REVERSE=~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R2.trimmed.fastq.gz
+	FORWARD=/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R1.trimmed.fastq.gz
+	REVERSE=/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R2.trimmed.fastq.gz
 	OUTPUT=~/biodiversity_genomics_course/data/Heliconius/WGS/align/${IND}_sort.bam
 
 done
