@@ -2,18 +2,18 @@
 
 In the last session, we learned how to call variants and handle VCFs. In this session, we are going to focus on how to filter VCFs. This might seem like a relatively straightforward task but it is actually exceptionally important and something you should spend a lot of time thinking carefully about.
 
-### How many unfiltered variants?
+### How many unfiltered sites?
 
-One thing we didn't check yet is how many variants we actually have. Each line in the main output of a vcf represents a single call so we can use the following code to work it out:
+One thing we didn't check yet is how many sites we actually have in our vcf file. Each line in the main output of a vcf represents a single call so we can use the following code to work it out:
 
 ```shell
 module load envs/anaconda3
 PATH=/scratchsan1/anaconda3/envs/bcftools/bin/bcftools/
 ${PATH}bcftools view -H sara_sapho_subset.vcf.gz | wc -l
 ```
-We have close to 24,346 variants in our full VCF. At present, we have applied no filters at all. This is intentional - we want to see what happens when filters are applied. However, it is also a good idea to perform an initial analysis, to get an idea of how to set filters. However as we have just seen, it takes time to perform operations on a large VCF.
+We have close to 24,346 sites in our full VCF. At present, we have applied no filters at all. This is intentional - we want to see what happens when filters are applied. However, it is also a good idea to perform an initial analysis, to get an idea of how to set filters. However as we have just seen, it takes time to perform operations on a large VCF.
 
-For this reason, it is a good idea to subsample our variant calls and get an idea of the general distribution of a few key attributes of the data.
+For this reason, it is a good idea to subsample our sites and get an idea of the general distribution of a few key attributes of the data.
 
 ### Generating statistics from a VCF
 
