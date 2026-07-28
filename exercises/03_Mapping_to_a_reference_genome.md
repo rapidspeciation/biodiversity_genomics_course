@@ -76,8 +76,8 @@ Let's go ahead and align our data, we will break down what we did shortly after.
 
 ```shell
 $BWA_PATH/bwa mem -t 2 $REF \
-~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R1.trimmed.fastq.gz \
-~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
+/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R1.trimmed.fastq.gz \
+/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
 ```
 Since we are only using a shortened fastq file, with 100K reads in it, this should just take a couple of minutes. In the meantime, we can breakdown what we actually did here.
 
