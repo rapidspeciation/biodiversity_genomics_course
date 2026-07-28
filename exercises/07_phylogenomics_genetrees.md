@@ -1,6 +1,5 @@
-# Phylogenomics: gene trees, species trees
+# Phylogenomics: from raw data to species trees
 
-### **Phylogenomic Inference Based on Sequence Capture**
 
 ## **Objective**
 
