@@ -101,6 +101,7 @@ Lets take a closer look at the output. To do this we will use `samtools`. More d
 ```shell
 cd align
 
+module load envs/anaconda3
 conda activate samtools
 samtools view -h wgs1.sam | head
 samtools view wgs1.sam | head
