@@ -23,3 +23,5 @@ Day 1 (Monday):
 - [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these input files
 - [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
 
+Day 2 (Tuesday):
+- [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) about mapping reads to a reference genome
