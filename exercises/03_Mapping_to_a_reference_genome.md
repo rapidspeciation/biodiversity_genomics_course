@@ -55,7 +55,7 @@ When `bwa` aligns reads, it needs access to these files, so they should be in th
 Change this to your username first!!
 
 ```shell
-REF=/scratchsan/C_computacion/<user_name>/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=/scratchsan/C_computacion/<user_name>/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 #### Performing a paired end alignment
@@ -76,8 +76,8 @@ Let's go ahead and align our data, we will break down what we did shortly after.
 
 ```shell
 $BWA_PATH/bwa mem -t 2 $REF \
-~/filteredReads/wgs1.R1.trimmed.fastq.gz \
-~/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
+~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R1.trimmed.fastq.gz \
+~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/wgs1.R2.trimmed.fastq.gz > wgs1.sam
 ```
 Since we are only using a shortened fastq file, with 100K reads in it, this should just take a couple of minutes. In the meantime, we can breakdown what we actually did here.
 
