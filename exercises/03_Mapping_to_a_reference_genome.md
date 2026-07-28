@@ -236,24 +236,27 @@ With this completed `for` loop, we have a command that will create variables, al
 
 Although it takes a bit more work to make a script like this, it is worth it. This script is very general - you would only need to edit the variables in order to make it work on almost any dataset on any cluster. Reusability (and clarity) of scripts is something to strive for.
 
-Now that we have built our script, it is time to use it. Save it and name it `align_sort.sh` We will move it on to the cluster, either using `scp` or `filezilla`, a process explained in [this tutorial](). Be sure to move it to your `home` folder.
+Now that we have built our script, it's time to use it. You can create the script by copying it from GitHub using `nano` and saving it as `align_sort.sh`.
 
-Once the script is on the cluster, open a screen and call it `align`; (i.e. `screen -S align`). Then run the script like so:
+```shell
+nano align_sort.sh
+copy and paste the script in github
+control x
+yes
+```
+We are going to open a screen and call it `align`:
+
+```shell
+screen -S align
+```
+Then run the script like so:
 
 ```shell
 bash align_sort.sh
-
-#deactivate the conda environment
-conda deactivate
 ```
-
-You will now see the script running as the sequences align. Press `Ctrl + A + D` in order to leave the screen. Now is a good time to take a break as you wait for the job to complete.
-
-Since these analyses take quite a bit of time, we will stop the analysis and copy the output files from the data folder to run the next step:
-
-```shell
-cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/align/*.bam ./
-```
+You will now see the script running as the sequences align. Press `Ctrl + A + D` in order to leave the screen.
+To know the screens you have created: screen -ls
+To remove the screen: screen _XS <name_screen> quit
 
 #### Remove duplicates reads
 
