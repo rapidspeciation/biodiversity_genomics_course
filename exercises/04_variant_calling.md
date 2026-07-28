@@ -33,13 +33,15 @@ Create a `screen` session and, within it, define a variable for the reference ge
 
 ```shell
 screen -S call_variants
-REF=/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 Next we run the `bcftools mpileup` and `bcftools call` command. We will break it down after.
 
 ```shell
-## Go to home again and create a new folder and call it "vcf"
+# Go to home again
+cd ..
+# create a new folder and call it "vcf"
 mkdir vcf
 cd vcf
 ## We are going to call variants within the vcf folder using bcftools:
