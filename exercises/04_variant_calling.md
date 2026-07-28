@@ -27,10 +27,11 @@ Rather than perform each step previously as we did before, here we will use pipe
 
 First of all, use `screen` to make a screen called variant and move into it.
 
-Inside the screen, declare a variable for the reference genome.
+Create a `screen` session and, within it, define a variable for the reference genome:
 
 ```shell
-REF=/home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+screen -S call_variants
+REF=/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 Next we run the `bcftools mpileup` and `bcftools call` command. We will break it down after.
@@ -41,7 +42,7 @@ mkdir vcf
 cd vcf
 ## We are going to call variants within the vcf folder using bcftools:
 bcftools mpileup -a AD,DP,SP -Ou -f $REF \
-/home/genomics/scratch/data/Heliconius/markdupl/*.sort.rmd.bam | bcftools call -f GQ,GP \
+/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/align/*.sort.rmd.bam | bcftools call -f GQ,GP \
 -mO z -o ./sara_sapho.vcf.gz
 ```
 While this is running, let's go through the options and get an idea of what we did.
