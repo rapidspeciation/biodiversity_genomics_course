@@ -258,7 +258,7 @@ You will now see the script running as the sequences align. Press `Ctrl + A + D`
 
 To know the screens you have created: screen -ls
 
-To remove the screen: screen _XS <name_screen> quit
+To remove the screen: screen -XS <name_screen> quit
 
 #### Remove duplicates reads
 
