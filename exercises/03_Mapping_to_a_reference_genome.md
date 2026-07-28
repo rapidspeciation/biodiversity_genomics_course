@@ -255,7 +255,9 @@ Then run the script like so:
 bash align_sort.sh
 ```
 You will now see the script running as the sequences align. Press `Ctrl + A + D` in order to leave the screen.
+
 To know the screens you have created: screen -ls
+
 To remove the screen: screen _XS <name_screen> quit
 
 #### Remove duplicates reads
