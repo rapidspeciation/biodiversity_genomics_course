@@ -48,7 +48,7 @@ cd vcf
 
 BCFTOOLS_PATH=/scratchsan/C_computacion/nr10sanger_ac/miniconda3/envs/bcftools_m/bin/
 ${BCFTOOLS_PATH}/bcftools mpileup -a AD,DP,SP -Ou -f $REF \
-/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/align/*.sort.rmd.bam | ${BCFTOOLS_PATH}/bcftools call -f GQ,GP \
+~/align/*.sort.rmd.bam | ${BCFTOOLS_PATH}/bcftools call -f GQ,GP \
 -mO z -o ./sara_sapho.vcf.gz
 ```
 While this is running, let's go through the options and get an idea of what we did.
