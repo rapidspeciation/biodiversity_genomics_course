@@ -42,7 +42,7 @@ mkdir vcf
 cd vcf
 ## We are going to call variants within the vcf folder using bcftools:
 bcftools mpileup -a AD,DP,SP -Ou -f $REF \
-/home/genomics/scratch/data/Heliconius/markdupl/*.sort.rmd.bam | bcftools call -f GQ,GP \
+/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/align/*.sort.rmd.bam | bcftools call -f GQ,GP \
 -mO z -o ./sara_sapho.vcf.gz
 ```
 While this is running, let's go through the options and get an idea of what we did.
