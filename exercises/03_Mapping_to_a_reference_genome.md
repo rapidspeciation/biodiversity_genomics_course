@@ -35,7 +35,7 @@ Before we can actually perform an alignment, we need to index the reference geno
 
 module load envs/anaconda3
 
-BWA_PATH=/scratchsan1/anaconda3/envs/bwa/bin/bwa
+BWA_PATH=/scratchsan1/anaconda3/envs/bwa/bin/
 
 $BWA_PATH/bwa index GCA_917862395.2_iHelSar1.2_genomic.fna
 
