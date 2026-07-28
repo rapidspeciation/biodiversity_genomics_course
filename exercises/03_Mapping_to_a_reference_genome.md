@@ -90,7 +90,7 @@ Once your alignment has ended, you will see some alignment statistics written to
 If the analyses take a lot of time, you can stop the analysis and copy the output file from the data folder.
 
 ```shell
-cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/align/wgs1.sam ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/align/wgs1.sam ./
 ```
 
 
