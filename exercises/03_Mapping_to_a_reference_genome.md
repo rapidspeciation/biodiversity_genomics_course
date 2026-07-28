@@ -210,16 +210,16 @@ After we have tested the loop to make sure it is working properly, all we have t
 
 ```shell
 #!/bin/sh
-INDS=($(for i in /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data>
+INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
 
 for IND in ${INDS[@]};
 do
         # declare variables
         BWA_PATH=/scratchsan1/anaconda3/envs/bwa/bin/
-        REF=<your_path>/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
-        FORWARD=/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/>
-        REVERSE=/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/>
-        OUTPUT=<your_path>/align/${IND}_sort.bam
+        REF=~/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+        FORWARD=~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R1.trimmed.fastq.gz
+        REVERSE=~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R2.trimmed.fastq.gz
+        OUTPUT=~/biodiversity_genomics_course/data/Heliconius/WGS/align/${IND}_sort.bam
 
         # then align and sort
         echo "Aligning $IND with bwa"
