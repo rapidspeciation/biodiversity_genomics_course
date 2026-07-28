@@ -211,9 +211,8 @@ In this first version of our loop, we are making the `$REF`, `$FORWARD`, `$REVER
 After we have tested the loop to make sure it is working properly, all we have to do is add the `bwa mem` command we made earlier but with our declared variables in place.
 
 ```shell
-#!/bin/sh
+#!/bin/bash
 INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
-
 for IND in ${INDS[@]};
 do
 	# declare variables
@@ -223,12 +222,14 @@ do
 	REVERSE=~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R2.trimmed.fastq.gz
 	OUTPUT=~/biodiversity_genomics_course/data/Heliconius/WGS/align/${IND}_sort.bam
 
+	# read group string, required by Picard MarkDuplicates and GATK
+	RG="@RG\tID:${IND}\tSM:${IND}\tPL:ILLUMINA\tLB:${IND}"
+
 	# then align and sort
 	echo "Aligning $IND with bwa"
-	$BWA_PATH/bwa mem -t 4 $REF $FORWARD \
+	$BWA_PATH/bwa mem -t 4 -R "${RG}" $REF $FORWARD \
 	$REVERSE | samtools view -b | \
 	samtools sort -T ${IND} > $OUTPUT
-
 done
 ```
 
