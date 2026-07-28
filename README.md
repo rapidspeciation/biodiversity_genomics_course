@@ -26,5 +26,6 @@ Day 1 (Monday):
 Day 2 (Tuesday):
 - [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) about mapping reads to a reference genome
 - [Exercise](exercises/03_Mapping_to_a_reference_genome.md) on aligning reads to a reference genome
-- [Exercise](exercises/04_variant_calling.md) on variant calling
+- [Slides](slide_presentations/07_Variant_and_genotype_calling.pdf) on variant and genotype calling
+- [Exercise](exercises/04_variant_calling.md) on variant and genotype calling
 
