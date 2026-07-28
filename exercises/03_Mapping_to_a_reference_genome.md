@@ -68,7 +68,7 @@ cd align
 ```
 As a side note, it is good practice to keep your data well organised like this, otherwise things can become confusing and difficult in the future.
 
-To align our individual we will use ``. You might want to first have a look at the options available for it simply by calling ``. We are actually going to use ` mem` which is the best option for short reads.
+To align our individual we will use bwa mem (which is the best option for short reads)
 
 We will use the individual - `wgs1` which we have already trimmed. There are two files for this individual - `R1` and `R2` which are forward and reverse reads respectively.
 
