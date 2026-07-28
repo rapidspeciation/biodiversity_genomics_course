@@ -173,7 +173,7 @@ However as you may have noticed, we have only performed this on a single individ
 
 ### Working with multiple individuals
 
-There are many ways to work with multiple individuals. One way is to use a bash script to loop through all the files and align them one by one. We will examine this way in detail together. An alternative way is to use some form of parallelisation and actually map them all in parallel (=at the same time). We will also demonstrate an example of this, but it is quite advanced and is really only to give you some familiarity with the approach. An even more advanced way is to use workflow managers like [Snakemake](https://snakemake.readthedocs.io/en/stable/).
+There are many ways to work with multiple individuals. One way is to use a bash script to loop through all the files and align them one by one. We will examine this way in detail together. An alternative way is to use some form of parallelisation and actually map them all in parallel (=at the same time). We will also demonstrate an example of this, but it is quite advanced and is really only to give you some familiarity with the approach. An even more advanced way is to use workflow managers like [Snakemake](https://snakemake.readthedocs.io/en/stable/) and [Nextflow](https://github-com.translate.goog/nextflow-io/nextflow?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc)
 
 #### Using a bash script to loop through and align individuals
 
