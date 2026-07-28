@@ -211,6 +211,9 @@ In this first version of our loop, we are making the `$REF`, `$FORWARD`, `$REVER
 After we have tested the loop to make sure it is working properly, all we have to do is add the `bwa mem` command we made earlier but with our declared variables in place.
 
 ```shell
+#!/bin/sh
+INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
+
 for IND in ${INDS[@]};
 do
 	# declare variables
