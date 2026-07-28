@@ -45,7 +45,7 @@ The `bwa index` tool simply requires the reference fasta file from which to buil
 If it takes too long, you can copy the file as shown below.
 
 ```shell
-cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/reference/GCA* ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/reference/GCA* ./
 ```
 
 Use `ls` to take a look, but this will have copied in about 5 files all with the `GCA_917862395.2_iHelSar1.2_genomic.fna.` prefix that we will use for a reference alignment.
