@@ -210,7 +210,7 @@ After we have tested the loop to make sure it is working properly, all we have t
 
 ```shell
 #!/bin/sh
-INDS=($(for i in ~/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
+INDS=($(for i in /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/*.R1.trimmed.fastq.gz; do echo $(basename ${i%.R*}); done))
 
 for IND in ${INDS[@]};
 do
@@ -221,7 +221,10 @@ do
         REVERSE=/scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/filteredReads/${IND}.R2.trimmed.fastq.gz
         OUTPUT=~/biodiversity_genomics_course/data/Heliconius/WGS/align/${IND}_sort.bam
 
-        # then align and sort
+		# read group string, required by Picard MarkDuplicates and GATK
+		RG="@RG\tID:${IND}\tSM:${IND}\tPL:ILLUMINA\tLB:${IND}"
+
+		# then align and sort
         echo "Aligning $IND with bwa"
         $BWA_PATH/bwa mem -t 4 $REF $FORWARD \
         $REVERSE | samtools view -b | \
