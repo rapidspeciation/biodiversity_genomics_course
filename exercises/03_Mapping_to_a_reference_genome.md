@@ -240,10 +240,12 @@ Now that we have built our script, it's time to use it. You can create the scrip
 
 ```shell
 nano align_sort.sh
-copy and paste the script in github
-control x
-yes
+#copy and paste the script in github
 ```
+To save and exit nano use control x (^X), it will ask if you want to save buffer, answer Y (yes). Then it will ask: Save to the file align_sort.sh?
+Just press enter. Unless you want to save to another file, then you can change the file name now.
+
+
 We are going to open a screen and call it `align`:
 
 ```shell
