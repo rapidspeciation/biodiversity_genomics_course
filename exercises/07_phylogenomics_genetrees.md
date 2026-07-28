@@ -1,5 +1,4 @@
-# Phylogenomics: gene trees, species trees and phylogenetic networks
-# **Phylogenomics Practice Guide**
+# Phylogenomics: gene trees, species trees
 
 ### **Phylogenomic Inference Based on Sequence Capture**
 
