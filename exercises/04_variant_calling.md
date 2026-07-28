@@ -12,7 +12,9 @@ The first thing we need to do is index our reference genome again. This actually
 
 ```shell
 cd reference
+conda activate samtools
 samtools faidx GCA_917862395.2_iHelSar1.2_genomic.fna
+conda deactivate
 ```
 
 This will create a fasta index, denoted by the `.fai` suffix.
@@ -164,7 +166,7 @@ $BCFTOOLS_PATH/bcftools view -H sara_sapho_subset.vcf.gz | head -1 | cut -f 8
 The dot means the first variant listed in our VCF file does not have any additional information in the INFO field. However, we can find out what type of information might be in the INFO field by checking the header.
 
 ```shell
-$BCFTOOLS_PATH/bcftools view -h sara_sapho_subset.vcf.gz | grep "INFO"
+$BCFTOOLS_PATH/bcftools view -h sara_sapho_subset.vcf.gz | grep "##INFO"
 ```
 
 So for example, DP here means the raw read depth for the entire site.
@@ -190,9 +192,9 @@ $BCFTOOLS_PATH/bcftools view -H sara_sapho_subset.vcf.gz | head -1 | cut -f 20
 This will return:
 
 ```shell
-0/0:30,0,0:30:84:.:.:0,84,1260,84,1260,1260
+0/0:24,4:28:0:.:.:0,0,818
 ```
-First we have the genotype (0/0). Here `0` always denotes the reference, `1` the alternate base so we can see this individual is homozygous for the `ref` base. 30 reads supporting the reference allele
+First we have the genotype (0/0). Here `0` always denotes the reference, `1` the alternate base so we can see this individual is homozygous for the `ref` base. 24 reads supporting the reference allele
 
 Is there an easier way to view genotypes? Yes there is - using the `bcftools query` utility.
 
@@ -201,7 +203,7 @@ This allows you to look at the genotypes like so:
 ```
 $BCFTOOLS_PATH/bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n' sara_sapho_subset.vcf.gz | head
 ```
-You can also translate them into actual basecalls. Try this:
+You can also translate them into actual basecalls. Try changing %GT to %TGT:
 
 ```
 $BCFTOOLS_PATH/bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' sara_sapho_subset.vcf.gz | head
