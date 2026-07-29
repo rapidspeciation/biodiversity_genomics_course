@@ -36,6 +36,7 @@ Luckily, `vcftools` makes it possible to easily calculate these statistics. In t
 
 **Individual filters**
 * individuals with way higher missing data proportion or lower sequencing depth should be removed. If it is an outgroup, the reason might be that it is too distantly related from the reference genome and you might choose to still keep it.
+* Individuals with much higher heterozygosity than the other individuals might be contaminated.
 
 #### Setting up
 
@@ -79,6 +80,10 @@ And more missing data, just this time per site rather than per individual.
 ```shell
 vcftools --gzvcf $VCF --missing-site --out $OUT
 ```
+#### Calculate heterozygosity and inbreeding coefficient for each individual
+```shell
+vcftools --gzvcf $SUBSET_VCF --het --out $OUT
+```
 ---
 
 With the statistics calculated, take a moment to have a quick look at the output in the `~/vcftools/` directory. We will now need to download our output data onto our local machines in order to work with R.
@@ -88,6 +93,7 @@ scp -r -J <username>@168.176.34.122 <username>@perseus:/scratchsan/C_computacion
 scp -r -J <username>@168.176.34.122 <username>@perseus:/scratchsan/C_computacion/<username>/vcftools/sara_sapho.imiss ./
 scp -r -J <username>@168.176.34.122 <username>@perseus:/scratchsan/C_computacion/<username>/vcftools/sara_sapho.ldepth.mean ./
 scp -r -J <username>@168.176.34.122 <username>@perseus:/scratchsan/C_computacion/<username>/vcftools/sara_sapho.lmiss ./
+scp -r -J <username>@168.176.34.122 <username>@perseus:/scratchsan/C_computacion/<username>/vcftools/sara_sapho.het ./
 
 ```
 
@@ -213,30 +219,33 @@ This shows that the proportion of missing data per individual is very small. For
 
 Considering these two results, you should decide whether to remove individuals that have either low mean depth and/or a high amount of missing data.
 
+### Heterozygosity 
+``` r
+ind_het <- read_delim("sara_sapho.het", delim = "\t",
+           col_names = c("ind","ho", "he", "nsites", "f"), skip = 1)
+a <- ggplot(ind_het, aes(f)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = 0.3)
+a + theme_light()
+```
+
+---
 ### Applying filters to the VCF
 
-Now we have an idea of how to set out thresholds, we will do just that. First of all, we will set some simple variables in order to make our filtering command more straightforward.
+Now we have an idea of how to set out thresholds, we will do just that. Back on the cluster, we will use vcftools to filter our vcf file.
 
 ```shell
-cd vcf_real
+cd ~/vcf_real
 VCF_IN=sara_sapho_subset.vcf.gz
 VCF_OUT=sara_sapho_filtered.vcf.gz
-```
-Then next we will set our chosen filters like so:
 
-```shell
+module load envs/anaconda3
+conda activate vcftools
 
-```
-Finally we run the following `vcftools` command on the data to produce a filtered vcf. We will investigate the options as the filtering is running. Note, 
-
-```shell
 # perform the filtering with vcftools
 vcftools --gzvcf $VCF_IN \
 --remove-indv D5252__Hvenez \
 --remove-indels --max-missing 0.9 --minQ 30 --min-meanDP 10 --max-meanDP 30 \
 --minDP 10 --minGQ 20 \
---recode --stdout | gzip -c > \
-$VCF_OUT
+--recode --stdout | gzip -c > $VCF_OUT
 ```
 
 What have we done here?
@@ -264,6 +273,7 @@ Now, how many variants remain? There are two ways to examine this - look at the 
 
 ```shell
 cat out.log
+conda activate bcftools
 bcftools view -H sara_sapho_filtered.vcf.gz | wc -l
 ```
 
