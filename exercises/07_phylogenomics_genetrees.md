@@ -134,7 +134,7 @@ We use **Captus align** to align the extracted sequences:
 
 ```bash
 captus align -e /scratchsan/C_computacion/gustavo.silva/03_extractions --threads 4
-``
+```
 
 This will generate alignments in the `04_alignments` folder. Examine the report of the alignment process by opening the `captus-align_report.html` file in your browser (you will find it inside the `04_alignments` folder).
 
