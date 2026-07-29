@@ -148,7 +148,7 @@ Then we will use a combination of readr and the standard scan function to read i
 # read in data
 pca <- read_table2("sara_sapho_filtered_maf0.05_pruned.eigenvec", col_names = TRUE)
 eigenval <- scan("sara_sapho_filtered_maf0.05_pruned.eigenval")
-info <- read_table2("sara_sapho_info.txt",col_names =c("ind","pop"))
+info <- read_table2("sara_sapho_info.txt", col_names = TRUE)
 ```
 
 #### Cleaning up the data
@@ -196,6 +196,22 @@ ggplot(pca, aes(PC1, PC2, col = pop)) + geom_point(size = 3) +
     coord_equal() + theme_light() +
     xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
     ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
+
+# color by Species
+ggplot(pca, aes(PC1, PC2, col = Species, label = pop)) + geom_point(size = 3) +
+  coord_equal() + theme_light() +
+  xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
+  ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) + 
+  geom_text()
+
+# color by Clade
+ggplot(pca, aes(PC1, PC2, col = Clade, label=Species)) + geom_point(size = 3) +
+  coord_equal() + theme_light() +
+  xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
+  ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) +
+  geom_text_repel()
+
+
 ```
 
 Note that this R code block also includes arguments to display the percentage of variance explained on each axis. Here we only plot PC1 and PC2. Given that PC3 also shows a high percentage of variance explained, it could be worth it to also plot PC1 against PC3.
