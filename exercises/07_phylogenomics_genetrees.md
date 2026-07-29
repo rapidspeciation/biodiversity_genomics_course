@@ -147,7 +147,8 @@ For each of the aligned loci, we will use **IQ-TREE** to infer gene phylogenetic
 
 
 We will run `iqtree` from a local installation in the cluster:
-```
+
+```bash
 iqtree3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/iqtree3'
 ```
 
