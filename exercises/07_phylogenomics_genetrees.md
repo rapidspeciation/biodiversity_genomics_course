@@ -19,7 +19,7 @@ NCBI is an institution that provides access to biological databases, including t
 
 ### **Steps:**
 
-1. **Create an environment with SRA Toolkit** (including pigz and ) and activate it:
+1. **Create an environment with SRA Toolkit** (including pigz and parallel) and activate it:
 
    ```bash
    conda create -n sra-tools -c bioconda sra-tools pigz parallel
@@ -35,7 +35,7 @@ Check the article [Gardner et al. (2023)](https://doi.org/10.1073/pnas.222203512
 
 Save this information in a text file called `accesiones.txt`.
 
-📌 Expected structure of the text file `accesiones.txt`
+   - Expected structure of the text file `accesiones.txt`
 
 It must contain two columns separated by a tab and end with an empty line at the end:
 ```
@@ -62,7 +62,7 @@ Once you have downloaded the script, run it with the following command:
 bash download_fastq.sh
 ```
 
-This process will generate `.fq.gz` files for each downloaded accession with the appropriate names for Captus (`_R1` and `_R2`) and the desired IDs for each sample (species name).
+This process will generate `.fq.gz` files for each downloaded accession with the appropriate names for `Captus` (`_R1` and `_R2`) and the desired IDs for each sample (species name).
 
 Once the process of downloading the sequences to your machine is finished and you have verified that the `.fq.gz` files are complete in the folder, deactivate the `sra-tools` environment:
 
@@ -75,14 +75,15 @@ conda deactivate
 
 ## **2. Quality control, assembly, extraction, and gene alignment with Captus**
 
-`CAPTUS` is an automated pipeline designed to de novo assemble target gene sequences from raw FASTQ data, especially useful in phylogenomics studies. It integrates tools for quality control, assembly, ortholog extraction, and multiple alignment, facilitating a reproducible workflow from obtaining/downloading raw data to obtaining phylogenetic matrices ready for analysis. It is compatible with data from hybridization-based capture libraries (target enrichment), transcriptomes, or whole genome sequencing, adapting to studies ranging from population scale to deep phylogenetics (Ortiz et al. 2023).
+`CAPTUS` is an automated pipeline designed to de novo assemble target gene sequences from raw FASTQ data, especially useful in phylogenomics studies. It integrates tools for quality control, assembly, ortholog/paralog extraction, and multiple alignment, facilitating a reproducible workflow from obtaining/downloading raw data to obtaining phylogenetic matrices ready for phylogenetic analysis. It is compatible with data from hybridization-based capture libraries (target enrichment), transcriptomes, or whole genome sequencing, adapting to studies ranging from population scale to deep phylogenetics (Ortiz et al. 2023).
 
 - Full documentation: [https://edgardomortiz.github.io/captus.docs/](https://www.google.com/url?q=https%3A%2F%2Fedgardomortiz.github.io%2Fcaptus.docs%2F)
 
 ### **Install Captus**
 
+Captus installation instructions are available in the [Github repository](https://github.com/edgardomortiz/captus) of the pipeline. For this practice we will use a preinstalled version in the cluster:
 ```
-captus='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/captus'
+CAPTUS_PATH='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/captus'
 ```
 
 
@@ -93,15 +94,14 @@ Next, we proceed with the quality control of the raw reads. To do this, use the 
 To run the process, make sure to correctly indicate the path of the folder containing the downloaded and compressed raw read files (`00_raw_reads`). The module will automatically identify the corresponding file pairs for each sample (suffixes `_R1.fastq.gz` and `_R2.fastq.gz`) and apply the default or user-defined quality filters.
 
 ```bash
-$captus clean -r 00_raw_reads
+$CAPTUS_PATH clean -r 00_raw_reads
 ```
 
 This will generate clean `.fq.gz` files in the `01_clean_reads` folder. Examine the report of the cleaning and quality control process for **all samples** by opening the `captus-clean_report.html` file in your browser (you will find it inside the `01_clean_reads` folder).
 
 Additionally, select a specific sample and analyze in detail the individual `FastQC` reports generated before and after filtering. These are found in the `01_clean_reads/01_qc_stats_before/` and `01_clean_reads/02_qc_stats_after/` folders. Within these, locate the `fastqc_report.html` files corresponding to the selected species, before and after cleaning, for both the forward (`R1`) and reverse (`R2`) reads. Evaluate the changes in read quality, the presence of adapters, and the length distribution to determine the effectiveness of the cleaning process applied by `CAPTUS`.
 
-
-* To guide your interpretation of the results, consult the [official documentation of the clean module](https://www.google.com/url?q=https%3A%2F%2Fedgardomortiz.github.io%2Fcaptus.docs%2Fassembly%2Fclean%2Freport%2F).
+* To guide your interpretation of the results, consult the [documentation of the clean module](https://edgardomortiz.github.io/captus.docs/assembly/clean/report/).
 
 
 ### **2.2 De novo assembly**
@@ -109,7 +109,7 @@ Additionally, select a specific sample and analyze in detail the individual `Fas
 We use **Captus assemble** to assemble the sequences into contigs:
 
 ```bash
-$captus assemble -r 01_clean_reads --sample_reads_target 1_000_000
+$CAPTUS_PATH assemble -r 01_clean_reads --sample_reads_target 1_000_000
 ```
 
 This process will perform the de novo assembly based on a maximum of 1 million reads (this subsampling is done in this exercise to reduce computational time). This process will generate assembled files in the `02_assemblies` folder. Examine the report of the assembly process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `02_assemblies` folder).
@@ -117,14 +117,13 @@ This process will perform the de novo assembly based on a maximum of 1 million r
 
 ### **2.3 Extraction of genes of interest**
 
-We use **Captus extract** to recover the genes of interest using reference sequences that you can find in the file [artocarpus_333genes.fasta](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/artocarpus_333genes.fasta), which were obtained in the study by [Gardner et al. (2016)](https://doi.org/10.3732/apps.1600017). Download the file and save it in your working folder.
+We use **Captus extract** to recover the genes of interest using reference sequences that you can find in the file `artocarpus_333genes.fasta`, which were obtained in the study by [Gardner et al. (2016)](https://doi.org/10.3732/apps.1600017). Download the file and save it in your working directory.
 
 ```bash
-$captus extract -a 02_assemblies -d artocarpus_333genes.fasta
+$CAPTUS_PATH extract -a 02_assemblies -d artocarpus_333genes.fasta
 ```
 
 This will generate FASTA files in the `03_extractions` folder with the sequences extracted from the set of assembled contigs for each of the selected samples and each of the reference loci. Examine the report of the extraction process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `03_extractions` folder).
-
 
 
 ### **2.4 Gene alignment**
@@ -132,7 +131,7 @@ This will generate FASTA files in the `03_extractions` folder with the sequences
 We use **Captus align** to align the extracted sequences:
 
 ```bash
-$captus align -e 03_extractions
+$CAPTUS_PATH align -e 03_extractions
 ```
 
 This will generate alignments in the `04_alignments` folder. Examine the report of the alignment process by opening the `captus-align_report.html` file in your browser (you will find it inside the `04_alignments` folder).
@@ -142,10 +141,10 @@ This will generate alignments in the `04_alignments` folder. Examine the report 
 
 ## **3. Inference of gene trees with IQ-TREE**
 
-For each of the aligned loci, we will use **IQ-TREE** to infer phylogenetic trees.
+For each of the aligned loci, we will use **IQ-TREE** to infer gene phylogenetic trees.
 
 
-We will run `iqtree` from a local installation of user gustavo.silva
+We will run `iqtree` from a local installation in the cluster:
 ```
 iqtree3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/iqtree3'
 ```
@@ -153,9 +152,9 @@ iqtree3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/iqtree3'
 
 ### **3.1 Obtaining gene trees**
 
-With the alignments obtained for the loci, perform a phylogenetic inference analysis using the Maximum Likelihood approach implemented in `iqtree3`. Since this analysis involves repeatedly performing the same process on the `.fna` files (alignments), you can automate the process using a `loop` implemented in this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/run_iqtree.sh) (download it and save it under the name `run_iqtree.sh` in the working folder):
+With the alignments obtained for the loci, perform a phylogenetic inference analysis using the Maximum Likelihood approach implemented in `iqtree3`. Since this analysis involves repeatedly performing the same process on the `.fna` files (alignments), you can automate the process using a `loop` implemented in the script `run_iqtree.sh`:
 
-Once you have the script saved in the working folder, run it in the terminal with the command:
+Once you have the script saved in your working directory, run it in the terminal with the command:
 
 ```bash
 bash run_iqtree.sh
@@ -170,7 +169,7 @@ This will generate a new folder called `05_trees` with the output files of the p
 
 We will use `ASTRAL-Pro 3` to build a **species tree** with support based on quartet frequency.
 
-We will run `astral-pro3` from a local installation of user gustavo.silva
+We will run `astral-pro3` from a local installation in the cluster:
 ```
 astral-pro3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/astral-pro3'
 ```
@@ -180,11 +179,11 @@ astral-pro3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/astral-pro3'
 
 From the set of gene trees obtained with `iqtree3`, we can infer the species tree. For this we need two input files:
 1. File containing all the gene trees in Newick format, obtained with IQ-TREE 3.
-2. Gene ↔ species correspondence table saved in a text file called `mapping.txt` ([see this example file](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/mapping.txt)). This [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/get_tree_tips.py) will allow you to obtain this correspondence table, download it and save it in the working folder.
+2. Gene ↔ species correspondence table saved in a text file called `mapping.txt`. The script `get_tree_tips.py` will allow you to obtain this correspondence table, download it and save it in the working folder.
 
-Perform the process by running this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/run_astral-pro3.sh) (download it and save it under the name `run_astral-pro3.sh` in the working folder):
+Perform the complete process by running the script `run_astral-pro3.sh`:
 
-Once you have the script saved in the working folder, run it in the terminal with the command:
+Once you have the script saved in your working folder, run it in the terminal with the command:
 
 ```bash
 bash run_astral-pro3.sh
@@ -205,15 +204,6 @@ Finally, draw the obtained species tree and include on each node a way to repres
 - Nguyen L, Schmidt HA, von Haeseler A, Minh BQ (2015). IQ-TREE: a fast and effective stochastic algorithm for estimating maximum-likelihood phylogenies. Molecular Biology and Evolution. DOI: [https://doi.org/10.1093/molbev/msu300](https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.1093%2Fmolbev%2Fmsu300)
 
 - Zhang C, Rabiee M, Sayyari E and Mirarab S (2020). ASTRAL-Pro: Quartet-based species-tree inference despite paralogy. Molecular Biology and Evolution. DOI: [https://doi.org/10.1093/molbev/msaa139](https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.1093%2Fmolbev%2Fmsaa139)
-
----
-
-
-```julia
-net_h1.names # explore the names of the terminals
-rootatnode!(net_h1, "timorensis") # root at the outgroup node
-plot(net_h1, showgamma = true, style = :majortree, arrowlen = 0.2) # plot again
-```
 
 
 
