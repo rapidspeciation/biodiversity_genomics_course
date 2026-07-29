@@ -2,7 +2,7 @@
 
 
 ## Intro
-The aim of this tutorial is to characterise and visualise large scale rearrangements in genome structure using chromosome-level genomes in fasta format. This tutorial will show one way to visualise the macro synteny in a comparison between two genomes. There are many different ways to arrive at the same result.
+The aim of this tutorial is to characterise and visualise large scale rearrangements in genome structure using chromosome-level genomes in fasta format. This tutorial will show two ways of visualising the macrosynteny between two genomes. There are many different ways to arrive at the same result.
 
 We have two new *Mechanitis* genomes, and we want to know if they have conserved karyotype or if there have been any chromosomal rearrangments since the divergence. 
 
@@ -34,6 +34,9 @@ Lets get started!
 #log in and begin in you home directory on the cloud
 #check where you are
 pwd
+
+# load the anaconda module
+module load envs/anaconda3
 
 #first create the directory were we will work
 mkdir synteny
@@ -76,6 +79,7 @@ zcat ${GENOME}.gz | grep ">" | awk -v taxa_name=$TAXA_NAME '{print $0"\t"taxa_na
 mkdir ../renamed_genomes
 
 #run seqkit
+conda activate seqkit.v2.1.11
 zcat ${GENOME}.gz | seqkit replace -p "(.+)" -r '{kv}' -k list_chr_names_$TAXA_NAME.txt - > ../renamed_genomes/${GENOME%.*}_renamed.fa
 
 #check the fasta headers, remember the qoutes ">"!
@@ -92,6 +96,8 @@ Do the same for *M. messenoides*.
 ```
 #go back to the synteny folder
 cd ../
+#deactivate seqkit
+conda deactivate 
 ```
 
 Now we should be ready to run Minimap2.
@@ -110,8 +116,9 @@ cd minimap
 mkdir output log
 ```
 
-Check that minimap2 is installed and working:
+Acitvate the minimap conda environment and check that minimap2 is installed and working:
 ```
+conda activate minimap2
 minimap2 --help
 ```
 
@@ -122,7 +129,7 @@ As you can see there are many options to refine the mapping and use different op
 minimap2 -t 2 ../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ../renamed_genomes/GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa > output/MecMaza_MecMess.paf
 
 ```
-
+22.49
 This takes 10-20 minutes on a large cluster, but here it might take much longer and Minimap2 is memory demanding. With the settings -t 2 it took 15 min on our cluster with maximum memory usage of approximately 10 GB. During the wait you can take a look at Step 3 visualisation, or get a coffee.
 
 If the script is not finished or memory demands are to high we have prepared results in the `data/comparative_genomics/synteny/` folder. Copy the result file `MecMaza_MecMess.paf` to your output directory and look at the output:
