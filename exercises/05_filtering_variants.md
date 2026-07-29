@@ -103,6 +103,13 @@ scp -r -J <username>@168.176.34.122 <username>@perseus:/scratchsan/C_computacion
 
 ```
 
+To simplify you can also transfer the folder with all output files with this command:
+
+```shell
+scp -r -J <username>@168.176.34.122 <username>@perseus:/scratchsan/C_computacion/<username>/vcftools/ ./
+
+```
+
 Examining statistics in R
 ------------------------
 
