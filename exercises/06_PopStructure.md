@@ -171,7 +171,7 @@ Let's now download the relevant files to our local computers to plot the PCA in 
 ```shell
 scp -r -J <username>@168.176.34.122 <username>@perseus:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
 scp -r -J <username>@168.176.34.122 <username>@perseus:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
-scp -r -J <username>@168.176.34.122 <username>@perseus:~/popStructure/Heliconius.info ./
+scp -r -J <username>@168.176.34.122 <username>@perseus:~/popStructure/Heliconius_info.txt ./
 ```
 
 
