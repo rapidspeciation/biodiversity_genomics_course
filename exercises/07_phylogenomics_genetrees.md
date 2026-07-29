@@ -94,7 +94,9 @@ Next, we proceed with the quality control of the raw reads. To do this, use the 
 To run the process, make sure to correctly indicate the path of the folder containing the downloaded and compressed raw read files (`00_raw_reads`). The module will automatically identify the corresponding file pairs for each sample (suffixes `_R1.fastq.gz` and `_R2.fastq.gz`) and apply the default or user-defined quality filters.
 
 ```bash
-$CAPTUS_PATH clean -r 00_raw_reads
+$CAPTUS_PATH /scratchsan/C_computacion/gustavo.silva/clean -r 00_raw_reads \
+--bbduk_path /scratchsan/gustavo.silva/miniforge3/envs/filo/bin/bbduk.sh \
+--fastqc_path /scratchsan/gustavo.silva/miniforge3/envs/filo/bin/fastqc
 ```
 
 This will generate clean `.fq.gz` files in the `01_clean_reads` folder. Examine the report of the cleaning and quality control process for **all samples** by opening the `captus-clean_report.html` file in your browser (you will find it inside the `01_clean_reads` folder).
