@@ -95,7 +95,7 @@ Next, we proceed with the quality control of the raw reads. To do this, use the 
 To run the process, make sure to correctly indicate the path of the folder containing the downloaded and compressed raw read files (`00_raw_reads`). The module will automatically identify the corresponding file pairs for each sample (suffixes `_R1.fastq.gz` and `_R2.fastq.gz`) and apply the default or user-defined quality filters.
 
 ```bash
-captus clean -r /scratchsan/C_computacion/gustavo.silva/00_raw_reads
+captus clean -r /scratchsan/C_computacion/gustavo.silva/00_raw_reads --threads 4
 ```
 
 This will generate clean `.fq.gz` files in the `01_clean_reads` folder. Examine the report of the cleaning and quality control process for **all samples** by opening the `captus-clean_report.html` file in your browser (you will find it inside the `01_clean_reads` folder).
@@ -110,7 +110,7 @@ Additionally, select a specific sample and analyze in detail the individual `Fas
 We use **Captus assemble** to assemble the sequences into contigs:
 
 ```bash
-captus assemble -r /scratchsan/C_computacion/gustavo.silva/01_clean_reads --sample_reads_target 1_000_000
+captus assemble -r /scratchsan/C_computacion/gustavo.silva/01_clean_reads --sample_reads_target 1_000_000 --threads 4
 ```
 
 This process will perform the de novo assembly based on a maximum of 1 million reads (this subsampling is done in this exercise to reduce computational time). This process will generate assembled files in the `02_assemblies` folder. Examine the report of the assembly process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `02_assemblies` folder).
@@ -122,7 +122,7 @@ We use **Captus extract** to recover the genes of interest using reference seque
 
 ```bash
 captus extract -a /scratchsan/C_computacion/gustavo.silva/02_assemblies \
--d /scratchsan/C_computacion/gustavo.silva/artocarpus_333genes.fasta
+-d /scratchsan/C_computacion/gustavo.silva/artocarpus_333genes.fasta --threads 4
 ```
 
 This will generate FASTA files in the `03_extractions` folder with the sequences extracted from the set of assembled contigs for each of the selected samples and each of the reference loci. Examine the report of the extraction process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `03_extractions` folder).
@@ -133,8 +133,8 @@ This will generate FASTA files in the `03_extractions` folder with the sequences
 We use **Captus align** to align the extracted sequences:
 
 ```bash
-captus align -e /scratchsan/C_computacion/gustavo.silva/03_extractions
-```
+captus align -e /scratchsan/C_computacion/gustavo.silva/03_extractions --threads 4
+``
 
 This will generate alignments in the `04_alignments` folder. Examine the report of the alignment process by opening the `captus-align_report.html` file in your browser (you will find it inside the `04_alignments` folder).
 
