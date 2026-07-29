@@ -258,7 +258,7 @@ conda activate vcftools
 
 # perform the filtering with vcftools
 vcftools --gzvcf $VCF_IN \
---remove-indv D5252__Hvenez \
+--remove-indv D5252__Hvenez --remove-indv R_843__Hccong_L3 \
 --remove-indels --max-missing 0.9 --minQ 30 --min-meanDP 10 --max-meanDP 30 \
 --minDP 10 --minGQ 20 \
 --recode --stdout | gzip -c > $VCF_OUT
@@ -267,7 +267,7 @@ vcftools --gzvcf $VCF_IN \
 What have we done here?
 
 Individual filter:
-* `--remove-indv` - name of the individuals to be removed (Based on the results of mean depth and missing data)
+* `--remove-indv` - name of the individuals to be removed (The two outliers in the results of mean depth and missing data)
 
 Site filters:
 * `--remove-indels` - remove all indels (SNPs only)
