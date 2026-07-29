@@ -58,6 +58,7 @@ OUT=sara_sapho
 Similarly, we also estimate the mean depth of coverage for each site.
 
 ```shell
+conda activate vcftools
 vcftools --gzvcf $VCF --site-mean-depth --out $OUT
 ```
 
@@ -82,7 +83,6 @@ vcftools --gzvcf $VCF --missing-indv --out $OUT
 Next we calculate the mean depth of coverage per individual.
 
 ```shell
-conda activate vcftools
 vcftools --gzvcf $VCF --depth --out $OUT
 ```
 
