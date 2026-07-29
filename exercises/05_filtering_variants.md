@@ -43,7 +43,8 @@ Luckily, `vcftools` makes it possible to easily calculate these statistics. In t
 Before we calculate our stats, lets make a little effort to make our commands simpler and also to ensure the output is written to the right place. First we need to make a directory for our results.
 
 ```shell
-mkdir vcftools
+mkdir ~/vcftools
+cd ~/vcftools
 ```
 Next we will declare two variables to save us some typing below.
 
