@@ -28,12 +28,10 @@ plink --bp-space
 First things first, we will make a directory called popStructure where we will run our analysis
 
 ```shell
-# move to your home directory
-cd ~
-# make the directory
-mkdir popStructure
+# make a directory for this exercise
+mkdir ~/popStructure
 # move into it
-cd popStructure
+cd ~/popStructure
 # activate conda
 module load envs/anaconda3
 ```
