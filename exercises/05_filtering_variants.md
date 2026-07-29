@@ -84,7 +84,7 @@ vcftools --gzvcf $VCF --missing-site --out $OUT
 ```
 #### Calculate heterozygosity and inbreeding coefficient for each individual
 ```shell
-vcftools --gzvcf $SUBSET_VCF --het --out $OUT
+vcftools --gzvcf $VCF --het --out $OUT
 ```
 ---
 
