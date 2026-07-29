@@ -8,11 +8,11 @@ One thing we didn't check yet is how many sites we actually have in our vcf file
 
 ```shell
 module load envs/anaconda3
-PATH=/scratchsan1/anaconda3/envs/bcftools/bin/bcftools/
+PATH_BCFTOOLS=/scratchsan1/anaconda3/envs/bcftools/bin/bcftools/
 
 cd ~/vcf_real
 
-${PATH}bcftools view -H sara_sapho_subset.vcf.gz | wc -l
+${PATH_BCFTOOLS}bcftools view -H sara_sapho_subset.vcf.gz | wc -l
 ```
 We have close to 24,346 sites in our full VCF. At present, we have applied no filters at all. This is intentional - we want to see what happens when filters are applied. However, it is also a good idea to perform an initial analysis, to get an idea of how to set filters. However as we have just seen, it takes time to perform operations on a large VCF.
 
