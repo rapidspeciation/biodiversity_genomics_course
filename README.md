@@ -31,7 +31,7 @@ Day 2 (Tuesday):
 
 Day 3 (Wednesday):
 - [Exercise](exercises/05_filtering_variants.md) on filtering VCF files
-- [Slides](slide_presentations/12_Phylogenomics_Gustavo.pdf) about fundamentals of phylogenomics
-- [Excercise](exercises/07_phylogenomics_genetrees.md) about phylogenomics
 - [Slides](slide_presentations/08_PCA.pdf) on detecting population structure with PCA
 - [Exercise](exercises/06_PopStructure_saraSapho.md) on PCA
+- [Slides](slide_presentations/12_Phylogenomics_Gustavo.pdf) about fundamentals of phylogenomics
+- [Excercise](exercises/07_phylogenomics_genetrees.md) about phylogenomics
