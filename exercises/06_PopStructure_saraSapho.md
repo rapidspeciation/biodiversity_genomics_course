@@ -148,16 +148,13 @@ Then we will use a combination of readr and the standard scan function to read i
 # read in data
 pca <- read_table2("sara_sapho_filtered_maf0.05_pruned.eigenvec", col_names = TRUE)
 eigenval <- scan("sara_sapho_filtered_maf0.05_pruned.eigenval")
-info <- read_table2("sara_sapho_info.txt")
+info <- read_table2("sara_sapho_info.txt",col_names =c("ind","pop"))
 ```
 
 #### Cleaning up the data
 Unfortunately, we need to do a bit of legwork to get our data into reasonable shape. First we will remove a nuisance column (plink outputs the individual ID twice). We will also give our pca data.frame proper column names.
 
 ```shell
-# sort out the pca data
-# remove nuisance column
-pca <- pca[,-1]
 
 # set names
 names(pca)[1] <- "ind"
@@ -172,16 +169,16 @@ Now that we have done our housekeeping, we have everything in place to actually 
 
 ```shell
 # first convert to percentage variance explained
-pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+pve <- data.frame(PC = 1:length(eigenval), pve = eigenval/sum(eigenval)*100)
 ```
 
-With that done, it is very simple to create a bar plot showing the percentage of variance each principal component explains.
+With that done, it is very simple to create a scree plot, i.e. a bar plot showing the percentage of variance each principal component explains.
 
 
 ```shell
-# make plot
+# make scree plot
 ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity") +
-ylab("Percentage variance explained") + theme_light()
+  ylab("Percentage variance explained") + theme_light()
 ```
 
 Cumulatively, they explain 100% of the variance but PC1, PC2 and possible PC3 together explain about 54% of the variance. We could calculate this with the cumsum function, like so:
@@ -195,7 +192,7 @@ Next we move on to actually plotting our PCA. Given the work we did earlier to g
 
 ```shell
 # plot pca
-ggplot(pca, aes(PC1, PC2, col = species)) + geom_point(size = 3) +
+ggplot(pca, aes(PC1, PC2, col = pop)) + geom_point(size = 3) +
     coord_equal() + theme_light() +
     xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
     ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
