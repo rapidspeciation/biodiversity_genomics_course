@@ -44,6 +44,7 @@ Note, if any individuals (e.g. outgroups) need to be removed, this can be done u
 VCF="../vcf_real/sara_sapho_filtered.vcf.gz"
 
 # Include bi-allelic sites only (excluding singletons), apply a minor allele filter of 0.05 and prune sites to 1 per 10 kb.
+module load apps/plink/2.0.0-a
 plink2 \
     --vcf $VCF \
     --threads 8 \
