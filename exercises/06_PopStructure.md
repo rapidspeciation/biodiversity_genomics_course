@@ -40,7 +40,7 @@ Since we are only interested in investigating population structure within the me
 
 ```shell
 # To avoid having lots of copies of this vcf file, you can directly specify the full path to the file without copying it to your folder
-VCF="/scratchsan/C_computacion/fs20sanger_ac/popStructure/wgenome.martin2019.biallelic.mac2.vcf.gz"
+VCF="/scratchsan/C_computacion/fs20sanger_ac/06_PopulationStructure/wgenome.martin2019.biallelic.mac2.vcf.gz"
 
 # Get the information file:
 cp /scratchsan/C_computacion/jm66sanger_ac/Heliconius_info.txt ./
