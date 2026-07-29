@@ -8,7 +8,7 @@ One thing we didn't check yet is how many sites we actually have in our vcf file
 
 ```shell
 module load envs/anaconda3
-PATH_BCFTOOLS=/scratchsan1/anaconda3/envs/bcftools/bin/bcftools/
+PATH_BCFTOOLS=/scratchsan1/anaconda3/envs/bcftools/bin
 
 cd ~/vcf_real
 
