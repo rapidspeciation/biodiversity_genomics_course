@@ -29,3 +29,7 @@ Day 2 (Tuesday):
 - [Slides](slide_presentations/07_Variant_and_genotype_calling.pdf) on variant and genotype calling
 - [Exercise](exercises/04_variant_calling.md) on variant and genotype calling
 
+Day 3 (Wednesday):
+- [Exercise](exercises/05_filtering_variants.md) on filtering VCF files
+- [Slides](slide_presentations/08_PCA.pdf) on detecting population structure with PCA
+- [Exercise](exercises/06_PopStructure_saraSapho.md) on PCA
