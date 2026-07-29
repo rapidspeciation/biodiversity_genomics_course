@@ -55,7 +55,7 @@ plink2 \
     --maf 0.05 \
     --bp-space 10000 \
     --export vcf id-paste=iid \
-    --out ${VCF}_maf0.05_pruned
+    --out sara_sapho_filtered_maf0.05_pruned
 ```
 
 So for our plink command, we did the following:
@@ -78,27 +78,31 @@ Next we rerun plink with a few additional arguments to get it to conduct a PCA. 
 
 First, we generate a file with allele frequencies for all sites
 ```shell
-#/ generate allele frequency file
+
+# Update the VCF variable to the pruned one:
+VCF=sara_sapho_filtered_maf0.05_pruned
+
+# generate allele frequency file
 plink2 \
-    --vcf ${VCF}_maf0.05_pruned.vcf \
+    --vcf ${VCF}.vcf \
     --threads 8 \
     --allow-extra-chr \
     --set-missing-var-ids @:# \
     --freq \
-    --out ${VCF}_maf0.05_pruned
+    --out ${VCF}
 ```
 
 Now we can create our PCA.
 ```shell
 # create pca
 plink2 \
-    --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf \
+    --vcf ${VCF}.vcf \
     --threads 8 \
     --allow-extra-chr \
     --set-missing-var-ids @:# \
-    --read-freq wgenome.martin2019.ingroup.mac2.prune10kb.afreq \
+    --read-freq ${VCF}.afreq \
     --pca \
-    --out wgenome.martin2019.ingroup.mac2.prune10kb
+    --out ${VCF}
 ```
 
 This is very similar to our previous command. What did we do here?
@@ -111,8 +115,8 @@ Once the command is run, we will see a series of new files. We will break these 
 
 PCA output:
 
-- wgenome.martin2019.ingroup.mac2.prune10kb.**eigenval** - the eigenvalues from our analysis
-- wgenome.martin2019.ingroup.mac2.prune10kb.**eigenvec**- the eigenvectors from our analysis
+- $VCF.**eigenval** - the eigenvalues from our analysis, how much variance is explained by each PC
+- $VCF.**eigenvec**- the eigenvectors from our analysis, position at each PC axis for each individual
 
 
 
