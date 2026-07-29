@@ -49,7 +49,7 @@ plink2 \
     --vcf $VCF \
     --threads 8 \
     --allow-extra-chr \
-    --geno 0 \
+    --geno 0.25 \
     --min-alleles 2 \
     --max-alleles 2 \
     --maf 0.05 \
@@ -65,7 +65,7 @@ So for our plink command, we did the following:
 - `--keep` - Filter out all samples not named in a file.
 - `--geno` - Filter out variants with missing call rates exceeding the provided value.
 - `--min-alleles` - Filter out variants with fewer than given # of alleles
-- `-max-alleles` - Filter out variants with more than given # of alleles
+- `--max-alleles` - Filter out variants with more than given # of alleles
 - `--mac` - Filter out variants with minor allele count lower than #
 - `--bp-space` - Remove variants so each pair is no closer than the given distance.
 
