@@ -127,7 +127,8 @@ Let's now download the relevant files to our local computers to plot the PCA in 
 ```shell
 scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenvec ./
 scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenval ./
-scp -r -J j<user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_info.txt ./
+# Download a file with population information from my folder
+scp -r -J j<user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/jm66sanger_ac/share/sara_sapho_info.txt ./
 
 ```
 
@@ -216,12 +217,11 @@ plink2 \
 --allow-extra-chr \
 --bad-ld \
 --set-missing-var-ids @:# \
---keep mel_tim_cyd.keep \
 --min-alleles 2 \
 --max-alleles 2 \
 --mac 2 \
 --indep-pairwise 50 10 0.2 \
---out wgenome.martin2019.ingroup.mac2
+--out $VCF
 
 # extract LD-pruned sites
 plink2 \
@@ -229,13 +229,12 @@ plink2 \
 --threads 8 \
 --allow-extra-chr \
 --set-missing-var-ids @:# \
---keep mel_tim_cyd.keep \
 --min-alleles 2 \
 --max-alleles 2 \
 --mac 2 \
---extract wgenome.martin2019.ingroup.mac2.prune.in \
+--extract $VCF.prune.in \
 --export vcf id-paste=iid \
---out wgenome.martin2019.ingroup.mac2.ld_prune
+--out $VCF.ld_prune
 ```
 
 As well as being versatile, plink is very fast. It will quickly produce a linkage analysis for all our data and write plenty of information to the screen. When complete, it will write out two files wgenome.martin2019.ingroup.mac2.prune.in and wgenome.martin2019.ingroup.mac2.prune.out. The first of these is a list of sites which fell below our linkage threshold - i.e. those we should retain. The other file is the opposite of this. In the next step, we will produce a PCA from these linkage-pruned sites.
