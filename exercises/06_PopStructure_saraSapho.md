@@ -38,8 +38,7 @@ cd ~/popStructure
 # activate conda
 module load envs/anaconda3
 ```
-
-Since we are only interested in investigating population structure within the melpomene-timareta-cydno clade, we will exclude outgroup (*H. numata*) individuals from our dataset. This can be done using the `--keep` option in plink.
+Note, if any individuals (e.g. outgroups) need to be removed, this can be done using the `--keep` option in plink.
 
 ```shell
 VCF="../vcf_real/sara_sapho_filtered.vcf.gz"
