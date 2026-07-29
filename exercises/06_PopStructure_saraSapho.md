@@ -125,9 +125,9 @@ PCA output:
 Let's now download the relevant files to our local computers to plot the PCA in R on your own computer. In a new terminal, write (changing the user number to your user number and the IP by the correct IP number)
 
 ```shell
-USER=jm66sanger_ac
-scp -r -J $USER@168.176.34.122 $USER@perseus:~/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenvec ./
-scp -r -J $USER@168.176.34.122 $USER@perseus:~/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenval ./
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenvec ./
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenval ./
+scp -r -J j<user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_info.txt ./
 
 ```
 
@@ -145,9 +145,9 @@ Then we will use a combination of readr and the standard scan function to read i
 
 ```shell
 # read in data
-pca <- read_table2("./Heliconius.eigenvec", col_names = FALSE)
-eigenval <- scan("Heliconius.eigenval")
-info <- read_table2("Heliconius.info")
+pca <- read_table2("sara_sapho_filtered_maf0.05_pruned.eigenvec", col_names = TRUE)
+eigenval <- scan("sara_sapho_filtered_maf0.05_pruned.eigenval")
+info <- read_table2("sara_sapho_info.txt")
 ```
 
 #### Cleaning up the data
