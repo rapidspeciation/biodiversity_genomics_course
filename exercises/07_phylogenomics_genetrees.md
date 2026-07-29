@@ -1,158 +1,213 @@
-# Phylogenomics: gene trees, species trees and phylogenetic networks
-Please note that this tutorial has been taken and modified from [Kevin Sanchez github](https://k-sanchez.github.io/workshop_networks_xcbh/ )
+# Phylogenomics: from raw data to species trees
 
-## Gene tree reconstruction with RAxML
 
-For gene tree reconstructions, we will use a dataset of Australasian monitor lizards (genus _Varanus_) from Pavón-Vázquez et al. ([2021](https://doi.org/10.1093/sysbio/syaa102)). It consists of 388 nuclear loci obtained through anchored hybrid enrchment, a technique for capturing orthologous regions of the genome. To estimate trees from these loci, we will rely on <span style="font-variant: small-caps;">RAxML</span>, a program for efficient tree inference based on maximum likelihood (ML). We will also estimate node supports based on bootstrap calculations.
+## **Objective**
 
-Login into toko server and connect to toko05 node. Then go into your folder and copy all the data in phylogenomics folder provided by this course
+In this practice, you will learn the main steps to perform phylogenetic inference with genomic data. These steps include obtaining genomic data (for this practice it will be from public databases), performing quality control, assembling sequences from short-read data (Illumina), extracting the loci of interest, aligning sequences, inferring gene trees, and building a species tree with support based on quartet frequency.
 
-```shell
-NAME=melisa_o
-cd ~/scratch/users/$NAME
-cp -r ~/scratch/data/phylogenomics .
+---
+
+
+
+## **1. Downloading sequence data**
+
+To obtain short-read sequence data, we will use **fasterq-dump**, a tool from the **SRA Toolkit** package.
+
+`SRA Toolkit` is a set of tools provided by the National Center for Biotechnology Information (NCBI) that allows downloading and manipulating data from the Sequence Read Archive (SRA). This program is essential for obtaining the raw sequences needed for the analyses proposed in this practice.
+
+NCBI is an institution that provides access to biological databases, including the genomic and transcriptomic sequence repository. We will use their portal to access public data through the SRA Toolkit. SRA is a format defined by NCBI for NGS data.
+
+### **Steps:**
+
+1. **Create an environment with SRA Toolkit** (including pigz and ) and activate it:
+
+   ```bash
+   conda create -n sra-tools -c bioconda sra-tools pigz parallel
+
+   conda activate sra-tools
+   ```
+
+2. **Download the FASTQ files**
+
+- List of selected accessions:
+     
+Check the article [Gardner et al. (2023)](https://doi.org/10.1073/pnas.2222035120) and look for where the accession code information is found. Select 10 species and make a list with the accession codes of the selected samples and their respective IDs separated by tabs. To make it easier to explore and select the species to analyze, use the [ENA accession search tool](https://www.ebi.ac.uk/ena/browser/home)
+
+Save this information in a text file called `accesiones.txt`.
+
+📌 Expected structure of the text file `accesiones.txt`
+
+It must contain two columns separated by a tab and end with an empty line at the end:
 ```
-Check what's in
-
-```shell
-cd phylogenomics
-ls
+SRR24706287 Ficus_apollinaris
+SRR24706125 Ficus_austrocaledonica
+SRR24706157 Ficus_callosa
+SRR24706179 Ficus_assimilis
+SRR24706382 Ficus_ingens
+SRR24706212 Ficus_platypoda
+SRR24706402 Ficus_globosa
+SRR24706401 Ficus_gommelleira
+SRR24706366 Ficus_lutea
+SRR24706331 Ficus_antandronarum
 ```
-The folder monitors is the one we are going to use at this session. Get inside this folder and check what's in
+    Column 1: Sequence accession number.
+    Column 2: Desired name for the downloaded files.
 
-```shell
-cd monitors
-ls
-```
-There are two loci in PHYLIP format provided as examples, along with a .zip file containing all 388 loci. Here, we will work only with the two example loci, but we also provide the code to automatically generate gene trees for all 388 loci. 
-For Toko server, we first need to load raxml program as module and then run it to get a tree.
 
-Now let's run iqtree in its simplest form:
-```shell
-module load ~/modules/raxml
-raxmlHPC-PTHREADS-SSE3 -s locus177.phylip -n 177.boot -m GTRGAMMA -f a -N 100 -p 2334 -x 563454
-```
+   - Download the sequences using this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/download_fastq.sh). Download the script file and save it in your working folder.
 
-- `-s`: name of the sequence file (include the path to the file if it is located in a different folder)
-- `-n`: name of the output files (the files generated during the run will have `.177.stand` appended to the end)
-- `-m`: substitution model
-- `-f`: Specify one of the different algorithms available in <span style="font-variant: small-caps;">RAxML</span>. If nothing is specified (like in our first run), by default it executes the standard hill climbing algorithm to perform the tree search (which is equivalent to `-f d`). The `a` option tells <span style="font-variant: small-caps;">RAxML</span> to conduct a rapid Bootstrap analysis and search for the best-scoring ML tree in a single run
-- `-N`: number of bootstrap pseudoreplicates
-- `-p`: random number seed to generate a parsimony starting tree (can be any integer)
-- `-x`: specify an integer number (random seed) and turn on rapid bootstrapping
+Once you have downloaded the script, run it with the following command:
 
-Further command options are detailed in the software manual, or can be explored using:
-```sh
-raxmlHPC-PTHREADS-SSE3 -help
-```
-The maximum likelihood tree is printed in the `RAxML_bestTree.1.stand` file. We can visualize the tree in <span style="font-variant: small-caps;">FigTree</span> (download from [here](https://github.com/rambaut/figtree/releases/tag/v1.4.4)) and, optionally, export in any image format. To visualize this tree and the support values open the file in <span style="font-variant: small-caps;">FigTree</span>. On the left-hand side of the screen select: <button>Branch Labels</button> &rarr; <button>Display</button> &rarr; `label`.
-
-Let's estimate a tree for a different locus:
-```sh
-raxmlHPC-PTHREADS-SSE3 -s locus256.phylip -n 256.boot -m GTRGAMMA -f a -N 100 -p 2334 -x 563454
-```
-Check out the files using ls
-
-### Automatizing gene tree inference using a loop
-It is possible to automatically set a run for all 388 gene trees using the code for a loop. Note that all `.phy` in the dataset folder are named `L_1.phy`, `L_2.phy` ... `L_388.phy`. Thus, we can set a loop with an iterator `i` taking values from 1 to 388 to call all the input `.phy` into <span style="font-variant: small-caps;">RAxML</span>:
-
-First unzip the files
-```sh
-unzip all_388loci.zip
-cd all_loci
-ls
-```
-
-Then run a loop to iterate across all 388 loci as follows
-
-```sh
-for i in {1..388}
-do
-./raxmlHPC -s L_$i.phy -n $i.boot -m GTRGAMMA -f a -N 100 -p 2334 -x 563454
-done
+```bash
+bash download_fastq.sh
 ```
 
-## Species tree reconstruction based on gene trees with ASTRAL
-Species tree estimation is mainly based on the multispecies coalescent model (MSC; [Liu et al. 2021](https://doi.org/10.1007/978-1-4939-9074-0_7)). This model accomodates gene trees within species trees, while allowing for incomplete lineage sorting (ILS).
+This process will generate `.fq.gz` files for each downloaded accession with the appropriate names for Captus (`_R1` and `_R2`) and the desired IDs for each sample (species name).
 
-<span style="font-variant: small-caps;">astral</span> belongs to a family of species tree methods known as two-step because it uses estimated gene trees from sequence alignments. Here, we will use the maximum likelihood trees inferred from the 388 alignments of monitors.
+Once the process of downloading the sequences to your machine is finished and you have verified that the `.fq.gz` files are complete in the folder, deactivate the `sra-tools` environment:
 
-The software can be downloaded from [GitHub](https://github.com/smirarab/ASTRAL/archive/refs/heads/master.zip)
-
-In Toko server it is already installed, and we can simply run:
-
-```sh
-astral -i monitors_trees.tre -o monitor_sptree.tre 
+```bash
+conda deactivate
 ```
 
-- `-i`: file containing input gene trees in newick format (a single file where each gene tree is in a different line)
-- `-o`: filename for storing the output species tree
 
-ASTRAL should have created a file monitor_sptree.tre with the estimated species tree, check using 
+---
 
-```sh
-ls
-```
+## **2. Quality control, assembly, extraction, and gene alignment with Captus**
 
-## Phylogenetic network reconstruction based on gene trees with PhyloNetworks
+`CAPTUS` is an automated pipeline designed to de novo assemble target gene sequences from raw FASTQ data, especially useful in phylogenomics studies. It integrates tools for quality control, assembly, ortholog extraction, and multiple alignment, facilitating a reproducible workflow from obtaining/downloading raw data to obtaining phylogenetic matrices ready for analysis. It is compatible with data from hybridization-based capture libraries (target enrichment), transcriptomes, or whole genome sequencing, adapting to studies ranging from population scale to deep phylogenetics (Ortiz et al. 2023).
 
-Phylogenetic networks are an extension of phylogenetic trees used to model gene flow events between species or populations. Specifically, these  events are modelled by reticulation edges that summarizes gene flow that might have occurred over a period of time into a single instantaneous event. These edges have a parameter associated ($\varphi$) that represents the proportion of alleles transferred during the entire period of gene flow.
+- Full documentation: [https://edgardomortiz.github.io/captus.docs/](https://www.google.com/url?q=https%3A%2F%2Fedgardomortiz.github.io%2Fcaptus.docs%2F)
 
-A popular method to estimate phylogenetic networks is <span style="font-variant: small-caps;">PhyloNetworks</span> ([Solís-Lemus et al. 2017](https://doi.org/10.1093/molbev/msx235)). It is based on a pseudolikelihood function over concordance factors (CFs) of quartets of taxa (four taxa), wich increase computational tractability. CFs are calculated as the proportion of gene trees supporting the three possible splits in a given quartet:
-
-We are going to estimate a phylogenetic network taking raxml gene trees as input data and the starting tree inferred from ASTRAL.
-
-```sh
-julia
-```
-
-Now we are inside Julia. To load the package type:
-
-```julia
-using Distributed
-addprocs(1)
-@everywhere using PhyloNetworks
-using CSV, DataFrames, SNaQ
-```
-
-Then set working directory in julia and read gene trees
-```julia
-cd("/home/genomics/scratch/users/melisa_o/phylogenomics/monitors")
-CF = readtrees2CF("monitors_trees.tre")
-```
-
-Now read ASTRAL species tree 
-
-```julia
-sppTree = readTopology("monitor_sptree.tre");
-```
-
-and run a species tree (no yet with gene flow) estimation with SNaQ!
-```julia
-net_h0 = snaq!(sppTree, CF, hmax = 0, filename = "net0", runs = 1)
-```
-
-and finally lets use this tree (net_h0) as starting tree for the phylogenetic network estimation under the multispecies network coalescent model
-```julia
-net_h1 = snaq!(net_h0, CF, hmax = 1, filename = "net1", runs = 1)
-```
-Note: it is recommended to run several runs (usually at least runs=20). Each run can be estimated on a different core, so set addprocs() accordingly
-
-
-As the server does not have a display, to plot results, we are going to need to download the network to our computer. Use scp to download the network to your computer, or simply copy the network you want to plot and paste in julia as shown below.
-
-Once you have the network, in your computer open julia. 
-
-```julia
-Pkg.add("PhyloPlots") # if you do not have PhyloPlots then (package to visualize the networks), then install it
-Pkg.add("PhyloNetworks") # if you do not have PhyloPlots then (package to visualize the networks), then install it
-using PhyloPlots, PhyloNetworks 
-net_h1 = readTopology("(Paste,Network)Here))")
-plot(net_h1, showgamma = true, style = :majortree, arrowlen = 0.2)
+### **Install Captus**
 
 ```
+captus='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/captus'
+```
 
-The networks returned by the method are not rooted, so it is convinient to include an outgroup species in the datset to properly root the networks after the estimation.
+
+### **2.1 Quality control of reads**
+
+Next, we proceed with the quality control of the raw reads. To do this, use the `clean` module of `CAPTUS`, which automates filtering, trimming, and quality evaluation of sequences in `.fastq.gz` format.
+
+To run the process, make sure to correctly indicate the path of the folder containing the downloaded and compressed raw read files (`00_raw_reads`). The module will automatically identify the corresponding file pairs for each sample (suffixes `_R1.fastq.gz` and `_R2.fastq.gz`) and apply the default or user-defined quality filters.
+
+```bash
+$captus clean -r 00_raw_reads
+```
+
+This will generate clean `.fq.gz` files in the `01_clean_reads` folder. Examine the report of the cleaning and quality control process for **all samples** by opening the `captus-clean_report.html` file in your browser (you will find it inside the `01_clean_reads` folder).
+
+Additionally, select a specific sample and analyze in detail the individual `FastQC` reports generated before and after filtering. These are found in the `01_clean_reads/01_qc_stats_before/` and `01_clean_reads/02_qc_stats_after/` folders. Within these, locate the `fastqc_report.html` files corresponding to the selected species, before and after cleaning, for both the forward (`R1`) and reverse (`R2`) reads. Evaluate the changes in read quality, the presence of adapters, and the length distribution to determine the effectiveness of the cleaning process applied by `CAPTUS`.
+
+
+* To guide your interpretation of the results, consult the [official documentation of the clean module](https://www.google.com/url?q=https%3A%2F%2Fedgardomortiz.github.io%2Fcaptus.docs%2Fassembly%2Fclean%2Freport%2F).
+
+
+### **2.2 De novo assembly**
+
+We use **Captus assemble** to assemble the sequences into contigs:
+
+```bash
+$captus assemble -r 01_clean_reads --sample_reads_target 1_000_000
+```
+
+This process will perform the de novo assembly based on a maximum of 1 million reads (this subsampling is done in this exercise to reduce computational time). This process will generate assembled files in the `02_assemblies` folder. Examine the report of the assembly process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `02_assemblies` folder).
+
+
+### **2.3 Extraction of genes of interest**
+
+We use **Captus extract** to recover the genes of interest using reference sequences that you can find in the file [artocarpus_333genes.fasta](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/artocarpus_333genes.fasta), which were obtained in the study by [Gardner et al. (2016)](https://doi.org/10.3732/apps.1600017). Download the file and save it in your working folder.
+
+```bash
+$captus extract -a 02_assemblies -d artocarpus_333genes.fasta
+```
+
+This will generate FASTA files in the `03_extractions` folder with the sequences extracted from the set of assembled contigs for each of the selected samples and each of the reference loci. Examine the report of the extraction process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `03_extractions` folder).
+
+
+
+### **2.4 Gene alignment**
+
+We use **Captus align** to align the extracted sequences:
+
+```bash
+$captus align -e 03_extractions
+```
+
+This will generate alignments in the `04_alignments` folder. Examine the report of the alignment process by opening the `captus-align_report.html` file in your browser (you will find it inside the `04_alignments` folder).
+
+
+---
+
+## **3. Inference of gene trees with IQ-TREE**
+
+For each of the aligned loci, we will use **IQ-TREE** to infer phylogenetic trees.
+
+
+We will run `iqtree` from a local installation of user gustavo.silva
+```
+iqtree3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/iqtree3'
+```
+
+
+### **3.1 Obtaining gene trees**
+
+With the alignments obtained for the loci, perform a phylogenetic inference analysis using the Maximum Likelihood approach implemented in `iqtree3`. Since this analysis involves repeatedly performing the same process on the `.fna` files (alignments), you can automate the process using a `loop` implemented in this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/run_iqtree.sh) (download it and save it under the name `run_iqtree.sh` in the working folder):
+
+Once you have the script saved in the working folder, run it in the terminal with the command:
+
+```bash
+bash run_iqtree.sh
+```
+
+This will generate a new folder called `05_trees` with the output files of the phylogenetic analysis for each locus. Explore the content of the different output files.
+
+
+---
+
+## **4. Species tree inference with ASTRAL-Pro 3**
+
+We will use `ASTRAL-Pro 3` to build a **species tree** with support based on quartet frequency.
+
+We will run `astral-pro3` from a local installation of user gustavo.silva
+```
+astral-pro3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/astral-pro3'
+```
+
+
+### **4.2. Obtaining the species tree with `Astral-pro 3`**
+
+From the set of gene trees obtained with `iqtree3`, we can infer the species tree. For this we need two input files:
+1. File containing all the gene trees in Newick format, obtained with IQ-TREE 3.
+2. Gene ↔ species correspondence table saved in a text file called `mapping.txt` ([see this example file](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/mapping.txt)). This [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/get_tree_tips.py) will allow you to obtain this correspondence table, download it and save it in the working folder.
+
+Perform the process by running this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/run_astral-pro3.sh) (download it and save it under the name `run_astral-pro3.sh` in the working folder):
+
+Once you have the script saved in the working folder, run it in the terminal with the command:
+
+```bash
+bash run_astral-pro3.sh
+```
+
+### **4.3. Tree visualization and analysis of node support based on quartet frequency**
+
+Finally, draw the obtained species tree and include on each node a way to represent the support values obtained in the `freqQuad.csv` file. You can do this by hand or with the help of software (for this second option, describe the processes and software used).
+
+
+
+---
+
+## **5. References**
+
+- Ortiz EM, Höwener A, Shigita G, Raza M, Maurin O, Zuntini A, Forest F, Baker WJ and Schaefer H (2024). A novel phylogenomics pipeline reveals complex pattern of reticulate evolution in Cucurbitales. bioRxiv. DOI: [https://doi.org/10.1101/2023.10.27.564367](https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.1101%2F2023.10.27.564367)
+
+- Nguyen L, Schmidt HA, von Haeseler A, Minh BQ (2015). IQ-TREE: a fast and effective stochastic algorithm for estimating maximum-likelihood phylogenies. Molecular Biology and Evolution. DOI: [https://doi.org/10.1093/molbev/msu300](https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.1093%2Fmolbev%2Fmsu300)
+
+- Zhang C, Rabiee M, Sayyari E and Mirarab S (2020). ASTRAL-Pro: Quartet-based species-tree inference despite paralogy. Molecular Biology and Evolution. DOI: [https://doi.org/10.1093/molbev/msaa139](https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.1093%2Fmolbev%2Fmsaa139)
+
+---
+
 
 ```julia
 net_h1.names # explore the names of the terminals
