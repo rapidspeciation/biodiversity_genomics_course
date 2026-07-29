@@ -132,9 +132,9 @@ minimap2 -t 2 ../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa
 22.49
 This takes 10-20 minutes on a large cluster, but here it might take much longer and Minimap2 is memory demanding. With the settings -t 2 it took 15 min on our cluster with maximum memory usage of approximately 10 GB. During the wait you can take a look at Step 3 visualisation, or get a coffee.
 
-If the script is not finished or memory demands are to high we have prepared results in the `data/comparative_genomics/synteny/` folder. Copy the result file `MecMaza_MecMess.paf` to your output directory and look at the output:
+If the script is not finished or memory demands are to high we have prepared results in the `/scratchsan/C_computacion/kn9sanger_ac/test/synteny/minimap/` folder. Copy the result file `MecMaza_MecMess.paf` to your output directory and look at the output:
 ```shell
-cp /home/genomics/scratch/data/comparative_genomics/synteny/MecMaza_MecMess.paf output/
+cp /scratchsan/C_computacion/kn9sanger_ac/test/synteny/minimap/MecMaza_MecMess.paf output/
 head output/MecMaza_MecMess.paf
 
 ```
@@ -159,9 +159,11 @@ cd syntenyplotter
 mkdir intermediate plots
 
 ```
-To plot the synteny we need to load the R module.
+
+To plot the synteny we need to activate the R environment.
+
 ```shell
-module load ~/modules/R
+conda activate R
 ```
 
 Then we can run an R-script (collection of R commands) on the command line.
@@ -170,13 +172,13 @@ The R-script Syntenyplotter_paf_wrapper.R reformats the output from minimap2 to 
 
 It requies three arguments:
 1. the paf-file (including the path to it)
-2. a name for the reference taxa
+2. a name for the reference/target taxa
 3. a name for the query taxa.
 
 The order of the arguments is important in this case.
 
 ```shell
-Rscript /home/genomics/scratch/scripts/Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
+Rscript /scratchsan/C_computacion/kn9sanger_ac/scripts/Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
 
 Your alignment plot should now be in your `plots` directory. 
@@ -189,15 +191,19 @@ Can you answer some of the questions we asked in the beginning?
 Alternative if it is not working on the server:
 Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
 ```shell
-#copy the script from the Share folder
-cp  /home/genomics/scratch/scripts/Syntenyplotter_paf_wrapper.R ./
+#copy the script from the my folder
+cp  /scratchsan/C_computacion/kn9sanger_ac/scripts/Syntenyplotter_paf_wrapper.R ./
 # copy the alignment file to the syntenyplotter folder
 cp ../minimap/output/MecMaza_MecMess.paf ./
 ```
+
+Go to the directory where you want the syntenyplotter folder in your local computer.
+Copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder, and -J is needed to access the university cluster)
+
 ```
-# go to the directory where you want the syntenyplotter folder
-#copy the whole syntenyplotter folder to your local computer (-r is needed for copying folders and files within the folder)
-scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/YOUR_FOLDER/synteny/syntenyplotter/ ./
+# Make sure you are in your local computer when running this!
+
+scp -r scp -r -J your_username@168.176.34.122 your_username@perseus:/scratchsan/C_computacion/your_username/synteny/syntenyplotter/ ./
 
 #check
 ls
