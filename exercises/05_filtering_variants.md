@@ -52,20 +52,21 @@ Next we will declare two variables to save us some typing below.
 VCF=../vcf_real/sara_sapho_subset.vcf.gz
 OUT=sara_sapho
 ```
-#### Calculate mean depth per individual
 
-Next we calculate the mean depth of coverage per individual.
-
-```shell
-conda activate vcftools
-vcftools --gzvcf $VCF --depth --out $OUT
-```
 #### Calculate mean depth per site
 
 Similarly, we also estimate the mean depth of coverage for each site.
 
 ```shell
 vcftools --gzvcf $VCF --site-mean-depth --out $OUT
+```
+
+#### Calculate proportion of missing data per site
+
+And more missing data, just this time per site rather than per individual.
+
+```shell
+vcftools --gzvcf $VCF --missing-site --out $OUT
 ```
 
 #### Calculate proportion of missing data per individual
@@ -75,13 +76,16 @@ Another individual level statistic - we calculate the proportion of missing data
 ```shell
 vcftools --gzvcf $VCF --missing-indv --out $OUT
 ```
-#### Calculate proportion of missing data per site
 
-And more missing data, just this time per site rather than per individual.
+#### Calculate mean depth per individual
+
+Next we calculate the mean depth of coverage per individual.
 
 ```shell
-vcftools --gzvcf $VCF --missing-site --out $OUT
+conda activate vcftools
+vcftools --gzvcf $VCF --depth --out $OUT
 ```
+
 #### Calculate heterozygosity and inbreeding coefficient for each individual
 ```shell
 vcftools --gzvcf $VCF --het --out $OUT
@@ -214,6 +218,16 @@ This is very similar to the missing data per site. Here we will focus on the `fm
 
 ``` r
 a <- ggplot(ind_miss, aes(fmiss)) + geom_histogram(fill = "dodgerblue1", colour = "black", alpha = 0.3)
+a + theme_light()
+```
+
+Plot depth vs missing data proportion against each other:
+
+``` r
+ind_joint <- ind_depth %>%
+  inner_join(ind_miss, by = "ind")
+
+a <- ggplot(ind_joint, aes(x=fmiss,y=depth)) + geom_point() 
 a + theme_light()
 ```
 
