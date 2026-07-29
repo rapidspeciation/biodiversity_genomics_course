@@ -191,7 +191,34 @@ bash run_astral-pro3.sh
 
 ### **4.3. Tree visualization and analysis of node support based on quartet frequency**
 
-Finally, draw the obtained species tree and include on each node a way to represent the support values obtained in the `freqQuad.csv` file. You can do this by hand or with the help of software (for this second option, describe the processes and software used).
+Finally, draw the obtained species tree and include on each node a way to represent the support values obtained. You can do this using this R code:
+
+```r
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install(c("treeio", "ggtree", "ggimage"))
+
+
+library(treeio)
+library(ggtree)
+library(ggimage)
+
+tree <- read.astral("species_tree.tre")
+
+# root the phylo part directly
+phy <- as.phylo(tree)
+phy_rooted <- root(phy, outgroup = "Ficus_apollinaris", resolve.root = TRUE)
+
+# reattach the ASTRAL data (q1/q2/q3 etc.) by node number
+tree_rooted <- treeio::full_join(as.treedata(phy_rooted), as_tibble(tree), by = "node")
+
+# plot the tree with quartet frequencies on nodes
+pies <- nodepie(as_tibble(tree_rooted), cols = c("q1","q2","q3"))
+ggtree(tree_rooted) %<+% as_tibble(tree_rooted) +
+  geom_tiplab() +
+  geom_inset(pies, width = 0.05, height = 0.05)
+
+```
 
 
 
