@@ -128,7 +128,7 @@ Let's now download the relevant files to our local computers to plot the PCA in 
 scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenvec ./
 scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenval ./
 # Download a file with population information from my folder
-scp -r -J j<user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/share/sara_sapho_info.txt ./
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/share/sara_sapho_info.txt ./
 
 ```
 
