@@ -10,7 +10,7 @@ One thing we didn't check yet is how many sites we actually have in our vcf file
 module load envs/anaconda3
 PATH=/scratchsan1/anaconda3/envs/bcftools/bin/bcftools/
 
-cd ~/vcf
+cd ~/vcf_real
 
 ${PATH}bcftools view -H sara_sapho_subset.vcf.gz | wc -l
 ```
