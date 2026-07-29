@@ -125,9 +125,10 @@ PCA output:
 Let's now download the relevant files to our local computers to plot the PCA in R on your own computer. In a new terminal, write (changing the user number to your user number and the IP by the correct IP number)
 
 ```shell
-scp -i c1.pem user1@54.201.115.50:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
-scp -i c1.pem user1@54.201.115.50:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
-scp -i c1.pem user1@54.201.115.50:~/Share/Heliconius/Heliconius.info ./
+USER=jm66sanger_ac
+scp -r -J $USER@168.176.34.122 $USER@perseus:~/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenvec ./
+scp -r -J $USER@168.176.34.122 $USER@perseus:~/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenval ./
+
 ```
 
 
