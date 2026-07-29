@@ -259,7 +259,7 @@ conda activate vcftools
 # perform the filtering with vcftools
 vcftools --gzvcf $VCF_IN \
 --remove-indv D5252__Hvenez --remove-indv R_843__Hccong_L3 \
---remove-indels --max-missing 0.9 --minQ 30 --min-meanDP 10 --max-meanDP 30 \
+--remove-indels --max-missing 0.75 --minQ 30 --min-meanDP 10 --max-meanDP 30 \
 --minDP 10 --minGQ 20 \
 --recode --stdout | gzip -c > $VCF_OUT
 ```
@@ -271,7 +271,7 @@ Individual filter:
 
 Site filters:
 * `--remove-indels` - remove all indels (SNPs only)
-* `--max-missing` - set minimum missing data. A little counterintuitive - 0 is totally missing, 1 is none missing. Here 0.9 means we will tolerate 10% missing data.
+* `--max-missing` - set minimum missing data. A little counterintuitive - 0 is totally missing, 1 is none missing. Here 0.75 means we will tolerate 25% missing data per site. Note, even though the initial stats showed that the proportion of missing data per site is very low, this value increases as we filter genotypes of low depth or low quality.
 * `--minQ` - this is just the minimum quality score required for a site to pass our filtering threshold. Here we set it to 30.
 * `--min-meanDP` - the minimum mean depth for a site.
 * `--max-meanDP` - the maximum mean depth for a site.
@@ -292,5 +292,7 @@ Now, how many variants remain? There are two ways to examine this, either with b
 ```
 
 You can see we have substantially filtered our dataset!
+
+Note another tool widely used for filtering and manipulating vcf files is [bcftools](https://samtools.github.io/bcftools/bcftools.html), which we have already used to count the number of sites in the vcf file. **B**cftools allows more control and flexibility over the filtering but it is a bit trickier to use than **v**cftools. 
 
 ---
