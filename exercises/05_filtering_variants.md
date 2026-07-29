@@ -285,12 +285,10 @@ Extra parameters that need to be given.
 * `--recode` - recode the output - necessary to output a vcf
 * `--stdout` - pipe the vcf out to the stdout (easier for file handling)
 
-Now, how many variants remain? There are two ways to examine this - look at the vcftools log or the same way we tried before.
+Now, how many variants remain? There are two ways to examine this, either with bcftools as we did at the beginning, or simply by looking at the log file that vcftools generated:
 
 ```shell
-cat out.log
-conda activate bcftools
-bcftools view -H sara_sapho_filtered.vcf.gz | wc -l
+ cat out.log
 ```
 
 You can see we have substantially filtered our dataset!
