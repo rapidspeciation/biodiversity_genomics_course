@@ -44,6 +44,9 @@ Since we are only interested in investigating population structure within the me
 # To avoid having lots of copies of this vcf file, you can directly specify the full path to the file without copying it to your folder
 VCF="/scratchsan/C_computacion/fs20sanger_ac/popStructure/wgenome.martin2019.biallelic.mac2.vcf.gz"
 
+# Get the information file:
+cp /scratchsan/C_computacion/jm66sanger_ac/Heliconius_info.txt ./
+
 # create a file listing individuals in ingroup (melpomene, timareta, cydno). This file will be used in plink to keep only these individuals
 conda activate bcftools
 bcftools query -l $VCF | \
@@ -123,7 +126,7 @@ Next we rerun plink with a few additional arguments to get it to conduct a PCA. 
 
 First, we generate a file with allele frequencies for all sites
 ```shell
-#/ generate allele frequency file
+# generate an allele frequency file
 plink2 \
     --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf \
     --threads 8 \
@@ -133,7 +136,7 @@ plink2 \
     --out wgenome.martin2019.ingroup.mac2.prune10kb
 ```
 
-Now we can create our PCA.
+Now we can create our PCA:
 ```shell
 # create pca
 plink2 \
@@ -166,9 +169,9 @@ PCA output:
 Let's now download the relevant files to our local computers to plot the PCA in R on your own computer. In a new terminal, write (changing the user number to your user number and the IP by the correct IP number)
 
 ```shell
-scp -i c1.pem user1@54.201.115.50:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
-scp -i c1.pem user1@54.201.115.50:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
-scp -i c1.pem user1@54.201.115.50:~/Share/Heliconius/Heliconius.info ./
+scp -r -J <username>@168.176.34.122 <username>@perseus:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
+scp -r -J <username>@168.176.34.122 <username>@perseus:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
+scp -r -J <username>@168.176.34.122 <username>@perseus:~/popStructure/Heliconius.info ./
 ```
 
 
@@ -185,7 +188,7 @@ Then we will use a combination of readr and the standard scan function to read i
 
 ```shell
 # read in data
-pca <- read_table2("./Heliconius.eigenvec", col_names = FALSE)
+pca <- read_table2("Heliconius.eigenvec", col_names = FALSE)
 eigenval <- scan("Heliconius.eigenval")
 info <- read_table2("Heliconius.info")
 ```
