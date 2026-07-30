@@ -77,6 +77,9 @@ chr_length.df <- rbind(read.table(REF_FAI)[,1:2],
                        read.table(QUERY_FAI)[,1:2])
 colnames(chr_length.df) <- c("seq_id", "chr_length")
 
+# keep only scaffolds/chromosomes larger than 1 Mb
+chr_length.df <- chr_length.df %>% filter(chr_length > 1000000)
+
 
 #select taxa and filter
 map_seq <- 
