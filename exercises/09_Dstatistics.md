@@ -1,34 +1,37 @@
 ## Dsuite
 
-We will use [Dsuite](https://github.com/millanek/Dsuite) to infer if introgression has occured in the past between non-sister species, here *H. melpomene* and *H. timareta*. In this example, we will test for introgression between sympatric *H. timareta thelxionoe* and *H. melpomene amaryllis* versus allopatric melpomene (*H. m. melpomene*) 
-```shell
-# Connect to the server
-ssh genomics@toko.uncu.edu.ar
-ssh toko05
+We will use Dsuite to infer if introgression has occured in the past between non-sister species, here *H. melpomene* and *H. timareta*. In this example, we will test whether introgression between sympatric *H. timareta thelxionoe* and *H. melpomene amaryllis* versus allopatric melpomene (*H. m. melpomene*) 
 
-# go to your user directory and make a folder for Dsuite
-cd /home/genomics/scratch/users/<yourname>
+```shell
+cd
 mkdir Dsuite
 cd Dsuite
 ```
 
 Dsuite requires a SET file containing the names of all individuals in the first column and the names of the species or populations in the second column. The outgroup needs to be called "Outgroup". We will thus rename *H. numata* individuals to Outgroup. To do that, we will use a command called `sed` that allows replacing one word by another word in each line.
 
-Note that the $ sign after `Hnum.bsl.bra` specifies that we only want to replace the word `Hnum.bsl.bra` if it is the last word of the line. We write the output into a new file called `Melpomene.sets.txt`. We also need to remove the header as Dsuite does not like if the file has a header (here `ind species`). For this, we will use `grep -v "ind"` which will print all lines that do not contain the word `ind`.
+Note that the $ sign after `Hnum.bsl.bra` specifies that we only want to replace the word `Hnum.bsl.bra` if it is the last word of the line. We write the output into a new file called `melpomene.sets.txt`. We also need to remove the header as Dsuite does not like if the file has a header (here `ind species`). For this, we will use `grep -v "ind"` which will print all lines that do not contain the word `ind`.
 
 ```shell
-# prepare the SETS file
-cp /home/genomics/scratch/data/martin2019/martin2019_species.txt ./
+# prepare SETS file
+cp /scratchsan/C_computacion/fs20sanger_ac/07_Dsuite/martin2019_species.txt .
 sed 's/Hnum.bsl.bra$/Outgroup/' martin2019_species.txt | grep -v "ind"  > melpomene.sets.txt
-tail melpomene.sets.txt
+cat melpomene.sets.txt
 ```
 
-*D* statistics only work with **bi-allelic** SNPs. So if you have not done it already, make sure to remove multi-allelic SNPs (i.e. positions with more than one alternative allele), indels and monomorphic sites, e.g. with plink. 
+*D* statistics only work with **bi-allelic** SNPs. So if you have not done it already, make sure to remove multi-allelic SNPs (i.e. positions with more than one alternative allele), indels and monomorphic sites, e.g. with plink. This file has already been prepared for you (note that we pruned the SNPs so that the analyases runs faster, but you should not do so).
 
 We compute D statistics with [Dsuite](https://github.com/millanek/Dsuite) with the tool `Dtrios` using the vcf file and our newly created file with the species names and outgroup.
 
 ```shell
-VCF="/home/genomics/scratch/data/martin2019/wgenome.martin2019.biallelic.mac2.prune10kb.vcf.gz"
+VCF="/scratchsan/C_computacion/fs20sanger_ac/martin2019/wgenome.martin2019.biallelic.mac2.prune10kb.vcf"
+```
+
+We compute D statistics with [Dsuite](https://github.com/millanek/Dsuite) with the tool `Dtrios` using the vcf file and our newly created file with the species names and outgroup. 
+Dtrios calculates D (ABBA-BABA) and f4-ratio statistics for all possible trios of populations/species.
+
+```shell
+module load apps/Dsuite/main
 Dsuite Dtrios $VCF melpomene.sets.txt
 ```
 
@@ -40,9 +43,22 @@ cat melpomene.sets_Dmin.txt | sort -nk 5 | column -t
 ```
 
 The file with the `*_BAAA.txt` suffix orders each trio assuming that the correct tree is the one where the BBAA pattern is more common than the discordant ABBA and BABA patterns.
-The file with the `*_Dmin.txt` suffix outputs the minimum D for each trio regardless of any assumptions about the tree topology.
-You can also provide a phylogeny to Dsuite to guide it to compute D statistics with the populations or species ordered according to the phylogeny.
-
-If we had many trios, we could parallelise the analysis using `DtriosParallel` (see the [Dsuite website](https://github.com/millanek/Dsuite) for instructions on how to do this).
+The file with the `*_Dmin.txt` suffix outputs the minimum D for each trio regardless of any assumptions about the tree topology. You can also provide a phylogeny to Dsuite to guide it to compute D statistics with the populations or species ordered according to the phylogeny. If we had many trios, we could parallelise the analysis using `DtriosParallel` (see the [Dsuite website](https://github.com/millanek/Dsuite) for instructions on how to do this).
 
 If you want to explore ***D* statistics** more, I would recommend using the `admixr` R-package. Here a [tutorial](https://speciationgenomics.github.io/ADMIXTOOLS_admixr/). To infer the direction of gene flow, I recommend [**Dfoil**](https://github.com/jbpease/dfoil). If you have many species that might have hybridised, check out **Fbranch**, which is part of Dsuite and allows the visualisation of Dstatistics across many different species comparisons. It could also be useful to run an **ADMIXTURE** or **STRUCTURE** plot in order to figure out if gene flow is still ongoing. Here a [tutorial](https://speciationgenomics.github.io/ADMIXTURE/). If gene flow is ongoing, ADMIXTURE will show that some individuals are introgressed. However, if gene flow is ancestral, only *D* statistics will show it.
+
+Fbranch 
+
+```shell
+# load module
+module load apps/Dsuite/main
+
+# Calulate D statistics and f4 ratios again, but assuming a tree
+Dsuite Dtrios --tree mel_tree.nwk $VCF melpomene.sets.txt
+
+# Calulate F-branch using the calculated f4-rations and assuming the specified tree
+Dsuite Fbranch mel_tree.nwk melpomene.sets_tree.txt > melpomene.fbranch.txt
+
+# Plot fbranch (fb)
+/local64/usr_local/Dsuite/utils/dtools.py melpomene.fbranch.txt mel_tree.nwk
+```

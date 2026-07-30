@@ -13,6 +13,9 @@ fastp also generates a html file that shows the read quality before and after fi
 ```shell
 
 # Check the options of fastp
+module load envs/anaconda3
+conda env list
+conda activate fastp
 fastp -h
 
 # Now let's again make a folder to work in
@@ -20,7 +23,7 @@ mkdir filteredReads
 cd filteredReads
 
 # Run fastp
-fastp --in1 /home/genomics/scratch/data/Heliconius/wgs1_R1.fastq.gz --in2 /home/genomics/scratch/data/Heliconius/wgs1_R2.fastq.gz --out1 wgs1.R1.trimmed.fastq.gz --out2 wgs1.R2.trimmed.fastq.gz -l 50 -h wgs.html &> wgs.log
+fastp --in1 /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/wgs1_R1.fastq.gz --in2 /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/WGS/wgs1_R2.fastq.gz --out1 wgs1.R1.trimmed.fastq.gz --out2 wgs1.R2.trimmed.fastq.gz -l 50 -h wgs.html &> wgs.log
 
 # Note &> redirects the information on what it did into the file wgs.log (both stderror and stdout are written into this file)
 
@@ -30,8 +33,11 @@ ls
 
 # To take a look at the HTML file, we first need to download it to our computer using the following command line: 
 
-scp genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/<yourname>/filteredReads/wgs.html ./
+scp -r -J nr10sanger_ac@168.176.34.122 nr10sanger_ac@perseus:/scratchsan/C_computacion/<yourname>/filteredReads/wgs.html ./
+
 ```
+scp may not be working for you. In this case, please download the multiqc to your laptop from here: [fastp output file](https://github.com/rapidspeciation/biodiversity_genomics_course/tree/main/slide_presentations/wgs.html)
+
 ### Parameters specified here:
 * \-\-in1 and \-\-in2: specify your files of forward (1) reads and of the reverse (2) reads.
 * \-\-out1 and \-\-out2: specify the output files for forward and reverse reads that are still Paired.

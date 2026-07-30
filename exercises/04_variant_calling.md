@@ -12,7 +12,9 @@ The first thing we need to do is index our reference genome again. This actually
 
 ```shell
 cd reference
+conda activate samtools
 samtools faidx GCA_917862395.2_iHelSar1.2_genomic.fna
+conda deactivate
 ```
 
 This will create a fasta index, denoted by the `.fai` suffix.
@@ -27,21 +29,26 @@ Rather than perform each step previously as we did before, here we will use pipe
 
 First of all, use `screen` to make a screen called variant and move into it.
 
-Inside the screen, declare a variable for the reference genome.
+Create a `screen` session and, within it, define a variable for the reference genome:
 
 ```shell
-REF=/home/genomics/scratch/data/Heliconius/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
+screen -S call_variants
+REF=~/reference/GCA_917862395.2_iHelSar1.2_genomic.fna
 ```
 
 Next we run the `bcftools mpileup` and `bcftools call` command. We will break it down after.
 
 ```shell
-## Go to home again and create a new folder and call it "vcf"
+# Go to home again
+cd ..
+# create a new folder and call it "vcf"
 mkdir vcf
 cd vcf
 ## We are going to call variants within the vcf folder using bcftools:
-bcftools mpileup -a AD,DP,SP -Ou -f $REF \
-/home/genomics/scratch/data/Heliconius/markdupl/*.sort.rmd.bam | bcftools call -f GQ,GP \
+
+BCFTOOLS_PATH=/scratchsan/C_computacion/nr10sanger_ac/miniconda3/envs/bcftools_m/bin/
+${BCFTOOLS_PATH}/bcftools mpileup -a AD,DP,SP -Ou -f $REF \
+~/align/*.sort.rmd.bam | ${BCFTOOLS_PATH}/bcftools call -f GQ,GP \
 -mO z -o ./sara_sapho.vcf.gz
 ```
 While this is running, let's go through the options and get an idea of what we did.
@@ -73,7 +80,7 @@ At this point, our "toy" dataset breaks down because we don't have enough reads 
 mkdir vcf_real
 cd  vcf_real
 # copy the sara_sapho file from the share directory
-cp /home/genomics/scratch/data/Heliconius/vcf/sara_sapho_subset.vcf.gz ./
+cp /scratchsan/C_computacion/nr10sanger_ac/biodiversity_genomics_course/data/Heliconius/VCF/sara_sapho_subset.vcf.gz ./
 ```
 
 Let's take a moment to see how big the file is:
@@ -89,14 +96,17 @@ You will see that this VCF is 15M in size, which is quite small but real analyse
 vcf stands for 'variant call format' and is a standard format used for variant calling and in population genomics. Again a detailed specification can be found [online](https://samtools.github.io/hts-specs/VCFv4.2.pdf). It can take a bit of getting used to but it is widely supported and very useful. Let's have a look at the vcf.
 
 ```shell
-bcftools view -h sara_sapho_subset.vcf.gz
+# you might need to define the variable again if you did it in the 'screen'
+BCFTOOLS_PATH=/scratchsan/C_computacion/nr10sanger_ac/miniconda3/envs/bcftools_m/bin/
+
+$BCFTOOLS_PATH/bcftools view -h sara_sapho_subset.vcf.gz
 ```
 
 A lot of information will flash by -h: this is the vcf header. Like the SAM file, the header contains information on what has been done to the vcf. The last line is particularly important as it shows what each field in the main body of the vcf is and it also gives the individual names. Try the following:
 
 ```shell
-bcftools view -h sara_sapho_subset.vcf.gz | head
-bcftools view -h sara_sapho_subset.vcf.gz | tail
+$BCFTOOLS_PATH/bcftools view -h sara_sapho_subset.vcf.gz | head
+$BCFTOOLS_PATH/bcftools view -h sara_sapho_subset.vcf.gz | tail
 ```
 
 Here `-h` means show me only the header. You can also see `-H` to see only the raw calls. For some more information on the vcf format, see [here](https://www.ebi.ac.uk/training/online/courses/human-genetic-variation-introduction/variant-identification-and-analysis/understanding-vcf-format/).
@@ -104,13 +114,13 @@ Here `-h` means show me only the header. You can also see `-H` to see only the r
 A nice feature of vcf files is that you can access almost any part of the genome you are interested in. To do this though, you need to index again the vcf first using bcftools. Simply do the following
 
 ```shell
-bcftools index sara_sapho_subset.vcf.gz
+$BCFTOOLS_PATH/bcftools index sara_sapho_subset.vcf.gz
 ```
 
 Let's see what variants are present at the start of the first chromosome/scaffold:
 
 ```shell
-bcftools view -H -r scaffold_105_ctg1:1-300 sara_sapho_subset.vcf.gz
+$BCFTOOLS_PATH/bcftools view -H -r scaffold_105_ctg1:1-300 sara_sapho_subset.vcf.gz
 ```
 
 Here the `-r` flag specifies the region of the genome to examine. We can achieve the same effect by specifying the base pair coordinates
@@ -118,8 +128,8 @@ Here the `-r` flag specifies the region of the genome to examine. We can achieve
 Now you're probably wondering what exactly all this data actually means. Let's explore in a bit more detail.
 
 ```shell
-bcftools view -h sara_sapho_subset.vcf.gz | tail -1 | cut -f 1-9
-bcftools view -H -r scaffold_105_ctg1:1-300 sara_sapho_subset.vcf.gz | cut -f 1-9
+$BCFTOOLS_PATH/bcftools view -h sara_sapho_subset.vcf.gz | tail -1 | cut -f 1-9
+$BCFTOOLS_PATH/bcftools view -H -r scaffold_105_ctg1:1-300 sara_sapho_subset.vcf.gz | cut -f 1-9
 ```
 
 These are the first 9 fields of the vcf and they are always present. What do they mean?
@@ -139,7 +149,7 @@ There is a lot of information here! Don't worry too much if it doesn't make perf
 Let's look at the the first site again in detail:
 
 ```shell
-bcftools view sara_sapho_subset.vcf.gz | grep -m 1 -A 1 "#CHROM" | cut -f 1-7
+$BCFTOOLS_PATH/bcftools view sara_sapho_subset.vcf.gz | grep -m 1 -A 1 "#CHROM" | cut -f 1-7
 ```
 
 You should see this:
@@ -153,12 +163,12 @@ Which means we have a variant at 25028 on scaffold_101_ctg1. The reference base 
 Have a look at the info field with the following code
 
 ```shell
-bcftools view -H sara_sapho_subset.vcf.gz | head -1 | cut -f 8
+$BCFTOOLS_PATH/bcftools view -H sara_sapho_subset.vcf.gz | head -1 | cut -f 8
 ```
 The dot means the first variant listed in our VCF file does not have any additional information in the INFO field. However, we can find out what type of information might be in the INFO field by checking the header.
 
 ```shell
-bcftools view -h sara_sapho_subset.vcf.gz | grep "INFO"
+$BCFTOOLS_PATH/bcftools view -h sara_sapho_subset.vcf.gz | grep "##INFO"
 ```
 
 So for example, DP here means the raw read depth for the entire site.
@@ -166,39 +176,39 @@ So for example, DP here means the raw read depth for the entire site.
 What about the actual genotype information? Firstly it is wise to look at the format here.
 
 ```shell
-bcftools view -H sara_sapho_subset.vcf.gz | head -1 | cut -f 9
+$BCFTOOLS_PATH/bcftools view -H sara_sapho_subset.vcf.gz | head -1 | cut -f 9
 ```
 
 To investigate what these mean, grep the header again.
 
 ```shell
-bcftools view -h sara_sapho_subset.vcf.gz | grep "##FORMAT"
+$BCFTOOLS_PATH/bcftools view -h sara_sapho_subset.vcf.gz | grep "##FORMAT"
 ```
 
 Now let's take a look at the call for a single individual.
 
 ```shell
-bcftools view -H sara_sapho_subset.vcf.gz | head -1 | cut -f 20
+$BCFTOOLS_PATH/bcftools view -H sara_sapho_subset.vcf.gz | head -1 | cut -f 20
 ```
 
 This will return:
 
 ```shell
-0/0:30,0,0:30:84:.:.:0,84,1260,84,1260,1260
+0/0:24,4:28:0:.:.:0,0,818
 ```
-First we have the genotype (0/0). Here `0` always denotes the reference, `1` the alternate base so we can see this individual is homozygous for the `ref` base. 30 reads supporting the reference allele
+First we have the genotype (0/0). Here `0` always denotes the reference, `1` the alternate base so we can see this individual is homozygous for the `ref` base. 24 reads supporting the reference allele
 
 Is there an easier way to view genotypes? Yes there is - using the `bcftools query` utility.
 
 This allows you to look at the genotypes like so:
 
 ```
-bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n' sara_sapho_subset.vcf.gz | head
+$BCFTOOLS_PATH/bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%GT]\n' sara_sapho_subset.vcf.gz | head
 ```
-You can also translate them into actual basecalls. Try this:
+You can also translate them into actual basecalls. Try changing %GT to %TGT:
 
 ```
-bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' sara_sapho_subset.vcf.gz | head
+$BCFTOOLS_PATH/bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' sara_sapho_subset.vcf.gz | head
 ```
 The `bcftools query` utility is very powerful and a useful tool to know about for file conversion in your own work.
 

@@ -17,4 +17,21 @@ Sunday:
 - [Exercise](exercises/00_more_unix.md) on more use of the command line
 - [Exercise](exercises/00_advanced_unix_awk.md) for more advanced users (awk, variables, arrays, writing a bash script)
 
+Day 1 (Monday):
+- [Slides](slide_presentations/01_Welcome_BiodiversityGenomics_introduction.pdf) introducing the course and biodiversity genomics
+- [Slides](slide_presentations/01_Raw_sequences_and_quality_control.pdf) Raw reads and quality control
+- [Exercise](exercises/01_RawReadsExploration_fastqc.md) on exploring Illumina reads and visualising the quality with fastqc which uses these input files
+- [Exercise](exercises/02_fastp_filtering_reads.md) on filtering and trimming reads
 
+Day 2 (Tuesday):
+- [Slides](slide_presentations/06_Aligning_reads_to_reference.pdf) about mapping reads to a reference genome
+- [Exercise](exercises/03_Mapping_to_a_reference_genome.md) on aligning reads to a reference genome
+- [Slides](slide_presentations/07_Variant_and_genotype_calling.pdf) on variant and genotype calling
+- [Exercise](exercises/04_variant_calling.md) on variant and genotype calling
+
+Day 3 (Wednesday):
+- [Exercise](exercises/05_filtering_variants.md) on filtering VCF files
+- [Slides](slide_presentations/08_PCA.pdf) on detecting population structure with PCA
+- [Exercise](exercises/06_PopStructure_saraSapho.md) on PCA
+- [Slides](slide_presentations/12_Phylogenomics_Gustavo.pdf) about fundamentals of phylogenomics
+- [Excercise](exercises/07_phylogenomics_genetrees.md) about phylogenomics

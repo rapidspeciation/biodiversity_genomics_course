@@ -28,79 +28,34 @@ plink --bp-space
 First things first, we will make a directory called popStructure where we will run our analysis
 
 ```shell
-# move to your home directory
-cd ~
+
 # make the directory
-mkdir popStructure
+mkdir ~/popStructure
+
 # move into it
-cd popStructure
+cd ~/popStructure
+
 # activate conda
 module load envs/anaconda3
 ```
-
-Since we are only interested in investigating population structure within the melpomene-timareta-cydno clade, we will exclude outgroup (*H. numata*) individuals from our dataset. This can be done using the `--keep` option in plink.
+Note, if any individuals (e.g. outgroups) need to be removed, this can be done using the `--keep` option in plink.
 
 ```shell
-# To avoid having lots of copies of this vcf file, you can directly specify the full path to the file without copying it to your folder
-VCF="/scratchsan/C_computacion/fs20sanger_ac/popStructure/wgenome.martin2019.biallelic.mac2.vcf.gz"
+VCF="../vcf_real/sara_sapho_filtered.vcf.gz"
 
-# create a file listing individuals in ingroup (melpomene, timareta, cydno). This file will be used in plink to keep only these individuals
-conda activate bcftools
-bcftools query -l $VCF | \
-    egrep -v Hnum | \
-    awk '{print $1}' > mel_tim_cyd.keep
-
-# Subset to ingroup individuals
+# Include bi-allelic sites only (excluding singletons), apply a minor allele filter of 0.05 and prune sites to 1 per 10 kb.
 module load apps/plink/2.0.0-a
 plink2 \
     --vcf $VCF \
     --threads 8 \
     --allow-extra-chr \
-    --keep mel_tim_cyd.keep \
-    --export vcf id-paste=iid \
-    --out wgenome.martin2019.ingroup
-```
-
-Note that since we excluded outgroup individuals, some of the sites might not be variable in the ingroup dataset. We need to apply again filters to get only variable sites `--min-alleles 2 --max-alleles 2 --mac 2`. We will also remove sites where not all individuals have information `--geno 0`. (Note: you may want to be more or less stringent with the missing data filter --geno, depending on your dataset).
-```shell
-# Include bi-allelic sites only (excluding singletons)
-plink2 \
-    --vcf wgenome.martin2019.ingroup.vcf \
-    --threads 8 \
-    --allow-extra-chr \
-    --geno 0 \
+    --geno 0.25 \
     --min-alleles 2 \
     --max-alleles 2 \
-    --mac 2 \
-    --export vcf id-paste=iid \
-    --out wgenome.martin2019.ingroup.mac2
-```
-
-Finally, we can prune the dataset based on physical linkage.
-```shell
-plink2 \
-    --vcf $VCF \
-    --threads 8 \
-    --allow-extra-chr \
-    --keep mel_tim_cyd.keep \
+    --maf 0.05 \
     --bp-space 10000 \
     --export vcf id-paste=iid \
-    --out wgenome.martin2019.ingroup.mac2.prune10kb
-```
-
-Since in plink, filtering commands are processed in a pre-defined [order](https://www.cog-genomics.org/plink/2.0/order) we can run all the previous filters in one command.
-```shell
-plink2 \
-    --vcf $VCF \
-    --threads 8 \
-    --allow-extra-chr \
-    --keep mel_tim_cyd.keep \
-    --min-alleles 2 \
-    --max-alleles 2 \
-    --mac 2 \
-    --bp-space 10000 \
-    --export vcf id-paste=iid \
-    --out wgenome.martin2019.ingroup.mac2.prune10kb
+    --out sara_sapho_filtered_maf0.05_pruned
 ```
 
 So for our plink command, we did the following:
@@ -110,7 +65,7 @@ So for our plink command, we did the following:
 - `--keep` - Filter out all samples not named in a file.
 - `--geno` - Filter out variants with missing call rates exceeding the provided value.
 - `--min-alleles` - Filter out variants with fewer than given # of alleles
-- `-max-alleles` - Filter out variants with more than given # of alleles
+- `--max-alleles` - Filter out variants with more than given # of alleles
 - `--mac` - Filter out variants with minor allele count lower than #
 - `--bp-space` - Remove variants so each pair is no closer than the given distance.
 
@@ -123,27 +78,31 @@ Next we rerun plink with a few additional arguments to get it to conduct a PCA. 
 
 First, we generate a file with allele frequencies for all sites
 ```shell
-#/ generate allele frequency file
+
+# Update the VCF variable to the pruned one:
+VCF=sara_sapho_filtered_maf0.05_pruned
+
+# generate allele frequency file
 plink2 \
-    --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf \
+    --vcf ${VCF}.vcf \
     --threads 8 \
     --allow-extra-chr \
     --set-missing-var-ids @:# \
     --freq \
-    --out wgenome.martin2019.ingroup.mac2.prune10kb
+    --out ${VCF}
 ```
 
 Now we can create our PCA.
 ```shell
 # create pca
 plink2 \
-    --vcf wgenome.martin2019.ingroup.mac2.prune10kb.vcf \
+    --vcf ${VCF}.vcf \
     --threads 8 \
     --allow-extra-chr \
     --set-missing-var-ids @:# \
-    --read-freq wgenome.martin2019.ingroup.mac2.prune10kb.afreq \
+    --read-freq ${VCF}.afreq \
     --pca \
-    --out wgenome.martin2019.ingroup.mac2.prune10kb
+    --out ${VCF}
 ```
 
 This is very similar to our previous command. What did we do here?
@@ -156,8 +115,8 @@ Once the command is run, we will see a series of new files. We will break these 
 
 PCA output:
 
-- wgenome.martin2019.ingroup.mac2.prune10kb.**eigenval** - the eigenvalues from our analysis
-- wgenome.martin2019.ingroup.mac2.prune10kb.**eigenvec**- the eigenvectors from our analysis
+- $VCF.**eigenval** - the eigenvalues from our analysis, how much variance is explained by each PC
+- $VCF.**eigenvec**- the eigenvectors from our analysis, position at each PC axis for each individual
 
 
 
@@ -166,9 +125,11 @@ PCA output:
 Let's now download the relevant files to our local computers to plot the PCA in R on your own computer. In a new terminal, write (changing the user number to your user number and the IP by the correct IP number)
 
 ```shell
-scp -i c1.pem user1@54.201.115.50:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenvec ./
-scp -i c1.pem user1@54.201.115.50:~/popStructure/wgenome.martin2019.ingroup.mac2.prune10kb.eigenval ./
-scp -i c1.pem user1@54.201.115.50:~/Share/Heliconius/Heliconius.info ./
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenvec ./
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/popStructure/sara_sapho_filtered_maf0.05_pruned.eigenval ./
+# Download a file with population information from my folder
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/share/sara_sapho_info.txt ./
+
 ```
 
 
@@ -185,18 +146,15 @@ Then we will use a combination of readr and the standard scan function to read i
 
 ```shell
 # read in data
-pca <- read_table2("./Heliconius.eigenvec", col_names = FALSE)
-eigenval <- scan("Heliconius.eigenval")
-info <- read_table2("Heliconius.info")
+pca <- read_table2("sara_sapho_filtered_maf0.05_pruned.eigenvec", col_names = TRUE)
+eigenval <- scan("sara_sapho_filtered_maf0.05_pruned.eigenval")
+info <- read_table2("sara_sapho_info.txt", col_names = TRUE)
 ```
 
 #### Cleaning up the data
 Unfortunately, we need to do a bit of legwork to get our data into reasonable shape. First we will remove a nuisance column (plink outputs the individual ID twice). We will also give our pca data.frame proper column names.
 
 ```shell
-# sort out the pca data
-# remove nuisance column
-pca <- pca[,-1]
 
 # set names
 names(pca)[1] <- "ind"
@@ -211,16 +169,16 @@ Now that we have done our housekeeping, we have everything in place to actually 
 
 ```shell
 # first convert to percentage variance explained
-pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+pve <- data.frame(PC = 1:length(eigenval), pve = eigenval/sum(eigenval)*100)
 ```
 
-With that done, it is very simple to create a bar plot showing the percentage of variance each principal component explains.
+With that done, it is very simple to create a scree plot, i.e. a bar plot showing the percentage of variance each principal component explains.
 
 
 ```shell
-# make plot
+# make scree plot
 ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity") +
-ylab("Percentage variance explained") + theme_light()
+  ylab("Percentage variance explained") + theme_light()
 ```
 
 Cumulatively, they explain 100% of the variance but PC1, PC2 and possible PC3 together explain about 54% of the variance. We could calculate this with the cumsum function, like so:
@@ -234,10 +192,26 @@ Next we move on to actually plotting our PCA. Given the work we did earlier to g
 
 ```shell
 # plot pca
-ggplot(pca, aes(PC1, PC2, col = species)) + geom_point(size = 3) +
+ggplot(pca, aes(PC1, PC2, col = pop)) + geom_point(size = 3) +
     coord_equal() + theme_light() +
     xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
     ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)"))
+
+# color by Species
+ggplot(pca, aes(PC1, PC2, col = Species, label = pop)) + geom_point(size = 3) +
+  coord_equal() + theme_light() +
+  xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
+  ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) + 
+  geom_text()
+
+# color by Clade
+ggplot(pca, aes(PC1, PC2, col = Clade, label=Species)) + geom_point(size = 3) +
+  coord_equal() + theme_light() +
+  xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
+  ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) +
+  geom_text_repel()
+
+
 ```
 
 Note that this R code block also includes arguments to display the percentage of variance explained on each axis. Here we only plot PC1 and PC2. Given that PC3 also shows a high percentage of variance explained, it could be worth it to also plot PC1 against PC3.
@@ -256,12 +230,11 @@ plink2 \
 --allow-extra-chr \
 --bad-ld \
 --set-missing-var-ids @:# \
---keep mel_tim_cyd.keep \
 --min-alleles 2 \
 --max-alleles 2 \
 --mac 2 \
 --indep-pairwise 50 10 0.2 \
---out wgenome.martin2019.ingroup.mac2
+--out $VCF
 
 # extract LD-pruned sites
 plink2 \
@@ -269,13 +242,12 @@ plink2 \
 --threads 8 \
 --allow-extra-chr \
 --set-missing-var-ids @:# \
---keep mel_tim_cyd.keep \
 --min-alleles 2 \
 --max-alleles 2 \
 --mac 2 \
---extract wgenome.martin2019.ingroup.mac2.prune.in \
+--extract $VCF.prune.in \
 --export vcf id-paste=iid \
---out wgenome.martin2019.ingroup.mac2.ld_prune
+--out $VCF.ld_prune
 ```
 
 As well as being versatile, plink is very fast. It will quickly produce a linkage analysis for all our data and write plenty of information to the screen. When complete, it will write out two files wgenome.martin2019.ingroup.mac2.prune.in and wgenome.martin2019.ingroup.mac2.prune.out. The first of these is a list of sites which fell below our linkage threshold - i.e. those we should retain. The other file is the opposite of this. In the next step, we will produce a PCA from these linkage-pruned sites.

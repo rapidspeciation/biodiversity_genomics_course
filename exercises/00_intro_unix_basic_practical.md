@@ -4,7 +4,10 @@
 ## Log in to server
 
 ```bash
-ssh genomics@toko.uncu.edu.ar
+ssh <your_username>@168.176.34.122
+ssh perseus
+
+cd /scratchsan/C_computacion/<your_username>
 
 ```
 
@@ -20,21 +23,12 @@ ls ./
 
 ```
 
-## Make your working directory
-You have seen a list representing the directories and files in this directory.
+## Make an intro directory
+You have seen a list representing the directories and files in this directory. It is quite empty now.
 
-We can change to another directory by using the command 'change directory' cd
-Go into the users directory
+Make a directory for this intro session with the command
 
-```bash
-cd users
-
-```
-Here is where you make your directory for the course. 
-This is your own directory 
-Make a directory with your first name and the first letter of your surname, common letters connected with an underscore _
-
-mkdir karin_n
+mkdir 
 
 Remember no spaces! No special characters!
 
@@ -42,17 +36,22 @@ Remember no spaces! No special characters!
 # first make sure you are in the right place 
 pwd
 
-# you should be in /home/genomics/scratch/
+# you should be in /scratchsan/C_computacion/<your_username>
 
-mkdir firstname_x # change this to your name!!
+mkdir intro 
 ```
 
 Does everyone have a directory with the correct name?
 
+```
+ls .
+
+```
 
 Go to that directory
+
 ```bash
-cd karin_n
+cd intro
 
 ```
 
@@ -91,8 +90,9 @@ q
 
 ```
 
-Check out some of the list options
-Make a long list (more information on each file), human readable, time sorted
+Check out some of the list options.
+
+Make a -l long list (more information on each file), -h human readable, -t time sorted
 
 ```bash
 ls -l ./
@@ -116,7 +116,7 @@ ls ./
 
 ```
 
-Change diretory
+Change directory
 
 ```bash
 cd test_dir1
@@ -157,7 +157,7 @@ pwd
 
 ls ./
 # this is the same as the absolute path:
-ls /home/genomics/scratch/yourname_x/test_dir2
+ls /scratchsan/C_computacion/<your_username>/intro/test_dir2
 
 ls ../
 
@@ -175,7 +175,7 @@ pwd
 ```
 
 
-# Viewing files
+## Viewing files
 
 Printing the content to screen with the command cat
 
@@ -188,7 +188,8 @@ cat file5.txt
 ```
 
 Well it is empty, so we need some content.
-nano is a text editor, but there are others vi, vim, emacs, etc
+
+Here I will use nano is one text editor, but there are others like vi, vim, emacs, etc.
 
 Open the file with nano and write something.
 
@@ -200,7 +201,7 @@ nano file5.txt
 cat file5.txt 
 
 ```
-If we do not want the whole file printed to screen
+If we do not want the whole file printed to screen we can use the command less.
 
 ```bash
 less file5.txt
@@ -215,7 +216,7 @@ N previous match
 Quit with q
 
 
-Take a look at the first lines of the file, default is 10 lines but you can decode the number of lines with the flag -n
+To take a look at the first lines of a file, we can use head. The default is 10 lines but you can decode the number of lines with the flag -n
 ```bash
 
 head file5.txt
@@ -223,7 +224,7 @@ head file5.txt
 head -n3 file5.txt
 ```
 
-Take a look at the first lines of the file
+Take a look at the last lines of the file with tail.
 ```bash
 
 tail file
@@ -232,13 +233,13 @@ tail -n3 file
 ```
 
 
-# Moving and copying
+## Moving and copying
 
 Command (cp or mv) source target
 
-Source is the file (or directory) you want to copy or move
+Source is the file (or directory) you want to copy or move.
 
-Target is the file (or directory) you want to copy or move it to
+Target is the file (or directory) you want to copy or move it to.
 
 ```bash
 
@@ -254,19 +255,14 @@ mv test_file2.txt file6.txt
 ```
 Be careful you can overwrite if there is a file with the same name where you are moving the file to.
 
-When moving a directory into another directory it is impportant to type the slash after the target directory, otherwise the target directory will be overwritten.
-
-This examples shows the difference between writing target directory without slash - the target is overwritten test1 has been renamed to test2, while adding a slash moves the source directory to the target directory
+We can also move directories:
 
 ```bash
+#make directories
 mkdir test1 test2
-# move without target trailing slash - rename directory test1 to test2
-mv test1 test2
-ls ./
 
-mkdir test1 test2
-# move with target trailing slash - move directory test1 to test2
-mv test1 test2/
+#move directories
+mv test1/ test2/
 ls ./
 ls test2/
 
@@ -280,6 +276,7 @@ Copy
 cp file6.txt file6_copy.txt
 
 ls ./
+
 ```
 
 Copy the file to a new directory.
@@ -289,10 +286,19 @@ cp file.txt ../
 
 ```
 
+Copy a directory, but using the option -r (recursive).
+
+```bash
+cp -r test2/ ../
+
+```
+
 Be careful, you could overwrite if there already is another file or directory with the same name as the file you want to copy.
 
 
-# Cleaning up
+## Cleaning up
+
+Removing files.
 
 ```bash
 
@@ -300,7 +306,7 @@ rm -i new_name_copy.txt
 
 ls ./
 ```
-The flag -i returns a question before removing, are you sure you want to remove teh file?
+The flag -i returns a question before removing, are you sure you want to remove the file?
 
 rm -i test 
 rm: remove regular file 'test'? y
@@ -318,44 +324,49 @@ rm -i -r test_dir1/
 ls ./
 ```
 
-No undo button so be sure where you are and what you are deleting.
-Good practice is to first list (ls) what you think of removing so you know which directories and files the command will delete.
+To remove an empty directory:
 
+```
+mkdir to_remove
+
+rmdir to_remove
+
+```
+
+There is no undo button so be sure where you are and what you are deleting.
+Good practice is to first list (ls) what you think of removing so you know which directories and files the command will delete.
 
 
 ## Using wild cards and pattern matching
 
 ```bash
-mkdir my_files.txt
-cd my_files.txt
+mkdir my_files
+cd my_files
 touch abc.txt abc.jpg xyz.txt xyz.jpg cat.txt car.txt
 ```
 
 First, list all text files.
+The asterisk * match any character and any number of characters.
+For example, *.txt match anything that ends with .txt.
 
 ```bash
 ls *.txt
 ```
 
-Then we’ll show all files with the name xyz.
+Then we can list all files that starts with the letters xyz.
 
 ```bash
 ls xyz*
 ```
 
-What about if we want to list all files except those with xyz in the name?
-```bash
-ls -Ixyz*
-```
-
-This example requires the -I flag to ls - i.e. ignore. This is one way to that, but you could also use more formal pattern matching which is more flexible and more powerful as it can be used with other commands such as mv.
+What about if we want to list all files except those that starts with x?
+This is one way to that, by using a formal pattern matching which is flexible and powerful as it can be used with other commands such as mv.
 
 ```bash
 ls [^x]*
 ```
 
 Here we are essentially saying ‘show me everything except things that start with x’.
-
 
 We can easily extend this to make it exclude objects that do not start with x or a. Like so:
 
@@ -381,7 +392,15 @@ cp *.txt ../test_dir2
 ls ../test_dir2
 ```
 
+The asterisk matches any number of characters, but you can match a specific number of characters using ?.
 
+```bash
+
+ls ca?.txt
+
+```
+
+Will list car.txt and cat.txt in our example. To match two characters use ls c??.txt
 
 
 
