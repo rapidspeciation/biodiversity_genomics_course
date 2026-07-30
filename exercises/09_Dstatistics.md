@@ -42,7 +42,7 @@ cat melpomene.sets_BBAA.txt | sort -nk 5 | column -t
 cat melpomene.sets_Dmin.txt | sort -nk 5 | column -t
 ```
 
-The file with the `*_BAAA.txt` suffix orders each trio assuming that the correct tree is the one where the BBAA pattern is more common than the discordant ABBA and BABA patterns.
+The file with the `*_BBAA.txt` suffix orders each trio assuming that the correct tree is the one where the BBAA pattern is more common than the discordant ABBA and BABA patterns.
 The file with the `*_Dmin.txt` suffix outputs the minimum D for each trio regardless of any assumptions about the tree topology. You can also provide a phylogeny to Dsuite to guide it to compute D statistics with the populations or species ordered according to the phylogeny. If we had many trios, we could parallelise the analysis using `DtriosParallel` (see the [Dsuite website](https://github.com/millanek/Dsuite) for instructions on how to do this).
 
 If you want to explore ***D* statistics** more, I would recommend using the `admixr` R-package. Here a [tutorial](https://speciationgenomics.github.io/ADMIXTOOLS_admixr/). To infer the direction of gene flow, I recommend [**Dfoil**](https://github.com/jbpease/dfoil). If you have many species that might have hybridised, check out **Fbranch**, which is part of Dsuite and allows the visualisation of Dstatistics across many different species comparisons. It could also be useful to run an **ADMIXTURE** or **STRUCTURE** plot in order to figure out if gene flow is still ongoing. Here a [tutorial](https://speciationgenomics.github.io/ADMIXTURE/). If gene flow is ongoing, ADMIXTURE will show that some individuals are introgressed. However, if gene flow is ancestral, only *D* statistics will show it.
