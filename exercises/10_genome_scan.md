@@ -6,7 +6,7 @@ There are many different ways to detect regions under divergent selection or tha
 - pi, a measure of genetic variation within a population or species
 - Fst, a measure of genomic differentiation between populations or species
 - dxy, a measure of absolute divergence between populations or species
-- fd, a measure of gene flow/introgression from one population/species into another
+- fd/fdM, a measure of gene flow/introgression from one population/species into another
 
 For a tutorial on long-range haplotype statistics to infer selective sweeps, see [here](https://speciationgenomics.github.io/haplotypes/). You may also want to consider more complex methods such as [SweeD](https://academic.oup.com/mbe/article/30/9/2224/999783#74416771) to infer sweeps, or to detect barrier loci: [gIMble](https://europepmc.org/article/ppr/ppr564457), [diem](https://www.biorxiv.org/content/10.1101/2022.03.24.485605v3) or ancestral recombination graph methods [(review)](https://academic.oup.com/genetics/article/221/1/iyac044/6554197).
 
@@ -57,7 +57,7 @@ Note that -w 20000 specifies a window size of 20 kb that is sliding by 20 kb (-s
 
 The way we have encoded the genotypes (e.g. A/T) in our geno.gz file is called "phased" and we specify that with "-f phased" even though our data is actually not phased. Instead of writing all the individual names into the command, we can give only the species names in the code (e.g. -p Hmel.mal.col -p Hmel.agl.per) and with `--popsFile` specify a file that contains a line for each individual with its name and species in a text file.
 
-Next, we calculate fd to test for introgression between H. melpomene amaryllis and H. timareta thelxiopea using H. numata as outgroup. fd is a measure of introgression suitable for small windows.
+Next, we calculate fd and fdM to test for introgression between H. melpomene amaryllis and H. timareta thelxiopea using H. numata as outgroup. fd and fdM are measures of introgression suitable for small windows.
 
 ```shell
 ABBABABAwindows.py \
@@ -112,12 +112,12 @@ genes = read.csv('/Users/fs20/Documents/2025.BioDivGenomics/heliconius_martin201
 # Read in the file with sliding window estimates of FST, pi and dxy
 windowStats<-read.csv("Hmel218003o.popgen.w20s20.csv.gz",header=T)
 
-# Read in the fd estimates of 20 kb windows
+# Read in the fd and fdM estimates of 20 kb windows
 fstats <- read.csv("Hmel218003o.dstats.w20s20.csv.gz",header=T,na.strings = "NaN")
 
-# Let's have a look at the FST and fd datasets
+# Let's have a look at the FST and fdM datasets
 head(windowStats)
-head(fd)
+head(fstats)
 
 # Let's plot FST, dxy and fd between the two younger species
 fst_plot = ggplot(windowStats,aes(mid/1000000, Fst_Hmel.mal.col_Hmel.ama.per))+
@@ -135,7 +135,7 @@ dxy_plot = ggplot(windowStats, aes(mid/1000000, dxy_Hmel.mal.col_Hmel.ama.per*10
   scale_y_continuous(name=expression(d[XY]))
 dxy_plot
 
-fd_plot = ggplot(fstats, aes(mid/1000000, fdM)) +
+fdm_plot = ggplot(fstats, aes(mid/1000000, fdM)) +
   geom_vline(data = genesSub, aes(xintercept=(start+end)/2000000 ), col='red') +
   # geom_point(data = genesSub, aes(x=(start+end)/2000000, y=1), col='red', shape=25) +
   geom_point() +
@@ -143,7 +143,7 @@ fd_plot = ggplot(fstats, aes(mid/1000000, fdM)) +
 
 
 # Let's compare the stats on chr18 next to each other
-plot_grid(fst_plot, dxy_plot, fd_plot, nrow=3, align='hv')
+plot_grid(fst_plot, dxy_plot, fdm_plot, nrow=3, align='hv')
 
 ```
 
