@@ -87,7 +87,7 @@ To plot the results, we will use the files I prepared for the complete chr18 (Hm
 scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/exercises/genome_scans/Hmel218003o.popgen.w20s20.csv .
 scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/exercises/genome_scans/Hmel218003o.dstats.w20s20.csv .
 # Copy file containing the location of genes of interest in the genome 
-scp -r -J fs20sanger_ac@168.176.34.122 fs20sanger_ac@perseus:/scratchsan/C_computacion/fs20sanger_ac/share/colorPatternGenes.csv .
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/share/colorPatternGenes.csv .
 
 # Unzip the file
 gunzip Hmel218003o.popgen.w20s20.csv.gz 
