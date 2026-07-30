@@ -110,8 +110,12 @@ cd ..
 mkdir prank
 cd prank
 
-# select an orthogroup, this variable will be reused
-MY_GENE_FAMILY=OG0000036
+# select one orthogroup, this variable will be reused
+ls ../orthofinder/OrthoFinder/Results_Jul30/Single_Copy_Orthologue_Sequences/
+
+# please use different orthogroups (genefamiles) so that we can compare.
+
+MY_GENE_FAMILY=OG0000004
 
 #copy the orthogroup, ops change the name of the result folder!!
 cp ../orthofinder/OrthoFinder/Results_Jul30/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
@@ -131,12 +135,16 @@ Now we can align our sequences. We will only use one iteration in this exercise,
 
 ```bash
 
+PRANK_PATH=/local64/usr_local/prank-msa/bin/
+#check that it is working
+$PRANK_PATH/prank -h
+
 # run the aligner
-prank -d=${MY_GENE_FAMILY}_mod.fa -o=${MY_GENE_FAMILY}_codon -codon -iterate=1 -F -f='paml'
+$PRANK_PATH/prank -d=${MY_GENE_FAMILY}_mod.fa -o=${MY_GENE_FAMILY}_codon -codon -iterate=1 -F -f='paml'
 
 ```
 
-This will take a while, maybe time for a quick break?
+This might take a while, maybe time for a quick leg stretcher?
 
 ```bash
 # Take a look at the alignment
@@ -150,12 +158,15 @@ The program codeml also needs a guide tree to infer the rate of substitutions (i
 
 
 ```bash
+cd ..
+module load envs/anaconda3
+conda activate iqtree
 
 mkdir iqtree
 cd iqtree
 
 #convert to interleaved phy, iqtree do not like the paml format
-prank -convert -d=../prank/${MY_GENE_FAMILY}_codon.best.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
+$PRANK_PATH/prank -convert -d=../prank/${MY_GENE_FAMILY}_codon.best.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
 
 iqtree -s ${MY_GENE_FAMILY}_codon.phylipi.phy --prefix ${MY_GENE_FAMILY}
 
@@ -167,14 +178,14 @@ Now we have the all the data needed to run codeml, so it is time to edit the con
 
 
 ```bash
-
+cd ..
 mkdir codeml
 cd codeml
 
 ```
 
 
-You will have a template form for the control file (.ctl) in the common repository /home/genomics/scratch/. 
+You have a template form for the control file (.ctl) in the a data repository. 
 This file has to specify: 
 
 input tree
@@ -208,13 +219,11 @@ You also have to specify your models and other parameters of interest. See below
     fix_omega = FIXOME         * Estimate or fix omega
         omega = INITOME        * Initial or fixed omega
 
-
-
 ```bash
 
 # Copy the .ctl template to the codeml directory
 
-cp /home/genomics/scratch/data/comparative_genomics/selection/template.ctl ./
+cp /scratchsan/C_computacion/kn9sanger_ac/data/template.ctl ./
 
 # we will copy the tree file and the alignment file here to for simplicity
 
@@ -272,7 +281,7 @@ sed -i 's/INITOME/0\.5/' codeml-M0.ctl # Initial or fixed omega
 Now we are ready to run codeml!
 
 ```bash
-codeml codeml-M0.ctl > codeml-M0.log
+/local64/usr_local/paml/bin/codeml codeml-M0.ctl > codeml-M0.log
 
 ```
 This redirects (>) the information from the standard out (screen) to a log file.
@@ -281,18 +290,19 @@ This may take a few minutes.
 
 Take a look at the output file.
 
-It shows the alignment before and after removing ambiguous sites, and the site pattern count. Other useful pieces of information are the length of the alignment, nucleotide composition, codon usage. Check the codon usage table, if you have a very biased codon usage (only 20), you might have used the wrong type of aligner. Some programs do protein alignment and then use a codon table to back-translate instead of using the actual nucleotide alignment.
+It shows the alignment before and after removing ambiguous sites, and the site pattern count. Other useful pieces of information are the length of the alignment, nucleotide composition, codon usage. Check the codon usage table, if you have a very biased codon usage (only 20 codon used), you might have used the wrong type of aligner. Some programs do protein alignment and then use a codon table to back-translate instead of using the actual nucleotide alignment.
 
 Pairwise comparison can be used check if the divergence in the tree is appropriate for using dN/dS as test of selection. With high divergence there will be risk of substitution saturation, if too closely related they will not have accumulated enough substitutions to be informative. This can also be inspected the treelength, branch length dN and dS for the tree. 
 
 Omega (w) is what we are interested in here.
+
 What does the average evolutionary rate in this gene suggest?
 
 
 
 ## Part 2 test for positive selection using branch-site model A
 
-The Model-M0 is quite unrealistic, is is rather unlikely that all branches and all sites would have the same evolutionary rate. A more realistic model is a model that allow the w to vary among branches and account for different selection pressures on codons in the gene. Branch-site model A is a test of positive selection in a proportion of sites in the foreground branch relative to the background branches. An increased rate could for example suggest local adaption to novel environment in our species of interest compare to its relatives. 
+The Model-M0 is quite unrealistic, is is rather unlikely that all branches and all sites would have the same evolutionary rate. A more realistic model is a model that allow the *w* to vary among branches and account for different selection pressures on codons in the gene. Branch-site model A is a test of positive selection in a proportion of sites in the foreground branch relative to the background branches. An increased rate could for example suggest local adaption to novel environment in our species of interest compare to its relatives. 
 
 The test is indicative of positive selection if of a proportion of codons at which w > 1, and if the likelihood of this model is higher than the null model. The null model uses the same parameters except we fix omega to w = 1 instead of allowing for w > 1. The Likelihood Ratio Test (LRT) statistic is used against a chi-square distribution with 1 degrees of freedom for significance testing. The LRT is constructed to compare nested models, so a null model that does not allow for any codons with w > 1, against a more general model that does.
 
