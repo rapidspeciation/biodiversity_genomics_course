@@ -25,7 +25,7 @@ For part two we will use the branch-site model A to test for signs of selection 
 
 ## Part one - model M0
 
-We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. We do not have gene annotation for all the species yet, so we first need to find orthologous genes to be able to infer the evolutionary rates. One tool to detect and locate single copy genes is [BUSCO](https://busco.ezlab.org/busco_userguide.html) (Benchmarking Universal Single-Copy Orthologs). BUSCO uses lineage specific databases containing genes present in > 90 % of the taxa and occur as single copy in >90% of the taxa in each lineage. It is commonly used to assess the completeness of genome assemblies, and we can use our genomes as input to retrive single copy orthologs. Since these are conserved genes our hypothesis is that they will be under strong purifying selection in general.
+We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. The step is also useful to inspect the brach lengths and if codeml is a suitable tool for the dataset. Since most non-synonymous mutations are deleterious our hypothesis is that most genes will be under strong purifying selection.
 
 
 Start by organising the directory
@@ -43,22 +43,11 @@ The input for codeml is a phylogenetic tree, multiple sequence alignments, and a
 ### Alignment
 
 #### Step 1: get the single copy orthologs in our genomes
-Here we will use single copy orthologs detected with BUSCO in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
+Here we will use a subset of genes from our genomes. We will infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
-Input for orthofinder are multi-fasta files, one for each taxa that we will concatenate from the single copy sequences from the busco output.
-This is the code I used run BUSCO on all species at once. Now we want nucleotide sequences so I need to add the flag --metaeuk (using a different database), and will also take much longer time.
+Input for orthofinder are multi-fasta files, one for each taxa.
 
-```bash
-##Do not run during the course! It takes too long time...
-busco -i ../renamed_fasta \
-    -l lepidoptera_odb12 \
-    -m geno \
-    --metaeuk \
-    -o busco_output \
-    -c 12
-
-```
-To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup.
+To save us some time and computer power we already have subset of genes from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup.
 
 
 #### Step 2: run OrthoFinder to get orthologs genes
