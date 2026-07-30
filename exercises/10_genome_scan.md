@@ -107,6 +107,8 @@ setwd('/Users/fs20/Documents/2025.BioDivGenomics/exercises/genomic_scans/')
 
 # Read file with information about genes of interest
 genes = read.csv('/Users/fs20/Documents/2025.BioDivGenomics/heliconius_martin2019/08_genomeScans/colorPatternGenes.csv')
+genesSub = subset(genes, scaffold == 'Hmel218003o')
+
 
 # Prepare input files:
 # Read in the file with sliding window estimates of FST, pi and dxy
