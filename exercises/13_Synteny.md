@@ -214,12 +214,15 @@ For more divergent taxa whole genome alignment can be difficult due to low seque
 ### 4 - BUSCO
 
 ```
-#go back to the comparative genomics folder
+#go back to the synteny folder
 pwd  #you can always check with pwd where you are
 mkdir synteny_sco
 
 mkdir busco
 cd busco
+
+module load envs/anaconda3
+conda activate busco
 
 #check that busco is installed and works
 busco --help
@@ -246,22 +249,25 @@ busco -i $INPUT_DIR \          #the input file or directory with the input files
 Run it on one of our genomes:
 If we do not specify an output directory BUSCO will create an output directory in the directory where you are running the command.
 ```
-busco -i ../../synteny/renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa -l lepidoptera_odb12 -m geno
+busco -i ../../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa \
+ -l /scratchsan/C_computacion/kn9sanger_ac/data/busco_downloads/lineages/lepidoptera_odb12 \
+ -m geno
+
 ```
 
 BUSCO takes some time and is memory consuming so you can start one genome to see that it works but if it takes to long we have prepared output files that you can copy to your output directory.
 
 Take a look at the output.
-Check the file short_summary.txt.
+Check the file short_summary.txt if you run one genome or batch_summary.txt if you run multiple genomes.
 ```
-less /home/genomics/scratch/data/comparative_genomics/synteny/busco_out_summary/short_summary.txt
+less /scratchsan/C_computacion/kn9sanger_ac/test/synteny/synteny_sco/busco/BUSCO_renamed_genomes/batch_summary.txt
 ```
-Is the quality of the assembly good enough to use for synteny analysis?
+How is the quality of the assemblies?
 
 One result of interest for our purposes are the full_table.tsv with the genomic position of the best hits of the genes in the database.
 
 ```
-head /home/genomics/scratch/data/comparative_genomics/synteny/busco_out_summary/full_table.tsv
+head /scratchsan/C_computacion/kn9sanger_ac/test/synteny/synteny_sco/busco/BUSCO_renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa/run_lepidoptera_odb12/full_table.tsv
 ```
 BUSCO produces amino acid sequences (if you want nucleotide sequences youhave to specify --metaeuk) of potential single copy genes. We will use those single_copy_busco_sequences in the next step.
 
@@ -276,8 +282,6 @@ pwd
 mkdir orthofinder
 cd orthofinder
 
-#check that orthofinder works
-orthofinder -h
 ```
 
 Do not run the next section, we already have the files prepared in the `/home/genomics/scratch/data/comparative_genomics/synteny`folder. But I am adding the commands here that we used to create these files, so you can see how it was done.
@@ -285,26 +289,40 @@ Do not run the next section, we already have the files prepared in the `/home/ge
 ```shell
 #(do not run this section)
 #make a list of the species that we ran busco for
-ls ../busco/ |grep "fa" > list_taxa.txt
+ls ../busco/BUSCO_renamed_genomes/ | grep "fa" > list_taxa.txt
 #did we get the right files
 less list_taxa.txt
 #run a for-loop to concatenate the single copy fasta files for each species
 for file in $(cat list_taxa.txt)
 do
-cat ../busco/${file}/run_lepidoptera_odb12/busco_sequences/single_copy_busco_sequences/*.faa > ${file%.*}.sco.faa
+cat ../busco/BUSCO_renamed_genomes/${file}/run_lepidoptera_odb12/busco_sequences/single_copy_busco_sequences/*.faa > ${file%.*}.fa
 wait
 done
 #check that we have the files
 ls
+# rename the files to simplify
+mv GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa ilMecMaza1.fa
+mv GCA_959347415.1_ilMecMess1.1_genomic_renamed.fa ilMecMess1.fa
+
 ```
 
 This is what we will do in this tutorial:
 ```
-#we will copy the sequences from the Share folder
-cp /home/genomics/scratch/data/comparative_genomics/synteny_sco/busco_output/*faa ./
+#we will copy the sequences from this folder
+cp /scratchsan/C_computacion/kn9sanger_ac/test/synteny/synteny_sco/orthofinder/*fa ./
 
 #what do they look like
 less ilMecMaza1.fa
+
+```
+
+Now lets run OrthoFinder!
+
+```bash
+
+conda activate orthofinder
+#check that orthofinder works
+orthofinder -h
 
 #run orthofinder
 orthofinder -f ./ -t 2
@@ -316,19 +334,20 @@ Explore the output, there is a lot of information here. Take a look at the compa
 
 Note: exchange the path to your actual result folder.
 ```
+conda deactivate
 ls OrthoFinder/
 
 # change the path to your actual result folder!
-less OrthoFinder/Results_Nov28/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv
+less OrthoFinder/Results_Jul30/Comparative_Genomics_Statistics/Statistics_PerSpecies.tsv
 ```
 
 What we are interested in now are the single copy orthologues and their position in each genome.
 
-This file conatins the name of orthogroups with single copy orthologues. We can count how many they are.
+This file contains the name of orthogroups with single copy orthologues. We can count how many they are.
 
 ```
 #count the number of seq
-wc -l OrthoFinder/Results_Nov28/Orthogroups/Orthogroups_SingleCopyOrthologues.txt
+wc -l OrthoFinder/Results_Jul30/Orthogroups/Orthogroups_SingleCopyOrthologues.txt
 ```
 Are these markers enough to detect the rearrangements we are interested in?
 You can do a rough estimate of marker density per MB by dividing the number of markers with the genome size.
@@ -341,21 +360,22 @@ This time we will use a circular graph to show the chromosomes and the links bet
 Here we will use the output from OrthoFinder, we get the position from /Orthogroups.tsv by selecting only those that are present as single copy in the file Orthogroups_SingleCopyOrthologues.txt. We can use grep with a file of patterns with the -f option.
 
 ```
-grep -f OrthoFinder/Results_Nov28/Orthogroups/Orthogroups_SingleCopyOrthologues.txt OrthoFinder/Results_Nov28/Orthogroups/Orthogroups.tsv > single_copy_orthogroups.tsv
+grep -f OrthoFinder/Results_Jul30/Orthogroups/Orthogroups_SingleCopyOrthologues.txt OrthoFinder/Results_Jul30/Orthogroups/Orthogroups.tsv > single_copy_orthogroups.tsv
 ```
 Most synteny visualisations requires a chromosome size file and we do not get this information in the single_copy_markers.tsv, so we have to create one. Here we will create a file with chromosome name and length from samtools [faidx]( http://www.htslib.org/doc/samtools-faidx.html).
 ```shell
-#go to the folder with the renamed genomes
-cd ../../synteny/renamed_genomes
+
 #check that samtools works
+conda activate samtools
 samtools
+
 #run samtools faidx to creat and index file
-samtools faidx GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa
+samtools faidx ../../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa
 ```
 This command will output a tab-separated index file genome.fa.fai, with the name and length of each sequence (chromosome) in the fasta file. In addition, information about the offset of the postion in the file along with line length in bases and bytes are also given (column 3-5). Here we only care about the first and second column.
 
 ```shell
-head GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa.fai
+head ../../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa.fai
 ```
 Do the same for *M. messenoides.*
 
@@ -363,14 +383,16 @@ Now we have prepared the input files so we are ready to visualise our genomes. W
 
 #create a new folder
 ```shell
-#go back to synteny_sco
-cd ../synteny_sco
+#we should be in synteny_sco
+pwd
+
 mkdir circlize
 cd circlize
+
 #copy the script
-cp /home/genomics/scratch/scripts/cirklize_orthofinderR.Rmd ./
+cp /scratchsan/C_computacion/kn9sanger_ac/scripts/cirklize_orthofinderR.Rmd ./
 #copy the chromosome length files
-cp ../../synteny/renamed_genomes/*.fai ./
+cp ../../renamed_genomes/*.fai ./
 #copy the link file
 cp ../orthofinder/single_copy_orthogroups.tsv ./
 #check that we have our files
@@ -387,7 +409,7 @@ We will copy the `circlize` directory to our local computer.
 ```
 # make sure you are in your workshop dir on your local computer
 # copy the folder from the cluster to your computer, 
-scp -r genomics@toko.uncu.edu.ar:/home/genomics/scratch/users/karin_n/synteny_busco/circlize/ ./
+scp -r -J your_username@168.176.34.122 your_username@perseus:/scratchsan/C_computacion/your_username/synteny/synteny_sco/circlize/ ./
 ```
 Open the script in Rstudio.
 

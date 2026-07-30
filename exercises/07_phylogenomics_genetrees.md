@@ -160,6 +160,7 @@ With the alignments obtained for the loci, perform a phylogenetic inference anal
 Once you have the script saved in your working directory, run it in the terminal with the command:
 
 ```bash
+export iqtree3=$iqtree3
 bash run_iqtree.sh
 ```
 
