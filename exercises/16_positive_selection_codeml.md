@@ -84,6 +84,8 @@ Run Orthofinder in the directory where you have the input files. Orthofinder wil
 
 ```bash
 #run orthofinder, this time in we are using nucleotides so we must include option -d
+module load envs/anaconda3
+conda activate orthofinder
 
 orthofinder -f ./ -d
 
