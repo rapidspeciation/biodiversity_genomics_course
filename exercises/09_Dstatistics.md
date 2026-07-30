@@ -53,6 +53,9 @@ Fbranch
 # load module
 module load apps/Dsuite/main
 
+# We need to give the program a defined species tree. This has already been created and you can copy it to your own folder.
+cp /scratchsan/C_computacion/fs20sanger_ac/share/mel_tree.nwk ./
+
 # Calulate D statistics and f4 ratios again, but assuming a tree
 Dsuite Dtrios --tree mel_tree.nwk $VCF melpomene.sets.txt
 
