@@ -46,3 +46,19 @@ The file with the `*_BAAA.txt` suffix orders each trio assuming that the correct
 The file with the `*_Dmin.txt` suffix outputs the minimum D for each trio regardless of any assumptions about the tree topology. You can also provide a phylogeny to Dsuite to guide it to compute D statistics with the populations or species ordered according to the phylogeny. If we had many trios, we could parallelise the analysis using `DtriosParallel` (see the [Dsuite website](https://github.com/millanek/Dsuite) for instructions on how to do this).
 
 If you want to explore ***D* statistics** more, I would recommend using the `admixr` R-package. Here a [tutorial](https://speciationgenomics.github.io/ADMIXTOOLS_admixr/). To infer the direction of gene flow, I recommend [**Dfoil**](https://github.com/jbpease/dfoil). If you have many species that might have hybridised, check out **Fbranch**, which is part of Dsuite and allows the visualisation of Dstatistics across many different species comparisons. It could also be useful to run an **ADMIXTURE** or **STRUCTURE** plot in order to figure out if gene flow is still ongoing. Here a [tutorial](https://speciationgenomics.github.io/ADMIXTURE/). If gene flow is ongoing, ADMIXTURE will show that some individuals are introgressed. However, if gene flow is ancestral, only *D* statistics will show it.
+
+Fbranch 
+
+```shell
+# load module
+module load apps/Dsuite/main
+
+# Calulate D statistics and f4 ratios again, but assuming a tree
+Dsuite Dtrios --tree mel_tree.nwk $VCF melpomene.sets.txt
+
+# Calulate F-branch using the calculated f4-rations and assuming the specified tree
+Dsuite Fbranch mel_tree.nwk melpomene.sets_tree.txt > melpomene.fbranch.txt
+
+# Plot fbranch (fb)
+/local64/usr_local/Dsuite/utils/dtools.py melpomene.fbranch.txt mel_tree.nwk
+```
