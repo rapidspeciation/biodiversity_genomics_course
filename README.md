@@ -35,3 +35,11 @@ Day 3 (Wednesday):
 - [Exercise](exercises/06_PopStructure_saraSapho.md) on PCA
 - [Slides](slide_presentations/12_Phylogenomics_Gustavo.pdf) about fundamentals of phylogenomics
 - [Excercise](exercises/07_phylogenomics_genetrees.md) about phylogenomics
+
+Day 4 (Thursday):
+- [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on inferring hybridisation
+- [Exercise](exercises/09_Dstatistics.md) on computing D statistics with Dsuite
+- [Slides](slide_presentations/10_GenomeScans.pdf) on genome scans
+- [Exercise](exercises/10_genome_scan.md) on genome scans
+
+
