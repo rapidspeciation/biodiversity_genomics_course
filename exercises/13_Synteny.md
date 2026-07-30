@@ -364,20 +364,18 @@ grep -f OrthoFinder/Results_Jul30/Orthogroups/Orthogroups_SingleCopyOrthologues.
 ```
 Most synteny visualisations requires a chromosome size file and we do not get this information in the single_copy_markers.tsv, so we have to create one. Here we will create a file with chromosome name and length from samtools [faidx]( http://www.htslib.org/doc/samtools-faidx.html).
 ```shell
-#go to the folder with the renamed genomes
-cd ../../renamed_genomes
 
 #check that samtools works
 conda activate samtools
 samtools
 
 #run samtools faidx to creat and index file
-samtools faidx GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa
+samtools faidx ../../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa
 ```
 This command will output a tab-separated index file genome.fa.fai, with the name and length of each sequence (chromosome) in the fasta file. In addition, information about the offset of the postion in the file along with line length in bases and bytes are also given (column 3-5). Here we only care about the first and second column.
 
 ```shell
-head GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa.fai
+head ../../renamed_genomes/GCA_959347395.1_ilMecMaza1.1_genomic_renamed.fa.fai
 ```
 Do the same for *M. messenoides.*
 
@@ -385,14 +383,16 @@ Now we have prepared the input files so we are ready to visualise our genomes. W
 
 #create a new folder
 ```shell
-#go back to synteny_sco
-cd ../synteny_sco
+#we should be in synteny_sco
+pwd
+
 mkdir circlize
 cd circlize
+
 #copy the script
 cp /scratchsan/C_computacion/kn9sanger_ac/scripts/cirklize_orthofinderR.Rmd ./
 #copy the chromosome length files
-cp ../../synteny/renamed_genomes/*.fai ./
+cp ../../renamed_genomes/*.fai ./
 #copy the link file
 cp ../orthofinder/single_copy_orthogroups.tsv ./
 #check that we have our files
