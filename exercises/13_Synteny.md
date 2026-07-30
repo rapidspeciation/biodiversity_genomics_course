@@ -164,13 +164,7 @@ mkdir intermediate plots
 
 ```
 
-To plot the synteny we need to activate the R environment.
-
-```shell
-conda activate R
-```
-
-Then we can run an R-script (collection of R commands) on the command line.
+We can run an R-script (collection of R commands) on the command line.
 
 The R-script Syntenyplotter_paf_wrapper.R reformats the output from minimap2 to fit the input of SyntenyplotteR, prints the two intermediate files in the folder `intermediate`, then plots and saves the figure in the `plots` directory. You can run this script on the command line.
 
@@ -181,19 +175,8 @@ It requies three arguments:
 
 The order of the arguments is important in this case.
 
-```shell
-Rscript /scratchsan/C_computacion/kn9sanger_ac/scripts/Syntenyplotter_paf_wrapper.R ../minimap/output/MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
-```
-
-Your alignment plot should now be in your `plots` directory. 
-
-Describe what you see. 
-
-Can you answer some of the questions we asked in the beginning?
-
-
-Alternative if it is not working on the server:
 Copy the Syntenyplotter_paf_wrapper.R to your `syntenyplotter` directory.
+
 ```shell
 #copy the script from the my scripts folder
 cp  /scratchsan/C_computacion/kn9sanger_ac/scripts/Syntenyplotter_paf_wrapper.R ./
@@ -214,6 +197,11 @@ ls
 #run the script on your local computer
 Rscript Syntenyplotter_paf_wrapper.R MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
+Your alignment plot should now be in your `plots` directory. 
+
+Describe what you see. 
+
+Can you answer some of the questions we asked in the beginning?
 
 **Extra**: Sometimes you need to refine to plot to increase the visibilty of the rearrangements to facilitate interpretation. For example, I want the Z-chromosome to be displayed last in both taxa. Try and change the order of the chromosomes in the plot.
 
