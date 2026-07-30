@@ -281,7 +281,9 @@ sed -i 's/INITOME/0\.5/' codeml-M0.ctl # Initial or fixed omega
 Now we are ready to run codeml!
 
 ```bash
-/local64/usr_local/paml/bin/codeml codeml-M0.ctl > codeml-M0.log
+CODEML_PATH=/local64/usr_local/paml/bin
+
+$CODEML_PATH/codeml codeml-M0.ctl > codeml-M0.log
 
 ```
 This redirects (>) the information from the standard out (screen) to a log file.
@@ -327,7 +329,7 @@ cd selection_part_2
 Copy alignment and tree file, we will use these for both models
 
 ```bash
-cp /home/genomics/scratch/data/comparative_genomics/selection/input_model_A/vertebrate* ./
+cp /scratchsan/C_computacion/kn9sanger_ac/data/mx_* ./
 
 ```
 
@@ -335,7 +337,7 @@ In the tree file we need to add a label to the branch or branches we want as for
 
 ```bash
 
-sed 's/Chicken_Mx/Chicken_Mx \#1/' vertebrate.tree > vertebrate_Chicken_Mx.tree
+sed 's/Chicken_Mx/Chicken_Mx \#1/' mx_unroot.tree > mx_unroot_Chicken.tree
 
 ```
 
@@ -347,7 +349,7 @@ mkdir model_A_est
 cd model_A_est
 
 #copy and rename the template file
-cp ../../selection/codeml/template.ctl model_A_est.ctl
+cp ../../selection_part_1/codeml/template.ctl model_A_est.ctl
 
 # change input and output paths and filenames
 
@@ -384,7 +386,7 @@ sed -i 's/INITOME/.4/' model_A_est.ctl # Initial or fixed omega, start value for
 Time to run the model
 
 ```bash
-codeml model_A_est.ctl > model_A_est.log
+$CODEML_PATH/codeml model_A_est.ctl > model_A_est.log
 
 ```
 
@@ -400,6 +402,7 @@ grep -A5 "MLE" model_A_est_chicken.out
 ```
 
 Here we an see the the proportion of sites in the different classes and the estimated omega values for each of the classes.
+
 We can also see the lnL log-likelihood for the model.
 
 
@@ -417,7 +420,7 @@ cd  model_A_fixed
 # copy the control file and change the name of the file, we will change the output and omega settings
 cp ../model_A_est/model_A_est.ctl model_A_fixed.ctl
 
-# change the name of the output file NAME is your orthogroup (NAME_modA_fixed.out)
+# change the name of the output file (model_A_fix_chicken.out)
 # Fix(Omega) = 1 (fixed omega)
 # Omega = 1 (initial value, fixed to 1)
 
@@ -427,16 +430,15 @@ Run the null model
 
 ```bash
 
-codeml model_A_fixed.ctl > model_A_fixed.log
+$CODEML_PATH/codeml model_A_fixed.ctl > model_A_fixed.log
 ```
 This can take a while again.
 
 ```bash
-less model_A_est_chicken.out
+less model_A_fix_chicken.out
 
-grep -A5 "MLE" model_A_est_chicken.out
+grep -A5 "MLE" model_A_fix_chicken.out
 ```
-
 
 
 
@@ -453,7 +455,7 @@ Calculate LRT = 2x(lnL_est-lnL_fix)
 
 ```bash
 # check out chi2
-chi2 
+$CODEML_PATH/chi2 
 
 ```
 
@@ -495,10 +497,6 @@ If the LRT suggests presence of codons under positive selection in the foregroun
 In each line, the first column shows the site position followed by the amino acid at this site in the first sequence (this is for identification of the site in the sequence). The third column (Pr (w > 1)) shows the posterior probability for the site to be from the positive-selection class (i.e., with ω > 1).
 
 Are there sites in this gene under positive selection? Which gene is it?
-
-
-
-
 
 
 For more reading:
