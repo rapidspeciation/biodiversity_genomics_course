@@ -64,22 +64,23 @@ To save us some time and computer power we already have set of multi-fasta singl
 #### Step 2: run OrthoFinder to get orthologs genes
 
 ```bash
-#set up a new working directory from your working directory
+#set up a new working directory from your selection_part_1 directory
 pwd # check that you are in the right place 
 
 mkdir orthofinder
 cd orthofinder
 
 # copy all the fasta files 
-cp ../orthofinder/OrthoFinder/Results_Nov28/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
+cp /scratchsan/C_computacion/kn9sanger_ac/data/gene_trees_input_orthofinder/* ./
 
 ls
 #take a look at one of the files
-less ilMecMaza1.sco.fa
+less ilMecMaza1.1.primary.fa
 
 # How many sequences is there in the file?
 
 ```
+Run Orthofinder in the directory where you have the input files. Orthofinder will create an output directory in the folder.
 
 ```bash
 #run orthofinder, this time in we are using nucleotides so we must include option -d
@@ -90,7 +91,7 @@ orthofinder -f ./ -d
 
 This takes a couple of minutes.
 
-As earlier OrthoFinder will produce a large directory with many interesting files. Are there any species that have less genes assigned to orthogroups? Why do you think this is? How many shared single copy genes do we have? 
+OrthoFinder will produce a large directory with many interesting files. Are there any species that have less genes assigned to orthogroups? Why do you think this is? How many shared single copy genes do we have? 
 
 
 
