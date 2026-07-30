@@ -449,6 +449,7 @@ The LRT statistic is calculated 2x(lnL_est-lnL_fix). If lnL_est=-1130 and lnL_fi
 
 ```bash
 # get the likelihood for both model_A:s
+cd ..
 grep "lnL" model_A*/*out
 ```
 Calculate LRT = 2x(lnL_est-lnL_fix)
