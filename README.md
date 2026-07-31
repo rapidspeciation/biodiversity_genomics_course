@@ -43,7 +43,7 @@ Day 4 (Thursday):
 - [Exercise](exercises/10_genome_scan.md) on genome scans
 
 Day 5 (Friday):
-- [Slides](slide_presentations/) on detecting selection at long time-scales
+- [Slides](slide_presentations/15_Selection_v3.pdf) on detecting selection at long time-scales
 - [Exercise](exercises/16_positive_selection_codeml.md) on detecting selection at long time-scales
 - [Slides](slide_presentations/) on comparative genomics
 - [Exercise](exercises/13_Synteny.md) on genome synteny
