@@ -74,7 +74,7 @@ ls /scratchsan/C_computacion/kn9sanger_ac/data/Single_Copy_Orthologue_Sequences/
 
 # please use different orthogroups (genefamiles) so that we can compare.
 
-MY_GENE_FAMILY=OG0000336
+MY_GENE_FAMILY=OG0000004
 
 #copy the orthogroup
 cp /scratchsan/C_computacion/kn9sanger_ac/data/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
@@ -83,7 +83,7 @@ cp /scratchsan/C_computacion/kn9sanger_ac/data/Single_Copy_Orthologue_Sequences/
 grep ">" ${MY_GENE_FAMILY}.fa
 
 #check total length of all sequences (to divide by 7)
-wc -c ${MY_GENE_FAMILY}.fa
+grep -v ">" ${MY_GENE_FAMILY}.fa |wc -c
 
 #change name of the sequences, remove everything after species name
 cut -f1 -d"_" ${MY_GENE_FAMILY}.fa > ${MY_GENE_FAMILY}_mod.fa
