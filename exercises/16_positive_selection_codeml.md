@@ -33,7 +33,6 @@ Start by organising the directory
 mkdir selection_part_1
 cd selection_part_1
 
-
 ```
 
 ### Input
@@ -46,45 +45,19 @@ Here we will use a subset of genes from our genome annotation. We will infer ort
 
 Input for orthofinder are multi-fasta files, one for each taxa.
 
-We have a random subset of genes, to save computer power, from six Ithomiini butterflies from six genera (Melinaea, Mechanitis, Godyris, Napeogenes, Tithorea and Methona) and we are using the monarch (Danaus plexippus) as outgroup.
+We have ran Orthofinder for the annotations from six Ithomiini butterflies from six genera (Melinaea, Mechanitis, Godyris, Napeogenes, Tithorea and Methona) and we are using the monarch (Danaus plexippus) as outgroup.
 
-
-#### Step 2: run OrthoFinder to get orthologs genes
-
-```bash
-#set up a new working directory from your selection_part_1 directory
-pwd # check that you are in the right place 
-
-mkdir orthofinder
-cd orthofinder
-
-# copy all the fasta files 
-cp /scratchsan/C_computacion/kn9sanger_ac/data/gene_trees_input_orthofinder/* ./
-
-ls
-#take a look at one of the files
-less ilMecMaza1_1.cds.fna
-
-# How many sequences is there in the file?
-
-```
-Run Orthofinder in the directory where you have the input files. Orthofinder will create an output directory in the folder.
+The command to run Orthofinder is simple, in the directory where you have the input files. Orthofinder will create an output directory in the folder.
 
 ```bash
-#run orthofinder, this time in we are using nucleotides so we must include option -d
-module load envs/anaconda3
-conda activate orthofinder
+#do not run orthofinder, it would take to long
+#this time in we are using nucleotides so we must include option -d
 
 orthofinder -f ./ -d
 
 ```
 
-This takes a couple of minutes.
-
-OrthoFinder will produce a large directory with many interesting files. Are there any species that have less genes assigned to orthogroups? Why do you think this is? How many shared single copy genes do we have? 
-
-
-#### Step 3: Align the sequences
+#### Step 2: Align the sequences
 
 We will use a multi sequence aligner that specifically accounts for codons, [PRANK](https://github.com/ariloytynoja/prank-msa/tree/master), which have a lot of other useful applications. PRANK uses evolutionary information for the placement of gaps and modelling of the substitution process. It infers a guide tree from genetic distances estimated from pairwise alignments using the neighbour-joining (NJ) algorithm and then iterates the alignment using an improved guide tree estimated from the first multiple alignment. 
 
@@ -92,17 +65,18 @@ We will use a multi sequence aligner that specifically accounts for codons, [PRA
 Prepare input sequences
 
 ```bash
-# go back to the selection_part_1 folder
-cd ..
+# in the selection_part_1 folder
+
 mkdir prank
 cd prank
 
 # select one orthogroup, this variable will be reused
-ls ../orthofinder/OrthoFinder/Results_Jul30/Single_Copy_Orthologue_Sequences/
+# feel free to choose which one you want, but preferably not a large one (take longer)
+ls /scratchsan/C_computacion/kn9sanger_ac/data/Single_Copy_Orthologue_Sequences/
 
 # please use different orthogroups (genefamiles) so that we can compare.
 
-MY_GENE_FAMILY=OG0000004
+MY_GENE_FAMILY=OG0000336
 
 #copy the orthogroup, ops change the name of the result folder!!
 cp ../orthofinder/OrthoFinder/Results_Jul30/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
