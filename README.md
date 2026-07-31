@@ -85,7 +85,7 @@ Pipelines including on Genome assembly, Genome curation with Pretext, Quality as
 But also pipelines for read mapping, Variant calling, 
 
 ### Wetlab protocols used at the Wellcome Sanger Institute
-[Publication](https://www.biorxiv.org/content/10.1101/2025.04.11.648334v1.abstract) describing the methods and detailed protocols for lots of lab steps and different taxonomic groups: [protocols.io](https://www.protocols.io/workspaces/wellcome-sanger-institute13/publications)
+[Publication](https://www.biorxiv.org/content/10.1101/2025.04.11.648334v1.abstract) describing the methods and detailed protocols for lots of lab steps and different taxonomic groups on [protocols.io](https://www.protocols.io/workspaces/wellcome-sanger-institute13/publications).
 
 
 ##
