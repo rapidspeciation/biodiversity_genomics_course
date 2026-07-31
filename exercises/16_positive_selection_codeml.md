@@ -453,14 +453,14 @@ DF 0.9950 0.9750 0.9000 0.5000 0.1000 0.0500 0.0100 0.0010
 The critical value for one-degree of freedom and significance level α=0.05 is 3.8415, so if you LRT statistic is larger than that we can reject our null model.
 
 ```bash
-chi2 --help
+$CODEML_PATH/chi2 --help
 # d.f. & Chi^2 value (Ctrl-c to break)?
 # Type in d.f. (degree of freedom), in our case 1, and the LRT-statistics. Here is an example where the value is 4
 1 4
 # output
 # df =  1  prob = 0.045500265 = 4.550e-02
 # to run directly
-chi2 1 4
+$CODEML_PATH/chi2 1 4
 
 #df =  1  prob = 0.045500265 = 4.550e-02
 
