@@ -19,7 +19,7 @@ NCBI is an institution that provides access to biological databases, including t
 
 ### **Steps:**
 
-1. **Create an environment with SRA Toolkit** (including pigz and parallel) and activate it:
+1.1. **Create an environment with SRA Toolkit** (including pigz and parallel) and activate it:
 
    ```bash
    conda create -n sra-tools -c bioconda sra-tools pigz parallel
@@ -27,7 +27,7 @@ NCBI is an institution that provides access to biological databases, including t
    conda activate sra-tools
    ```
 
-2. **Download the FASTQ files**
+1.2. **Download the FASTQ files**
 
 - List of selected accessions:
      
@@ -83,6 +83,7 @@ conda create -n phylogenetic -c conda-forge -c bioconda captus bbmap=39.52 salmo
 conda activate phylogenetic
 ```
 
+---
 
 ## **2. Quality control, assembly, extraction, and gene alignment with Captus**
 
