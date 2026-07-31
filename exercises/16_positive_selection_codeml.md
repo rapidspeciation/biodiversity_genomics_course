@@ -114,6 +114,8 @@ less ${MY_GENE_FAMILY}_codon.best.fas
 
 Trimming the alignment with trimAL, which is a very handy tool for handling, filtering, and quality control of sequence alignments. We can remove gaps or remove species if we want to subset the dataset. It can also be used for format conversion.
 
+```bash
+
 # make a new directory for the trimming with trimal
 cd ../
 mkdir trimal
@@ -124,6 +126,9 @@ cd trimal
 
 #check removal
 grep -A2 "Residues" ${MY_GENE_FAMILY}_codon.trimmed.html
+```
+
+If the trimming have removed a large fraction of the gene, it might not be so informative and the alignment or trimming settings should be revised.
 
 
 ### Phylogenetic tree
