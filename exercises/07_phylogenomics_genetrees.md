@@ -54,7 +54,7 @@ SRR24706331 Ficus_antandronarum
     Column 2: Desired name for the downloaded files.
 
 
-   - Download the sequences using this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/download_fastq.sh). Download the script file and save it in your working folder.
+   - Download the sequences using this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/download_fastq.sh). Download the script file and save it in your working directory.
 
 Once you have downloaded the script, run it with the following command:
 
@@ -150,7 +150,7 @@ For each of the aligned loci, we will use **IQ-TREE** to infer gene phylogenetic
 
 ### **3.1 Obtaining gene trees**
 
-With the alignments obtained for the loci, perform a phylogenetic inference analysis using the Maximum Likelihood approach implemented in `iqtree3`. Since this analysis involves repeatedly performing the same process on the `.fna` files (alignments), you can automate the process using a `loop` implemented in the script `run_iqtree.sh`:
+With the alignments obtained for the loci, perform a phylogenetic inference analysis using the Maximum Likelihood approach implemented in `iqtree3`. Since this analysis involves repeatedly performing the same process on the fasta (`.fna`) files (alignments), you can automate the process using a `loop` implemented in the script `run_iqtree.sh` available [here](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/run_iqtree.sh):
 
 Once you have the script saved in your working directory, run it in the terminal with the command:
 
@@ -193,8 +193,8 @@ cat 05_trees/*.treefile > 06_species_tree/gene_trees.tre
 
 Before running the analysis, make sure the following files are present in your **working directory**:
 
-* `run_astral-pro3.sh`
-* `get_tree_tips.py`
+* `run_astral-pro3.sh`. Available [here](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/run_astral-pro3.sh)
+* `get_tree_tips.py`. Available [here](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/get_tree_tips.py)
 
 Once both scripts are in place, run:
 
