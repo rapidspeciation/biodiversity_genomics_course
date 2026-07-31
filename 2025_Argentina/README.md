@@ -81,12 +81,12 @@ If you have short-read data for only a subset of the genome because you used a r
 If you have RAD (restriction-enzyme associated DNA) data, you can either follow the steps in our tutorial with mapping reads to a reference genome or if you do not have a reference genome, you can do a de novo assembly, i.e. make your own reference for just the RAD loci. The most widely used tool for RAD data analysis is [STACKS](https://catchenlab.life.illinois.edu/stacks) or if you have a phylogenetic dataset with many species, we can recommend [ipyrad](https://ipyrad.readthedocs.io/en/master/index.html). If you are working with polyploids, check out [polyRAD](https://academic.oup.com/g3journal/article/9/3/663/6026786).
 If you have UCE (ultra-conserved elements) data, have a look at this [website](https://www.ultraconserved.org/) for guidance.
 
-##
-## Publications we recommend:
-
 ### Introduction to Unix
 - Introduction to the Unix Command Line [Dowling, et al., 2019](Papers/Introduction_unix_command-may2019.pdf)
 - Unix and Perl Primer for Biologists [Bradnam, et al 2016](Papers/Unix_Perl.pdf)
+
+##
+## Publications we recommend:
 
 ### Reviews on biodiversity genomics:
 - How genomics can help biodiversity conservation [Theissinger et al. 2023](Papers/Theissinger_et_al-2023_Genomics_Conservation.pdf)
