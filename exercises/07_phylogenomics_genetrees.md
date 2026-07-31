@@ -19,7 +19,7 @@ NCBI is an institution that provides access to biological databases, including t
 
 ### **Steps:**
 
-1. **Create an environment with SRA Toolkit** (including pigz and parallel) and activate it:
+1.1. **Create an environment with SRA Toolkit** (including pigz and parallel) and activate it:
 
    ```bash
    conda create -n sra-tools -c bioconda sra-tools pigz parallel
@@ -27,7 +27,7 @@ NCBI is an institution that provides access to biological databases, including t
    conda activate sra-tools
    ```
 
-2. **Download the FASTQ files**
+1.2. **Download the FASTQ files**
 
 - List of selected accessions:
      
@@ -54,7 +54,7 @@ SRR24706331 Ficus_antandronarum
     Column 2: Desired name for the downloaded files.
 
 
-   - Download the sequences using this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/download_fastq.sh). Download the script file and save it in your working folder.
+   - Download the sequences using this [script](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/download_fastq.sh). Download the script file and save it in your working directory.
 
 Once you have downloaded the script, run it with the following command:
 
@@ -73,19 +73,23 @@ conda deactivate
 
 ---
 
+### **Install software for data process and analysis**
+
+For this part we can create a conda environment that includes all needed software with this command:
+
+```
+conda create -n phylogenetic -c conda-forge -c bioconda captus bbmap=39.52 salmon=1.10.3 mafft=7.526 iqtree aster -y
+
+conda activate phylogenetic
+```
+
+---
+
 ## **2. Quality control, assembly, extraction, and gene alignment with Captus**
 
 `CAPTUS` is an automated pipeline designed to de novo assemble target gene sequences from raw FASTQ data, especially useful in phylogenomics studies. It integrates tools for quality control, assembly, ortholog/paralog extraction, and multiple alignment, facilitating a reproducible workflow from obtaining/downloading raw data to obtaining phylogenetic matrices ready for phylogenetic analysis. It is compatible with data from hybridization-based capture libraries (target enrichment), transcriptomes, or whole genome sequencing, adapting to studies ranging from population scale to deep phylogenetics (Ortiz et al. 2023).
 
 - Full documentation: [https://edgardomortiz.github.io/captus.docs/](https://www.google.com/url?q=https%3A%2F%2Fedgardomortiz.github.io%2Fcaptus.docs%2F)
-
-### **Install Captus**
-
-Captus installation instructions are available in the [Github repository](https://github.com/edgardomortiz/captus) of the pipeline. For this practice we will use a preinstalled version in the cluster:
-```
-module load envs/anaconda3
-conda activate captus_1.6.5
-```
 
 
 ### **2.1 Quality control of reads**
@@ -95,7 +99,7 @@ Next, we proceed with the quality control of the raw reads. To do this, use the 
 To run the process, make sure to correctly indicate the path of the folder containing the downloaded and compressed raw read files (`00_raw_reads`). The module will automatically identify the corresponding file pairs for each sample (suffixes `_R1.fastq.gz` and `_R2.fastq.gz`) and apply the default or user-defined quality filters.
 
 ```bash
-captus clean -r /scratchsan/C_computacion/gustavo.silva/00_raw_reads --threads 4
+captus clean -r 00_raw_reads --threads 4
 ```
 
 This will generate clean `.fq.gz` files in the `01_clean_reads` folder. Examine the report of the cleaning and quality control process for **all samples** by opening the `captus-clean_report.html` file in your browser (you will find it inside the `01_clean_reads` folder).
@@ -110,7 +114,7 @@ Additionally, select a specific sample and analyze in detail the individual `Fas
 We use **Captus assemble** to assemble the sequences into contigs:
 
 ```bash
-captus assemble -r /scratchsan/C_computacion/gustavo.silva/01_clean_reads --sample_reads_target 1_000_000 --threads 4
+captus assemble -r 01_clean_reads --sample_reads_target 1_000_000 --threads 4
 ```
 
 This process will perform the de novo assembly based on a maximum of 1 million reads (this subsampling is done in this exercise to reduce computational time). This process will generate assembled files in the `02_assemblies` folder. Examine the report of the assembly process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `02_assemblies` folder).
@@ -121,8 +125,7 @@ This process will perform the de novo assembly based on a maximum of 1 million r
 We use **Captus extract** to recover the genes of interest using reference sequences that you can find in the file `artocarpus_333genes.fasta`, which were obtained in the study by [Gardner et al. (2016)](https://doi.org/10.3732/apps.1600017). Download the file and save it in your working directory.
 
 ```bash
-captus extract -a /scratchsan/C_computacion/gustavo.silva/02_assemblies \
--d /scratchsan/C_computacion/gustavo.silva/artocarpus_333genes.fasta --threads 4
+captus extract -a 02_assemblies -d artocarpus_333genes.fasta --threads 4
 ```
 
 This will generate FASTA files in the `03_extractions` folder with the sequences extracted from the set of assembled contigs for each of the selected samples and each of the reference loci. Examine the report of the extraction process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `03_extractions` folder).
@@ -133,7 +136,7 @@ This will generate FASTA files in the `03_extractions` folder with the sequences
 We use **Captus align** to align the extracted sequences:
 
 ```bash
-captus align -e /scratchsan/C_computacion/gustavo.silva/03_extractions --threads 4
+captus align -e 03_extractions --threads 4
 ```
 
 This will generate alignments in the `04_alignments` folder. Examine the report of the alignment process by opening the `captus-align_report.html` file in your browser (you will find it inside the `04_alignments` folder).
@@ -146,21 +149,13 @@ This will generate alignments in the `04_alignments` folder. Examine the report 
 For each of the aligned loci, we will use **IQ-TREE** to infer gene phylogenetic trees.
 
 
-We will run `iqtree` from a local installation in the cluster:
-
-```bash
-iqtree3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/iqtree3'
-```
-
-
 ### **3.1 Obtaining gene trees**
 
-With the alignments obtained for the loci, perform a phylogenetic inference analysis using the Maximum Likelihood approach implemented in `iqtree3`. Since this analysis involves repeatedly performing the same process on the `.fna` files (alignments), you can automate the process using a `loop` implemented in the script `run_iqtree.sh`:
+With the alignments obtained for the loci, perform a phylogenetic inference analysis using the Maximum Likelihood approach implemented in `iqtree3`. Since this analysis involves repeatedly performing the same process on the fasta (`.fna`) files (alignments), you can automate the process using a `loop` implemented in the script `run_iqtree.sh` available [here](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/run_iqtree.sh):
 
 Once you have the script saved in your working directory, run it in the terminal with the command:
 
 ```bash
-export iqtree3=$iqtree3
 bash run_iqtree.sh
 ```
 
@@ -173,27 +168,45 @@ This will generate a new folder called `05_trees` with the output files of the p
 
 We will use `ASTRAL-Pro 3` to build a **species tree** with support based on quartet frequency.
 
-We will run `astral-pro3` from a local installation in the cluster:
+
+### **4.1. Obtaining the species tree with `ASTRAL-Pro 3`**
+
+Once you have inferred the gene trees with `IQ-TREE 3`, you can estimate the **species tree** using `ASTRAL-Pro 3`. This program takes into account **gene tree discordance** and **gene duplication events (paralogs)**, making it well suited for phylogenomic datasets.
+
+To run `ASTRAL-Pro 3`, you need **two input files**:
+
+1. **A single file containing all gene trees** in Newick format, generated with `IQ-TREE 3`.
+
+   Create a directory called `06_species_tree` and concatenate all gene trees into a single file:
+
+```bash
+mkdir 06_species_tree
+cat 05_trees/*.treefile > 06_species_tree/gene_trees.tre
 ```
-astral-pro3='/scratchsan/gustavo.silva/miniforge3/envs/filo/bin/astral-pro3'
-```
 
+2. **A gene-to-species mapping file** named `mapping.txt`.
 
-### **4.2. Obtaining the species tree with `Astral-pro 3`**
+   This file tells `ASTRAL-Pro 3` **which gene copies belong to each species**. It is required because phylogenomic datasets often contain **paralogs**, meaning that a species may be represented by multiple sequences in the same gene tree. For example, datasets generated with `Captus` typically label duplicated copies with the species names (or any sample names you use in your input fastq files) and suffixes such as `_00`, `_01`, `_02`, etc.
 
-From the set of gene trees obtained with `iqtree3`, we can infer the species tree. For this we need two input files:
-1. File containing all the gene trees in Newick format, obtained with IQ-TREE 3.
-2. Gene ↔ species correspondence table saved in a text file called `mapping.txt`. The script `get_tree_tips.py` will allow you to obtain this correspondence table, download it and save it in the working folder.
+   To generate this file, download the script `get_tree_tips.py` and place it in your working directory. The script reads all tip names from the gene trees and automatically creates the required species-to-gene correspondence table (`mapping.txt`).
 
-Perform the complete process by running the script `run_astral-pro3.sh`:
+> **Important:** `ASTRAL-Pro 3` cannot correctly interpret multiple gene copies without this mapping file.
 
-Once you have the script saved in your working folder, run it in the terminal with the command:
+Before running the analysis, make sure the following files are present in your **working directory**:
+
+* `run_astral-pro3.sh`. Available [here](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/run_astral-pro3.sh)
+* `get_tree_tips.py`. Available [here](https://github.com/gsilvaarias/curso-sistematica-biologica/blob/main/get_tree_tips.py)
+
+Once both scripts are in place, run:
 
 ```bash
 bash run_astral-pro3.sh
 ```
 
-### **4.3. Tree visualization and analysis of node support based on quartet frequency**
+> **Expected output:** The script will generate the species tree inferred by `ASTRAL-Pro 3` in the file `species_tree.tre` located in the `06_species_tree` directory.
+
+
+### **4.2. Tree visualization and analysis of node support based on quartet frequency**
 
 Finally, draw the obtained species tree and include on each node a way to represent the support values obtained. You can do this using this R code:
 

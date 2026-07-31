@@ -84,10 +84,10 @@ To plot the results, we will use the files I prepared for the complete chr18 (Hm
 
 ```shell
 # Copy the popgen and dstat files to your local computer
-scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/genome_scans/popgen.w20s20.csv.gz .
-scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/<user>/genome_scans/dstats.w20s20.csv.gz .
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/exercises/genome_scans/Hmel218003o.popgen.w20s20.csv.gz .
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/exercises/genome_scans/Hmel218003o.dstats.w20s20.csv.gz .
 # Copy file containing the location of genes of interest in the genome 
-scp -r -J fs20sanger_ac@168.176.34.122 fs20sanger_ac@perseus:/scratchsan/C_computacion/fs20sanger_ac/share/colorPatternGenes.csv .
+scp -r -J <user>@168.176.34.122 <user>@perseus:/scratchsan/C_computacion/fs20sanger_ac/share/colorPatternGenes.csv .
 
 # Unzip the file
 gunzip Hmel218003o.popgen.w20s20.csv.gz 
@@ -107,6 +107,8 @@ setwd('/Users/fs20/Documents/2025.BioDivGenomics/exercises/genomic_scans/')
 
 # Read file with information about genes of interest
 genes = read.csv('/Users/fs20/Documents/2025.BioDivGenomics/heliconius_martin2019/08_genomeScans/colorPatternGenes.csv')
+genesSub = subset(genes, scaffold == 'Hmel218003o')
+
 
 # Prepare input files:
 # Read in the file with sliding window estimates of FST, pi and dxy

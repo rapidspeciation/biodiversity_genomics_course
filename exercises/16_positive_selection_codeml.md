@@ -25,8 +25,7 @@ For part two we will use the branch-site model A to test for signs of selection 
 
 ## Part one - model M0
 
-We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. We do not have gene annotation for all the species yet, so we first need to find orthologous genes to be able to infer the evolutionary rates. One tool to detect and locate single copy genes is [BUSCO](https://busco.ezlab.org/busco_userguide.html) (Benchmarking Universal Single-Copy Orthologs). BUSCO uses lineage specific databases containing genes present in > 90 % of the taxa and occur as single copy in >90% of the taxa in each lineage. It is commonly used to assess the completeness of genome assemblies, and we can use our genomes as input to retrive single copy orthologs. Since these are conserved genes our hypothesis is that they will be under strong purifying selection in general.
-
+We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. The step is also useful to inspect the branch lengths, check if alignments and codon usage are as expected and if codeml is a suitable tool for the dataset. Since most non-synonymous mutations are deleterious our hypothesis is that most genes will be under strong purifying selection.
 
 Start by organising the directory
 
@@ -34,93 +33,57 @@ Start by organising the directory
 mkdir selection_part_1
 cd selection_part_1
 
-
 ```
 
 ### Input
-The input for codeml is a phylogenetic tree, multiple sequence alignments, and a control file with the ending .ctl. The control file to tell codeml which models and parameters to use.
+The input for codeml is a phylogenetic tree, a multiple sequence alignment, and a control file with the ending .ctl. The control file to tell codeml which models and parameters to use.
 
 ### Alignment
 
-#### Step 1: get the single copy orthologs in our genomes
-Here we will use single copy orthologs detected with BUSCO in our genomes. We infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
+#### Step 1: get the single copy orthologs from our genomes
+Here we will use a subset of genes from our genome annotation. We will infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. The input for orthofinder are multi-fasta files, one for each taxa. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
-Input for orthofinder are multi-fasta files, one for each taxa that we will concatenate from the single copy sequences from the busco output.
-This is the code I used run BUSCO on all species at once. Now we want nucleotide sequences so I need to add the flag --metaeuk (using a different database), and will also take much longer time.
+We have already ran Orthofinder for the annotations from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup.
 
-```bash
-##Do not run during the course! It takes too long time...
-busco -i ../renamed_fasta \
-    -l lepidoptera_odb12 \
-    -m geno \
-    --metaeuk \
-    -o busco_output \
-    -c 12
-
-```
-To save us some time and computer power we already have set of multi-fasta single copy orthologues from BUSCO from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup.
-
-
-#### Step 2: run OrthoFinder to get orthologs genes
+The command to run Orthofinder is simple, in the directory where you have the input files. Orthofinder will create an output directory in the same folder.
 
 ```bash
-#set up a new working directory from your selection_part_1 directory
-pwd # check that you are in the right place 
-
-mkdir orthofinder
-cd orthofinder
-
-# copy all the fasta files 
-cp /scratchsan/C_computacion/kn9sanger_ac/data/gene_trees_input_orthofinder/* ./
-
-ls
-#take a look at one of the files
-less ilMecMaza1.1.primary.fa
-
-# How many sequences is there in the file?
-
-```
-Run Orthofinder in the directory where you have the input files. Orthofinder will create an output directory in the folder.
-
-```bash
-#run orthofinder, this time in we are using nucleotides so we must include option -d
-module load envs/anaconda3
-conda activate orthofinder
+#do not run orthofinder, it would take to long
+#this time we want nucleotide alignments so we must include option -d
 
 orthofinder -f ./ -d
 
 ```
 
-This takes a couple of minutes.
-
-OrthoFinder will produce a large directory with many interesting files. Are there any species that have less genes assigned to orthogroups? Why do you think this is? How many shared single copy genes do we have? 
-
-
-
-#### Step 3: Align the sequences
+#### Step 2: Align the sequences
 
 We will use a multi sequence aligner that specifically accounts for codons, [PRANK](https://github.com/ariloytynoja/prank-msa/tree/master), which have a lot of other useful applications. PRANK uses evolutionary information for the placement of gaps and modelling of the substitution process. It infers a guide tree from genetic distances estimated from pairwise alignments using the neighbour-joining (NJ) algorithm and then iterates the alignment using an improved guide tree estimated from the first multiple alignment. 
 
 
-Prepare input sequences
+Prepare input sequences from the output from OrthoFinder (which we have already run to save computer power and time).
 
 ```bash
-# go back to the selection_part_1 folder
-cd ..
+# in the selection_part_1 folder
+
 mkdir prank
 cd prank
 
-# select an orthogroup, this variable will be reused
-MY_GENE_FAMILY=OG0000036
+# select one orthogroup, this variable will be reused
+# feel free to choose which one you want, but preferably not a large one (take longer)
+ls /scratchsan/C_computacion/kn9sanger_ac/data/Single_Copy_Orthologue_Sequences/
 
-#copy the orthogroup, ops change the name of the result folder!!
-cp ../orthofinder/OrthoFinder/Results_Jul30/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
+# please use different orthogroups (genefamiles) so that we can compare.
+
+MY_GENE_FAMILY=OG0000004
+
+#copy the orthogroup
+cp /scratchsan/C_computacion/kn9sanger_ac/data/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
 
 #check how many sequences there are
 grep ">" ${MY_GENE_FAMILY}.fa
 
 #check total length of all sequences (to divide by 7)
-wc -c ${MY_GENE_FAMILY}.fa
+grep -v ">" ${MY_GENE_FAMILY}.fa |wc -c
 
 #change name of the sequences, remove everything after species name
 cut -f1 -d"_" ${MY_GENE_FAMILY}.fa > ${MY_GENE_FAMILY}_mod.fa
@@ -131,17 +94,41 @@ Now we can align our sequences. We will only use one iteration in this exercise,
 
 ```bash
 
+PRANK_PATH=/local64/usr_local/prank-msa/bin/
+#check that it is working
+$PRANK_PATH/prank -h
+
 # run the aligner
-prank -d=${MY_GENE_FAMILY}_mod.fa -o=${MY_GENE_FAMILY}_codon -codon -iterate=1 -F -f='paml'
+$PRANK_PATH/prank -d=${MY_GENE_FAMILY}_mod.fa -o=${MY_GENE_FAMILY}_codon -codon -iterate=1 -F
 
 ```
 
-This will take a while, maybe time for a quick break?
+This might take a while, maybe time for a quick leg stretcher?
 
 ```bash
 # Take a look at the alignment
-less ${MY_GENE_FAMILY}_codon.phy
+less ${MY_GENE_FAMILY}_codon.best.fas
 ```
+
+#### Step 4: Filter alignments
+
+Trimming the alignment with trimAL, which is a very handy tool for handling, filtering, and quality control of sequence alignments. We can remove gaps or remove species if we want to subset the dataset. It can also be used for format conversion.
+
+```bash
+
+# make a new directory for the trimming with trimal
+cd ../
+mkdir trimal
+
+cd trimal
+
+/scratchsan/C_computacion/kn9sanger_ac/software/trimal/source/trimal -in ../prank/${MY_GENE_FAMILY}_codon.best.fas -phylip_paml -out ${MY_GENE_FAMILY}_codon.trimmed.phy -sgt -nogaps -htmlout ${MY_GENE_FAMILY}_codon.trimmed.html > ${MY_GENE_FAMILY}_codon.trimmed.summary.log
+
+#check removal
+grep -A2 "Residues" ${MY_GENE_FAMILY}_codon.trimmed.html
+```
+
+If the trimming have removed a large fraction of the gene, it might not be so informative and the alignment or trimming settings should be revised.
 
 
 ### Phylogenetic tree
@@ -150,14 +137,14 @@ The program codeml also needs a guide tree to infer the rate of substitutions (i
 
 
 ```bash
+cd ..
+module load envs/anaconda3
+conda activate iqtree
 
 mkdir iqtree
 cd iqtree
 
-#convert to interleaved phy, iqtree do not like the paml format
-prank -convert -d=../prank/${MY_GENE_FAMILY}_codon.best.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
-
-iqtree -s ${MY_GENE_FAMILY}_codon.phylipi.phy --prefix ${MY_GENE_FAMILY}
+iqtree -s ../trimal/${MY_GENE_FAMILY}_codon.trimmed.phy --prefix ${MY_GENE_FAMILY}
 
 ```
 
@@ -167,14 +154,14 @@ Now we have the all the data needed to run codeml, so it is time to edit the con
 
 
 ```bash
-
+cd ..
 mkdir codeml
 cd codeml
 
 ```
 
 
-You will have a template form for the control file (.ctl) in the common repository /home/genomics/scratch/. 
+You have a template form for the control file (.ctl) in the a data repository. 
 This file has to specify: 
 
 input tree
@@ -183,7 +170,7 @@ alignment file
 
 output file
 
-This is important to change when running the different models or genes otherwise it will overwrite the previous result.
+This is important to change the output when running the different models or genes otherwise it will overwrite the previous result.
 
 You also have to specify your models and other parameters of interest. See below how a general control file looks like:
 
@@ -208,17 +195,15 @@ You also have to specify your models and other parameters of interest. See below
     fix_omega = FIXOME         * Estimate or fix omega
         omega = INITOME        * Initial or fixed omega
 
-
-
 ```bash
 
 # Copy the .ctl template to the codeml directory
 
-cp /home/genomics/scratch/data/comparative_genomics/selection/template.ctl ./
+cp /scratchsan/C_computacion/kn9sanger_ac/data/template.ctl ./
 
 # we will copy the tree file and the alignment file here to for simplicity
 
-cp ../prank/${MY_GENE_FAMILY}_codon.best.phy ./
+cp ../trimal/${MY_GENE_FAMILY}_codon.trimmed.phy ./
 
 cp ../iqtree/${MY_GENE_FAMILY}.treefile ./
 
@@ -272,7 +257,9 @@ sed -i 's/INITOME/0\.5/' codeml-M0.ctl # Initial or fixed omega
 Now we are ready to run codeml!
 
 ```bash
-codeml codeml-M0.ctl > codeml-M0.log
+CODEML_PATH=/local64/usr_local/paml/bin
+
+$CODEML_PATH/codeml codeml-M0.ctl > codeml-M0.log
 
 ```
 This redirects (>) the information from the standard out (screen) to a log file.
@@ -281,18 +268,19 @@ This may take a few minutes.
 
 Take a look at the output file.
 
-It shows the alignment before and after removing ambiguous sites, and the site pattern count. Other useful pieces of information are the length of the alignment, nucleotide composition, codon usage. Check the codon usage table, if you have a very biased codon usage (only 20), you might have used the wrong type of aligner. Some programs do protein alignment and then use a codon table to back-translate instead of using the actual nucleotide alignment.
+It shows the alignment before and after removing ambiguous sites, and the site pattern count. Other useful pieces of information are the length of the alignment, nucleotide composition, codon usage. Check the codon usage table, if you have a very biased codon usage (only 20 codon used), you might have used the wrong type of aligner. Some programs do protein alignment and then use a codon table to back-translate instead of using the actual nucleotide alignment.
 
 Pairwise comparison can be used check if the divergence in the tree is appropriate for using dN/dS as test of selection. With high divergence there will be risk of substitution saturation, if too closely related they will not have accumulated enough substitutions to be informative. This can also be inspected the treelength, branch length dN and dS for the tree. 
 
 Omega (w) is what we are interested in here.
+
 What does the average evolutionary rate in this gene suggest?
 
 
 
 ## Part 2 test for positive selection using branch-site model A
 
-The Model-M0 is quite unrealistic, is is rather unlikely that all branches and all sites would have the same evolutionary rate. A more realistic model is a model that allow the w to vary among branches and account for different selection pressures on codons in the gene. Branch-site model A is a test of positive selection in a proportion of sites in the foreground branch relative to the background branches. An increased rate could for example suggest local adaption to novel environment in our species of interest compare to its relatives. 
+The Model-M0 is quite unrealistic, is is rather unlikely that all branches and all sites would have the same evolutionary rate. A more realistic model is a model that allow the *w* to vary among branches and account for different selection pressures on codons in the gene. Branch-site model A is a test of positive selection in a proportion of sites in the foreground branch relative to the background branches. An increased rate could for example suggest local adaption to novel environment in our species of interest compare to its relatives. 
 
 The test is indicative of positive selection if of a proportion of codons at which w > 1, and if the likelihood of this model is higher than the null model. The null model uses the same parameters except we fix omega to w = 1 instead of allowing for w > 1. The Likelihood Ratio Test (LRT) statistic is used against a chi-square distribution with 1 degrees of freedom for significance testing. The LRT is constructed to compare nested models, so a null model that does not allow for any codons with w > 1, against a more general model that does.
 
@@ -317,7 +305,7 @@ cd selection_part_2
 Copy alignment and tree file, we will use these for both models
 
 ```bash
-cp /home/genomics/scratch/data/comparative_genomics/selection/input_model_A/vertebrate* ./
+cp /scratchsan/C_computacion/kn9sanger_ac/data/mx_* ./
 
 ```
 
@@ -325,7 +313,7 @@ In the tree file we need to add a label to the branch or branches we want as for
 
 ```bash
 
-sed 's/Chicken_Mx/Chicken_Mx \#1/' vertebrate.tree > vertebrate_Chicken_Mx.tree
+sed 's/Chicken_Mx/Chicken_Mx \#1/' mx_unroot.tree > mx_unroot_Chicken.tree
 
 ```
 
@@ -337,7 +325,7 @@ mkdir model_A_est
 cd model_A_est
 
 #copy and rename the template file
-cp ../../selection/codeml/template.ctl model_A_est.ctl
+cp ../../selection_part_1/codeml/template.ctl model_A_est.ctl
 
 # change input and output paths and filenames
 
@@ -374,7 +362,7 @@ sed -i 's/INITOME/.4/' model_A_est.ctl # Initial or fixed omega, start value for
 Time to run the model
 
 ```bash
-codeml model_A_est.ctl > model_A_est.log
+$CODEML_PATH/codeml model_A_est.ctl > model_A_est.log
 
 ```
 
@@ -390,6 +378,7 @@ grep -A5 "MLE" model_A_est_chicken.out
 ```
 
 Here we an see the the proportion of sites in the different classes and the estimated omega values for each of the classes.
+
 We can also see the lnL log-likelihood for the model.
 
 
@@ -407,7 +396,7 @@ cd  model_A_fixed
 # copy the control file and change the name of the file, we will change the output and omega settings
 cp ../model_A_est/model_A_est.ctl model_A_fixed.ctl
 
-# change the name of the output file NAME is your orthogroup (NAME_modA_fixed.out)
+# change the name of the output file (model_A_fix_chicken.out)
 # Fix(Omega) = 1 (fixed omega)
 # Omega = 1 (initial value, fixed to 1)
 
@@ -417,16 +406,15 @@ Run the null model
 
 ```bash
 
-codeml model_A_fixed.ctl > model_A_fixed.log
+$CODEML_PATH/codeml model_A_fixed.ctl > model_A_fixed.log
 ```
 This can take a while again.
 
 ```bash
-less model_A_est_chicken.out
+less model_A_fix_chicken.out
 
-grep -A5 "MLE" model_A_est_chicken.out
+grep -A5 "MLE" model_A_fix_chicken.out
 ```
-
 
 
 
@@ -437,13 +425,14 @@ The LRT statistic is calculated 2x(lnL_est-lnL_fix). If lnL_est=-1130 and lnL_fi
 
 ```bash
 # get the likelihood for both model_A:s
+cd ..
 grep "lnL" model_A*/*out
 ```
 Calculate LRT = 2x(lnL_est-lnL_fix)
 
 ```bash
 # check out chi2
-chi2 
+$CODEML_PATH/chi2 
 
 ```
 
@@ -464,14 +453,14 @@ DF 0.9950 0.9750 0.9000 0.5000 0.1000 0.0500 0.0100 0.0010
 The critical value for one-degree of freedom and significance level α=0.05 is 3.8415, so if you LRT statistic is larger than that we can reject our null model.
 
 ```bash
-chi2 --help
+$CODEML_PATH/chi2 --help
 # d.f. & Chi^2 value (Ctrl-c to break)?
 # Type in d.f. (degree of freedom), in our case 1, and the LRT-statistics. Here is an example where the value is 4
 1 4
 # output
 # df =  1  prob = 0.045500265 = 4.550e-02
 # to run directly
-chi2 1 4
+$CODEML_PATH/chi2 1 4
 
 #df =  1  prob = 0.045500265 = 4.550e-02
 
@@ -485,10 +474,6 @@ If the LRT suggests presence of codons under positive selection in the foregroun
 In each line, the first column shows the site position followed by the amino acid at this site in the first sequence (this is for identification of the site in the sequence). The third column (Pr (w > 1)) shows the posterior probability for the site to be from the positive-selection class (i.e., with ω > 1).
 
 Are there sites in this gene under positive selection? Which gene is it?
-
-
-
-
 
 
 For more reading:
