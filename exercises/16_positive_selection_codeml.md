@@ -25,7 +25,7 @@ For part two we will use the branch-site model A to test for signs of selection 
 
 ## Part one - model M0
 
-We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. The step is also useful to inspect the brach lengths and if codeml is a suitable tool for the dataset. Since most non-synonymous mutations are deleterious our hypothesis is that most genes will be under strong purifying selection.
+We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. The step is also useful to inspect the branch lengths and if codeml is a suitable tool for the dataset. Since most non-synonymous mutations are deleterious our hypothesis is that most genes will be under strong purifying selection.
 
 
 Start by organising the directory
