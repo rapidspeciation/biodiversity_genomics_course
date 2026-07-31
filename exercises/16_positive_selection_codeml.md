@@ -38,7 +38,7 @@ cd selection_part_1
 ```
 
 ### Input
-The input for codeml is a phylogenetic tree, multiple sequence alignments, and a control file with the ending .ctl. The control file to tell codeml which models and parameters to use.
+The input for codeml is a phylogenetic tree, a multiple sequence alignment, and a control file with the ending .ctl. The control file to tell codeml which models and parameters to use.
 
 ### Alignment
 
