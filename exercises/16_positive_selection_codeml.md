@@ -170,7 +170,7 @@ alignment file
 
 output file
 
-This is important to change when running the different models or genes otherwise it will overwrite the previous result.
+This is important to change the output when running the different models or genes otherwise it will overwrite the previous result.
 
 You also have to specify your models and other parameters of interest. See below how a general control file looks like:
 
