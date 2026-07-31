@@ -1,5 +1,4 @@
-Welcome to the Biodiversity Genomics course
-## held in [Bogotá, Colombia](https://biodiversitygenomicslatam.weebly.com/) in July 2026
+## Welcome to the Biodiversity Genomics course held in [Bogotá, Colombia](https://biodiversitygenomicslatam.weebly.com/) in July 2026
 For the course taught in July 2024 at IKIAM University in Tena, Ecuador, see the folder [2024_Ecuador](2024_Ecuador).
 For the course taught in November 2025 at CONISET in Mendoza, Argentina, see the folder [2025_Argentina](2025_Argentina).
 
