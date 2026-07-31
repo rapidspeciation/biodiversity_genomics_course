@@ -192,8 +192,11 @@ Copy the whole syntenyplotter folder to your local computer (-r is needed for co
 
 scp -r -J your_username@168.176.34.122 your_username@perseus:/scratchsan/C_computacion/your_username/synteny/syntenyplotter/ ./
 
-#check
+cd syntenyplotter
 ls
+# check that the two additional folders we created are there, if not
+mkdir intermediate plots
+
 #run the script on your local computer
 Rscript Syntenyplotter_paf_wrapper.R MecMaza_MecMess.paf ilMecMaza1 ilMecMess1
 ```
