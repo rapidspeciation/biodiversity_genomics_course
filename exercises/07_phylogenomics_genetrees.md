@@ -113,7 +113,7 @@ Additionally, select a specific sample and analyze in detail the individual `Fas
 We use **Captus assemble** to assemble the sequences into contigs:
 
 ```bash
-captus assemble -r /scratchsan/C_computacion/gustavo.silva/01_clean_reads --sample_reads_target 1_000_000 --threads 4
+captus assemble -r 01_clean_reads --sample_reads_target 1_000_000 --threads 4
 ```
 
 This process will perform the de novo assembly based on a maximum of 1 million reads (this subsampling is done in this exercise to reduce computational time). This process will generate assembled files in the `02_assemblies` folder. Examine the report of the assembly process by opening the `captus-extract_report.html` file in your browser (you will find it inside the `02_assemblies` folder).
