@@ -42,4 +42,9 @@ Day 4 (Thursday):
 - [Slides](slide_presentations/10_GenomeScans.pdf) on genome scans
 - [Exercise](exercises/10_genome_scan.md) on genome scans
 
+Day 5 (Friday):
+- [Slides](slide_presentations/) on inferring hybridisation
+- [Exercise](exercises/16_positive_selection_codeml.md) on detecting selection at long time-scales
+- [Slides](slide_presentations/) on comparative genomics
+- [Exercise](exercises/13_Synteny.md) on genome synteny
 
