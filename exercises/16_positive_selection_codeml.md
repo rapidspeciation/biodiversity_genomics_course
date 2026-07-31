@@ -41,17 +41,15 @@ The input for codeml is a phylogenetic tree, a multiple sequence alignment, and 
 ### Alignment
 
 #### Step 1: get the single copy orthologs from our genomes
-Here we will use a subset of genes from our genome annotation. We will infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
+Here we will use a subset of genes from our genome annotation. We will infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. The input for orthofinder are multi-fasta files, one for each taxa. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
-Input for orthofinder are multi-fasta files, one for each taxa.
+We have already ran Orthofinder for the annotations from six Ithomiini butterflies from six genera (Melinaea, Mechanitis, Godyris, Napeogenes, Tithorea and Methona) and we are using the monarch (Danaus plexippus) as outgroup.
 
-We have ran Orthofinder for the annotations from six Ithomiini butterflies from six genera (Melinaea, Mechanitis, Godyris, Napeogenes, Tithorea and Methona) and we are using the monarch (Danaus plexippus) as outgroup.
-
-The command to run Orthofinder is simple, in the directory where you have the input files. Orthofinder will create an output directory in the folder.
+The command to run Orthofinder is simple, in the directory where you have the input files. Orthofinder will create an output directory in the same folder.
 
 ```bash
 #do not run orthofinder, it would take to long
-#this time in we are using nucleotides so we must include option -d
+#this time we want nucleotide alignments so we must include option -d
 
 orthofinder -f ./ -d
 
@@ -62,7 +60,7 @@ orthofinder -f ./ -d
 We will use a multi sequence aligner that specifically accounts for codons, [PRANK](https://github.com/ariloytynoja/prank-msa/tree/master), which have a lot of other useful applications. PRANK uses evolutionary information for the placement of gaps and modelling of the substitution process. It infers a guide tree from genetic distances estimated from pairwise alignments using the neighbour-joining (NJ) algorithm and then iterates the alignment using an improved guide tree estimated from the first multiple alignment. 
 
 
-Prepare input sequences
+Prepare input sequences from the output from OrthoFinder (which we have already run to save computer power and time).
 
 ```bash
 # in the selection_part_1 folder
@@ -78,8 +76,8 @@ ls /scratchsan/C_computacion/kn9sanger_ac/data/Single_Copy_Orthologue_Sequences/
 
 MY_GENE_FAMILY=OG0000336
 
-#copy the orthogroup, ops change the name of the result folder!!
-cp ../orthofinder/OrthoFinder/Results_Jul30/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
+#copy the orthogroup
+cp /scratchsan/C_computacion/kn9sanger_ac/data/Single_Copy_Orthologue_Sequences/${MY_GENE_FAMILY}.fa ./
 
 #check how many sequences there are
 grep ">" ${MY_GENE_FAMILY}.fa
