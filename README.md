@@ -32,20 +32,21 @@ Day 3 (Wednesday):
 - [Exercise](exercises/05_filtering_variants.md) on filtering VCF files
 - [Slides](slide_presentations/08_PCA.pdf) on detecting population structure with PCA
 - [Exercise](exercises/06_PopStructure_saraSapho.md) on PCA
-- [Slides](slide_presentations/12_Phylogenomics_Gustavo.pdf) about fundamentals of phylogenomics
+- [Slides](slide_presentations/09_Phylogenomics_Gustavo.pdf) about fundamentals of phylogenomics
 - [Excercise](exercises/07_phylogenomics_genetrees.md) about phylogenomics
 
 Day 4 (Thursday):
-- [Slides](slide_presentations/09_Detecting_hybridisation_Dstats.pdf) on inferring hybridisation
+- [Slides](slide_presentations/10_Detecting_hybridisation_Dstats.pdf) on inferring hybridisation
 - [Exercise](exercises/09_Dstatistics.md) on computing D statistics with Dsuite
-- [Slides](slide_presentations/10_GenomeScans.pdf) on genome scans
+- [Slides](slide_presentations/11_GenomeScans.pdf) on genome scans
 - [Exercise](exercises/10_genome_scan.md) on genome scans
 
 Day 5 (Friday):
-- [Slides](slide_presentations/15_Selection_v3.pdf) on detecting selection at long time-scales
+- [Slides](slide_presentations/12_Selection_v3.pdf) on detecting selection at long time-scales
 - [Exercise](exercises/16_positive_selection_codeml.md) on detecting selection at long time-scales
-- [Slides](slide_presentations/11_Comparative_genomics.pdf) on comparative genomics
+- [Slides](slide_presentations/13_Comparative_genomics.pdf) on comparative genomics
 - [Exercise](exercises/13_Synteny.md) on genome synteny
+- [Slides](slide_presentations/14_CourseEnd_Summary.pdf) providing a summary of the course, further learning opportunities and an introduction to biodiversity genomics initiatives in Latin America
 
 
 
@@ -134,7 +135,7 @@ But also pipelines for read mapping, Variant calling,
 - Evaluating the Use of ABBA–BABA Statistics to Locate Introgressed Loci [Martin, et al., 2015](Papers/Martin_etal_2015_Evaluating_Use_ABBA–BABA_Statistics.pdf)
 - The genetic consequences of hybridization [Moran, et al., 2021](Papers/The_genomic_consequences_of_hybridization.pdf)
 - How reticulated are species? [Mallet, et al., 2015](Mallet_How_reticulated_are_species)
-- Estimates of introgression as a function of pairwise distances. [Pfeifer & Kapan 2019]()
+- Estimates of introgression as a function of pairwise distances. [Pfeifer & Kapan 2019](Papers/Pfeifer_and_Kapan_2019.pdf)
 
 ### Reviews or examples on chromosome evolution
 - Chromosomal rearrangements and speciation. [Rieseberg, et al., 2021](Papers/Rieseberg,etal.,_2001_Chromosomal_rearrangement_and_speciation.pdf)
