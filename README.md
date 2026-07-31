@@ -78,6 +78,15 @@ If you have short-read data for only a subset of the genome because you used a r
 If you have RAD (restriction-enzyme associated DNA) data, you can either follow the steps in our tutorial with mapping reads to a reference genome or if you do not have a reference genome, you can do a de novo assembly, i.e. make your own reference for just the RAD loci. The most widely used tool for RAD data analysis is [STACKS](https://catchenlab.life.illinois.edu/stacks) or if you have a phylogenetic dataset with many species, we can recommend [ipyrad](https://ipyrad.readthedocs.io/en/master/index.html). If you are working with polyploids, check out [polyRAD](https://academic.oup.com/g3journal/article/9/3/663/6026786).
 If you have UCE (ultra-conserved elements) data, have a look at this [website](https://www.ultraconserved.org/) for guidance.
 
+### Pipelines used at the Wellcome Sanger Institute for genome assembly and curation
+https://pipelines.tol.sanger.ac.uk
+Pipelines including on Genome assembly, Genome curation with Pretext, Quality assessment of genomes, Metagenome assembly
+But also pipelines for read mapping, Variant calling, 
+
+### Wetlab protocols used at the Wellcome Sanger Institute
+[Publication](https://www.biorxiv.org/content/10.1101/2025.04.11.648334v1.abstract) describing the methods and detailed protocols for lots of lab steps and different taxonomic groups: [protocols.io](https://www.protocols.io/workspaces/wellcome-sanger-institute13/publications)
+
+
 ##
 ## Publications we recommend:
 
