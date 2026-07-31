@@ -48,13 +48,6 @@ Input for orthofinder are multi-fasta files, one for each taxa.
 
 We have a random subset of genes, to save computer power, from six Ithomiini butterflies from six genera (Melinaea, Mechanitis, Godyris, Napeogenes, Tithorea and Methona) and we are using the monarch (Danaus plexippus) as outgroup.
 
-First we have to filter the alignments
-
-```
-trimal -in $file -phylip3.2 -out ../outputs/trimal/trimmed/$(basename -s .fas_renamed.phy $file)_trimmed.phy -gt 0.50 -sgt -htmlout ../outputs/trimal/trimmed/$(basename -s .fas_renamed.phy $file)_trimmed.html > ../outputs/trimal/trimmed/$(basename -s .fas_renamed.phy $file).trimmed.summary.txt 
-
-```
-
 
 #### Step 2: run OrthoFinder to get orthologs genes
 
@@ -89,7 +82,6 @@ orthofinder -f ./ -d
 This takes a couple of minutes.
 
 OrthoFinder will produce a large directory with many interesting files. Are there any species that have less genes assigned to orthogroups? Why do you think this is? How many shared single copy genes do we have? 
-
 
 
 #### Step 3: Align the sequences
@@ -135,7 +127,7 @@ PRANK_PATH=/local64/usr_local/prank-msa/bin/
 $PRANK_PATH/prank -h
 
 # run the aligner
-$PRANK_PATH/prank -d=${MY_GENE_FAMILY}_mod.fa -o=${MY_GENE_FAMILY}_codon -codon -iterate=1 -F -f='paml'
+$PRANK_PATH/prank -d=${MY_GENE_FAMILY}_mod.fa -o=${MY_GENE_FAMILY}_codon -codon -iterate=1 -F
 
 ```
 
@@ -143,8 +135,23 @@ This might take a while, maybe time for a quick leg stretcher?
 
 ```bash
 # Take a look at the alignment
-less ${MY_GENE_FAMILY}_codon.phy
+less ${MY_GENE_FAMILY}_codon.best.fas
 ```
+
+#### Step 4: Filter alignments
+
+Trimming the alignment with trimAL, which is a very handy tool for handling, filtering, and quality control of sequence alignments. We can remove gaps or remove species if we want to subset the dataset. It can also be used for format conversion.
+
+# make a new directory for the trimming with trimal
+cd ../
+mkdir trimal
+
+cd trimal
+
+/scratchsan/C_computacion/kn9sanger_ac/software/trimal/source/trimal -in ../prank/${MY_GENE_FAMILY}_codon.best.fas -phylip_paml -out ${MY_GENE_FAMILY}_codon.trimmed.phy -sgt -nogaps -htmlout ${MY_GENE_FAMILY}_codon.trimmed.html > ${MY_GENE_FAMILY}_codon.trimmed.summary.log
+
+#check removal
+grep -A2 "Residues" ${MY_GENE_FAMILY}_codon.trimmed.html
 
 
 ### Phylogenetic tree
@@ -160,10 +167,7 @@ conda activate iqtree
 mkdir iqtree
 cd iqtree
 
-#convert to interleaved phy, iqtree do not like the paml format
-$PRANK_PATH/prank -convert -d=../prank/${MY_GENE_FAMILY}_codon.best.phy -o=${MY_GENE_FAMILY}_codon.phylipi -f=phylipi
-
-iqtree -s ${MY_GENE_FAMILY}_codon.phylipi.phy --prefix ${MY_GENE_FAMILY}
+iqtree -s ../trimal/${MY_GENE_FAMILY}_codon.trimmed.phy --prefix ${MY_GENE_FAMILY}
 
 ```
 
@@ -222,7 +226,7 @@ cp /scratchsan/C_computacion/kn9sanger_ac/data/template.ctl ./
 
 # we will copy the tree file and the alignment file here to for simplicity
 
-cp ../prank/${MY_GENE_FAMILY}_codon.best.phy ./
+cp ../trimal/${MY_GENE_FAMILY}_codon.trimmed.phy ./
 
 cp ../iqtree/${MY_GENE_FAMILY}.treefile ./
 
