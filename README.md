@@ -1,4 +1,4 @@
-<img width="932" height="88" alt="image" src="https://github.com/user-attachments/assets/fdab8f82-4e7e-4255-add8-c0ac4e3b9fff" /><img width="1206" height="88" alt="image" src="https://github.com/user-attachments/assets/08aaaf5f-978d-4849-b91b-3276d04bc371" /># Welcome to the Biodiversity Genomics course
+Welcome to the Biodiversity Genomics course
 ## held in [Bogotá, Colombia](https://biodiversitygenomicslatam.weebly.com/) in July 2026
 For the course taught in July 2024 at IKIAM University in Tena, Ecuador, see the folder [2024_Ecuador](2024_Ecuador).
 For the course taught in November 2025 at CONISET in Mendoza, Argentina, see the folder [2025_Argentina](2025_Argentina).
