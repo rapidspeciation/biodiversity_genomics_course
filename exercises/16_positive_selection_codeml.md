@@ -25,8 +25,7 @@ For part two we will use the branch-site model A to test for signs of selection 
 
 ## Part one - model M0
 
-We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. The step is also useful to inspect the branch lengths and if codeml is a suitable tool for the dataset. Since most non-synonymous mutations are deleterious our hypothesis is that most genes will be under strong purifying selection.
-
+We will first specify a simple model (model_M0) with the same average dN/dS across all branches to infer the evolutionary rate and the general statistics of the gene family in general. The step is also useful to inspect the branch lengths, check if alignments and codon usage are as expected and if codeml is a suitable tool for the dataset. Since most non-synonymous mutations are deleterious our hypothesis is that most genes will be under strong purifying selection.
 
 Start by organising the directory
 
@@ -42,12 +41,19 @@ The input for codeml is a phylogenetic tree, a multiple sequence alignment, and 
 
 ### Alignment
 
-#### Step 1: get the single copy orthologs in our genomes
-Here we will use a subset of genes from our genomes. We will infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
+#### Step 1: get the single copy orthologs from our genomes
+Here we will use a subset of genes from our genome annotation. We will infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
 Input for orthofinder are multi-fasta files, one for each taxa.
 
-To save us some time and computer power we already have subset of genes from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup.
+We have a random subset of genes, to save computer power, from six Ithomiini butterflies from six genera (Melinaea, Mechanitis, Godyris, Napeogenes, Tithorea and Methona) and we are using the monarch (Danaus plexippus) as outgroup.
+
+First we have to filter the alignments
+
+```
+trimal -in $file -phylip3.2 -out ../outputs/trimal/trimmed/$(basename -s .fas_renamed.phy $file)_trimmed.phy -gt 0.50 -sgt -htmlout ../outputs/trimal/trimmed/$(basename -s .fas_renamed.phy $file)_trimmed.html > ../outputs/trimal/trimmed/$(basename -s .fas_renamed.phy $file).trimmed.summary.txt 
+
+```
 
 
 #### Step 2: run OrthoFinder to get orthologs genes
@@ -64,7 +70,7 @@ cp /scratchsan/C_computacion/kn9sanger_ac/data/gene_trees_input_orthofinder/* ./
 
 ls
 #take a look at one of the files
-less ilMecMaza1.1.primary.fa
+less ilMecMaza1_1.cds.fna
 
 # How many sequences is there in the file?
 
