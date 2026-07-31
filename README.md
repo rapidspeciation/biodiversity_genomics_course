@@ -134,7 +134,7 @@ But also pipelines for read mapping, Variant calling,
 - Evaluating the Use of ABBA–BABA Statistics to Locate Introgressed Loci [Martin, et al., 2015](Papers/Martin_etal_2015_Evaluating_Use_ABBA–BABA_Statistics.pdf)
 - The genetic consequences of hybridization [Moran, et al., 2021](Papers/The_genomic_consequences_of_hybridization.pdf)
 - How reticulated are species? [Mallet, et al., 2015](Mallet_How_reticulated_are_species)
-- Estimates of introgression as a function of pairwise distances. [Pfeifer & Kapan 2019](Pfeifer_and_Kapan_2019.pdf)
+- Estimates of introgression as a function of pairwise distances. [Pfeifer & Kapan 2019](Papers/Pfeifer_and_Kapan_2019.pdf)
 
 ### Reviews or examples on chromosome evolution
 - Chromosomal rearrangements and speciation. [Rieseberg, et al., 2021](Papers/Rieseberg,etal.,_2001_Chromosomal_rearrangement_and_speciation.pdf)
