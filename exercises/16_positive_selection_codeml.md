@@ -43,7 +43,7 @@ The input for codeml is a phylogenetic tree, a multiple sequence alignment, and 
 #### Step 1: get the single copy orthologs from our genomes
 Here we will use a subset of genes from our genome annotation. We will infer orthogroups with OrthoFinder to reduce the risk of including paralogous genes. Paralogs have a different divergence time compared to the orthologs, which per definition should have the same divergence time as the speciation event. OrthoFinder uses different modules for detecting sequence similarities and cluster genes together in orthogroups or gene families, reconstructing species trees and use phylogenetic information to distinguish between orthologs and paralogs. The input for orthofinder are multi-fasta files, one for each taxa. OrthoFinder nicely output each single copy orthogroup as a multi fasta file that we can directly use for multiple sequence alignment.
 
-We have already ran Orthofinder for the annotations from six Ithomiini butterflies from six genera (Melinaea, Mechanitis, Godyris, Napeogenes, Tithorea and Methona) and we are using the monarch (Danaus plexippus) as outgroup.
+We have already ran Orthofinder for the annotations from six Ithomiini butterflies from three genera (Melinaea, Mechanitis and Napeogenes) and we are using the monarch (Danaus plexippus) as outgroup.
 
 The command to run Orthofinder is simple, in the directory where you have the input files. Orthofinder will create an output directory in the same folder.
 
